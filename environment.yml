@@ -1,0 +1,14 @@
+name: 1kg-acanth
+channels:
+  - defaults
+  - conda-forge
+  - bioconda
+  - kdm801
+dependencies:
+  - python
+  - snakemake
+  - samtools
+  - ncdu
+  - git-annex
+  - pynvim
+  - acanthophis
