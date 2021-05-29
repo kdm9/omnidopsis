@@ -1,0 +1,2 @@
+study_accession	secondary_study_accession	sample_accession	secondary_sample_accession	experiment_accession	run_accession	scientific_name	instrument_model	library_layout	sample_alias
+PRJNA272567	SRP052218	SAMN03283896	SRS817946	SRX841600	SRR1756969	Arabidopsis thaliana	Illumina HiSeq 2000	PAIRED	Tibet_0
