@@ -1,0 +1,7 @@
+study_accession	sample_accession	secondary_sample_accession	experiment_accession	run_accession	scientific_name	instrument_model	library_layout	sample_alias
+PRJEB9862	SAMEA91028668	ERS1559486	ERX1902602	ERR1840625	Arabidopsis thaliana	Illumina HiSeq 2000	PAIRED	Pat-herb-1967-D
+PRJEB9862	SAMEA91029418	ERS1559487	ERX1902603	ERR1840626	Arabidopsis thaliana	Illumina HiSeq 2000	PAIRED	Pat-herb-1967-R
+PRJEB9862	SAMEA3483632	ERS790924	ERX2055076	ERR1995207	Arabidopsis thaliana	Illumina HiSeq 2000	PAIRED	Pat-1
+PRJEB9862	SAMEA3483633	ERS790925	ERX2055077	ERR1995208	Arabidopsis thaliana	Illumina HiSeq 2000	PAIRED	Pat-2
+PRJEB9862	SAMEA3483634	ERS790926	ERX2055078	ERR1995209	Arabidopsis thaliana	Illumina HiSeq 2000	PAIRED	Pat-3
+PRJEB9862	SAMEA3483635	ERS790927	ERX2055079	ERR1995210	Arabidopsis thaliana	Illumina HiSeq 2000	PAIRED	Pat-4
