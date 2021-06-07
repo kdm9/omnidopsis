@@ -87,9 +87,9 @@ kg_sra = read_csv("source/1kg/1kg-sra-run-table.csv")
 #str(kg_sra[])
 
 kg_sra_pre = kg_sra %>%
-    select(ecotype_id=Ecotype, sra_run=Run, bioproject=BioProject,
-           library_layout=LibraryLayout, instrument=Instrument,
-           species=Organism)
+    select(ecotype_id=Ecotype, sra_run=Run, biosample=BioSample,
+           bioproject=BioProject, library_layout=LibraryLayout,
+           instrument_model=Instrument, species=Organism)
 stopifnot(all(kg_sra_pre$ecotype_id %in% kg_acc_pre$ecotype_id))
 stopifnot(all(kg_acc_pre$ecotype_id %in% kg_sra_pre$ecotype_id))
 #str(kg_sra_pre)
@@ -122,9 +122,9 @@ af_sra = read_csv("source/africans/SraRunTable.txt")
 #str(af_sra[])
 
 af_sra_pre = af_sra %>%
-    select(sra_run=Run, bioproject=BioProject,
+    select(sra_run=Run, bioproject=BioProject, biosample=BioSample,
            sample_name=Alias, library_layout=LibraryLayout,
-           instrument=Instrument, species=Organism)
+           instrument_model=Instrument, species=Organism)
 all(af_sra_pre$sample_name %in% af_acc_pre$sample_name)
 #str(af_sra_pre)
 
@@ -153,8 +153,8 @@ arg_sra = read_tsv("source/argentinians/SraRunTable_PRJEB9862.txt")
 
 arg_sra_pre = arg_sra %>%
     select(sra_run=run_accession, bioproject=study_accession,
-           sample_name=sample_alias, library_layout,
-           instrument=instrument_model, species=scientific_name)
+           biosample=sample_accession, sample_name=sample_alias,
+           library_layout, instrument_model, species=scientific_name)
 #str(arg_sra_pre)
 
 
@@ -201,8 +201,8 @@ chi_sra = read_tsv("source/chinese/SraRunTable_PRJNA293798.txt")
 #str(chi_sra[])
 chi_sra_pre = chi_sra %>%
     select(sra_run=run_accession, bioproject=study_accession,
-           sample_name=sample_alias, library_layout,
-           instrument=instrument_model, species=scientific_name)
+           biosample=sample_accession, sample_name=sample_alias,
+           library_layout, instrument_model, species=scientific_name)
 #str(chi_sra_pre)
 
 chi_acc = read_tsv("source/chinese/supp-table-3.tsv")
@@ -240,9 +240,9 @@ all_meta = bind_rows(all_meta, chi_meta)
 cat_sra = read_tsv("source/catalonian/catalonianSraRunTable.txt")
 #str(cat_sra[])
 cat_sra_pre = cat_sra %>%
-    select(sra_run=Run, bioproject=BioProject, sample_name=Sample_Name,
-           library_layout=LibraryLayout, instrument=Instrument,
-           species=Organism)
+    select(sra_run=Run, bioproject=BioProject, biosample=BioSample,
+           sample_name=Sample_Name, library_layout=LibraryLayout,
+           instrument_model=Instrument, species=Organism)
 #str(cat_sra_pre)
 
 
@@ -356,9 +356,9 @@ all_meta = bind_rows(all_meta, cat_meta)
 tib_sra = read_csv("source/tibetian/SraRunTable.txt")
 #str(tib_sra[])
 tib_sra_pre = tib_sra %>%
-    select(sra_run=Run, bioproject=BioProject, sample_name=`Sample Name`,
-           library_layout=LibraryLayout, instrument=Instrument,
-           species=Organism)
+    select(sra_run=Run, bioproject=BioProject, biosample=BioSample,
+           sample_name=`Sample Name`, library_layout=LibraryLayout,
+           instrument_model=Instrument, species=Organism)
 
 tib_acc = tribble(
     ~sample_name, ~latitude, ~longitude, ~elevation, ~country,
@@ -381,8 +381,8 @@ kor_sra = read_tsv("source/korean/filereport_read_run_SRX10808800_tsv.txt")
 #str(kor_sra[])
 kor_sra_pre = kor_sra %>%
     select(sra_run=run_accession, bioproject=study_accession,
-           sample_name=sample_alias, library_layout,
-           instrument=instrument_model, species=scientific_name)
+           biosample=sample_accession, sample_name=sample_alias,
+           library_layout, instrument_model, species=scientific_name)
 
 kor_acc = tribble(
     ~sample_name, ~latitude, ~longitude, ~collector, ~country, ~locality,
@@ -415,8 +415,9 @@ nov_acc_pre = nov_acc_orig %>%
         ploidy = ploidy,
         biosample = BioSample,
         bioproject = BioProject,
-        oa_id = sprintf("OANK%04d", 1:n()),
     ) %>% 
+    unique() %>%
+    mutate(oa_id = sprintf("OANK%04d", as.numeric(as.factor(biosample)))) %>%
     filter(!is.na(latitude), !is.na(longitude), species!= "outgroup") 
 
 nov_bioproj = nov_acc_pre %>%
@@ -436,17 +437,50 @@ nov_all_sra = nov_all_sra %>%
                                          secondary_sample_accession,
                                          NA)))
 
-
 nov_sra_pre = nov_all_sra %>%
     filter(!is.na(matchable_sample_acc)) %>%
-    select(sra_run=run_accession, sample_accession=matchable_sample_acc,
-           library_layout, sample_alias, species=scientific_name,
-           lat_sra = lat, lon_sra=lon, instrument_model,
-           collector=collected_by, collection_date, 
+    select(
+        sra_run=run_accession, sample_accession=matchable_sample_acc,
+        library_layout, sample_alias, species=scientific_name, lat_sra = lat,
+        lon_sra=lon, instrument_model, collector=collected_by, collection_date,
+    )
+
+
+nov_meta_pre  = left_join(nov_acc_pre, nov_sra_pre,
+                          by=c("biosample"="sample_accession")) %>%
+    unique() %>%
+    mutate(mult = multiplicity(sra_run)) %>%
+    arrange(mult, biosample)
+
+# So the metadata in the table is actually
+name_fix = c(
+    "AkamchaticaKWShal"="AkamchaticaKWS",
+    "AkamchaticaPAKhal"="AkamchaticaPAK",
+    "AkamchaticaTOYhal"="AkamchaticaTOY",
+    "AkamchaticaTWNhal"="AkamchaticaTWN",
+    "AkamchaticaKWSlyr"="AkamchaticaKWS",
+    "AkamchaticaPAKlyr"="AkamchaticaPAK",
+    "AkamchaticaTOYlyr"="AkamchaticaTOY",
+    "AkamchaticaTWNlyr"="AkamchaticaTWN",
+    "Aar.AS459"="AS459",
+    "Aar.ASO5" ="ASO5",
+    "Aar.ASS3a"="ASS3a",
+    "Ath.AS459"="AS459",
+    "Ath.ASO5" ="ASO5",
+    "Ath.ASS3a"="ASS3a"
 )
 
+str(nov_meta_pre)
+nov_meta_pre$sample_name
 
-nov_meta_pre  = left_join(nov_acc_pre, nov_sra_pre, by=c("biosample"="sample_accession")) 
+nov_meta_pre = nov_meta_pre %>%
+    mutate(sample_name = ifelse(sample_name %in% names(name_fix),
+                                name_fix[sample_name],
+                                sample_name)) %>%
+    select(-mult) %>%
+    unique() %>%
+    mutate(mult = multiplicity(sra_run))
+
 
 # Some sanity checks: do the lats & longs from SRA and from the Novikova supps line up?
 all(with(nov_meta_pre, latitude == lat_sra & longitude == lon_sra))
@@ -531,7 +565,7 @@ mon_sra_orig = read_tsv("source/monnahan/filereport_read_run_PRJNA484107_tsv.txt
 mon_sra_pre = mon_sra_orig %>%
     select(sra_run=run_accession, bioproject=study_accession,
            biosample=sample_accession, sample_name=sample_alias,
-           library_layout, instrument=instrument_model,
+           library_layout, instrument_model,
            species=scientific_name)
 
 # So the "accession" metadata is acutally by sampling locality, so we need to
@@ -563,7 +597,7 @@ mon_meta = mon_meta_pre %>%
              extra="merge", fill="right") %>%
     select(oa_id, sample_name, species, latitude, longitude, elevation, country,
            locality, collection_notes, sra_run, bioproject, biosample, library_layout,
-           instrument, ploidy)
+           instrument_model, ploidy)
 
 all_meta = bind_rows(all_meta, mon_meta)
 
@@ -637,14 +671,15 @@ lh_sra_pre = lh_sra %>%
     filter(library_strategy != "RNA-Seq") %>%
     select(sra_run=run_accession, bioproject=study_accession,
            biosample=sample_accession, sample_name=sample_alias,
-           library_layout, instrument=instrument_model,
+           library_layout, instrument_model,
            species=scientific_name)
 #str(lh_sra_pre)
 
 lh_acc = read_csv("source/halleri-lee-etal/tabula-fixed-supps-accessions.csv")
 
 lh_acc_pre = lh_acc %>%
-    mutate(sample_name = gsub("_0?", "", sample_name))
+    mutate(sample_name = gsub("_0?", "", sample_name)) %>%
+    select(-pop_code, -pop_size)
 
 lh_meta = inner_join(lh_sra_pre, lh_acc_pre, by="sample_name") %>%
     mutate(oa_id=sprintf("OALH%04d", as.numeric(as.factor(biosample)))) %>%
@@ -699,13 +734,77 @@ fm_acc = read_csv("source/madeirans/msx300_supp.csv")
 #str(fm_acc[])
 
 fm_meta = fm_acc %>%
-    mutate(oa_id=sprintf("OAFM%04d", as.numeric(as.factor(ID))), internal_data="Y") %>%
+    mutate(oa_id=sprintf("OAFM%04d", as.numeric(as.factor(ID))), internal_data=T) %>%
     select(oa_id, sample_name=ID, locality=Region, latitude=Latitude,
            longitude=Longitude, elevation=Altitude, collector=Collector,
            internal_data)
 str(fm_meta)
 
 all_meta = bind_rows(all_meta, fm_meta)
+
+
+# ## Koch lab 
+#
+# Two different papers and bioprojects on lyrata and arenosa hybrid zones
+#
+# The first, Hohmann & Koch, is kl
+# https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-017-4220-6
+#
+
+
+hl_sra = read_csv("source/koch_lab_lyrata/SraRunTable_PRJEB34247.txt",
+                   col_types=cols(collection_date=col_character())) %>%
+    janitor::clean_names()
+
+hl_meta = hl_sra %>%
+    mutate(oa_id=sprintf("OAHL%04d", as.numeric(as.factor(sample_name)))) %>%
+    select(oa_id, sra_run=run, sample_name, bioproject=bio_project,
+           biosample=bio_sample, collector=collected_by, collection_date,
+           country=geo_loc_name_country, latitude=geographic_location_latitude,
+           longitude=geographic_location_longitude,
+           locality=geographic_location_region_and_locality,
+           instrument_model=instrument, library_layout, species=organism)
+
+
+# The second one is from Marburger et al. Nat comms.
+
+ml_sra = read_csv("source/koch_lab_lyrata/SraRunTable_PRJEB20573.txt")
+str(ml_sra[])
+
+ml_sra_pre = ml_sra %>%
+    select(sra_run=Run, sample_name=Alias, bioproject=BioProject,
+           biosample=BioSample, instrument_model=Instrument,
+           library_layout=LibraryLayout, species=Organism) %>%
+    # In the sra all the sample names have a " WGS" suffix, remove this
+    mutate(sample_name =sub(" WGS$", "", sample_name))
+str(ml_sra_pre)
+
+ml_acc = read_xlsx("source/koch_lab_lyrata/12864_2017_4220_MOESM2_ESM.xlsx", 
+                   skip=1) %>%
+    janitor::clean_names()
+
+ml_acc_pre =  ml_acc %>%
+    unite("species_parsed", genus, species, subspecies, sep=" ", na.rm=T, remove=F) %>%
+    mutate(ploidy=as.character(ploidy)) %>%
+    filter(bio_project=="PRJEB20573") %>%
+    mutate(country=str_split(locality, ";", simplify=T)[,1],
+           herbarium_id=sample_id_herbarium_code_heid_heidelberg_uzh_zurich,
+           sample_name=sub("^[^:].+::", "", herbarium_id),
+           locality = sub("\\n", " ", locality),
+           latitude= parse_lat(gsub(",", ".", latitude)),
+           longitude= parse_lon(gsub(",", ".", longitude)),
+           oa_id=sprintf("OAML%04d", as.numeric(as.factor(sample_name)))) %>%
+    select(oa_id, sample_name, species=species_parsed, ploidy, locality,
+           latitude, longitude, collector, collection_date,
+           bioproject=bio_project, country)
+str(ml_acc_pre)
+
+ml_meta = full_join(ml_acc_pre, ml_sra_pre)
+
+
+all_meta = bind_rows(all_meta, ml_meta, hl_meta)
+
+
 
 # ## TODO Consistent unique IDs for all accessions
 #
@@ -716,19 +815,25 @@ all_meta = bind_rows(all_meta, fm_meta)
 
 str(all_meta)
 
+all_meta = all_meta %>%
+    mutate(dataset=substr(oa_id, 3, 4))
+
 all_sra = all_meta %>%
-    select(sra_run, bioproject, instrument, library_layout, oa_id) %>%
+    filter(is.na(internal_data) | !internal_data) %>%
+    select(sra_run, biosample, bioproject, instrument_model, library_layout, oa_id) %>%
     unique()
 
 all_acc = all_meta %>%
-    select(oa_id, ecotype_id, sample_name, species, latitude, longitude,
-           elevation, locality, country, collector, collection_date, cs_number) %>%
-    mutate(dataset=substr(oa_id, 3, 4)) %>%
+    select(oa_id, dataset, ecotype_id, sample_name, biosample, species,
+           latitude, longitude, elevation, locality, country, collector,
+           collection_date, collection_notes, cs_number, ploidy, internal_data,
+           pooled_plants) %>%
     unique()
 
 
 # Did we miss any columns?
 setdiff(union(colnames(all_acc), colnames(all_sra)), colnames(all_meta))
+setdiff(colnames(all_meta), union(colnames(all_acc), colnames(all_sra)))
 
 str(all_acc)
 str(all_sra)
@@ -745,17 +850,21 @@ table(all_acc$dataset)
 # any duplication.
 
 sra_val = validator(
-    run = grepl("(ERR|SRR)\\d+", sra_run, perl=T),
+    run = grepl("(ERR|SRR|DRR)\\d+", sra_run, perl=T),
     run_unq = multiplicity(sra_run) == 1,
     bioproj = !is.na(bioproject),
+    biosample = !is.na(biosample),
     liblay = library_layout %in% c("PAIRED", "SINGLE")
 )
 
 all_sra_val = confront(all_sra, sra_val)
 summary(all_sra_val)
+errors(all_sra_val)
 
-all_sra_bad = violating(all_sra, all_sra_val)
-all_sra_bad
+all_sra_bad = all_sra %>%
+    mutate(failed = get_failing_tests(all_sra_val)) %>%
+    filter(failed != "")
+write_tsv(all_sra_bad, "all_sra_bad.tsv")
 
 # ## Accession metadata
 
@@ -777,7 +886,7 @@ all_acc_bad = all_acc %>%
     mutate(failed = get_failing_tests(all_acc_val)) %>%
     filter(failed != "")
 
-#write_tsv(all_acc_bad, "all_acc_bad.tsv")
+write_tsv(all_acc_bad, "all_acc_bad.tsv")
 
 
 # ## Corrections to metadata as a result of validation
@@ -812,6 +921,8 @@ write_tsv(all_acc_bad, "all_acc_still_bad.tsv")
 write_tsv(all_acc, "omniath_all_accessions.tsv")
 write_tsv(all_sra, "omniath_all_sra.tsv")
 
+str(all_acc)
+str(all_sra)
 
 # # Mapping of accessions
 
