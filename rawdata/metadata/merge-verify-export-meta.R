@@ -918,8 +918,9 @@ all_acc_bad = all_acc %>%
     filter(failed != "")
 
 write_tsv(all_acc_bad, "all_acc_still_bad.tsv")
-write_tsv(all_acc, "omniath_all_accessions.tsv")
-write_tsv(all_sra, "omniath_all_sra.tsv")
+
+write_tsv(all_acc, "omniath_all_accessions.tsv", na="")
+write_tsv(all_sra, "omniath_all_sra.tsv", na="")
 
 str(all_acc)
 str(all_sra)
@@ -930,5 +931,16 @@ globe_bbox = c(left=-170, bottom=-58, right=179.99, top=75)
 baselayer = get_stamenmap(globe_bbox, zoom = 3, maptype = "toner-background")
 
 ggmap(baselayer) +
-    geom_point(aes(x=longitude, y=latitude, colour=dataset), data=all_acc)
+    geom_point(aes(x=longitude, y=latitude, colour=dataset), data=all_acc) +
+    labs(x="Longitude", y="Latitude") +
+    theme(legend.position="right")
+ggsave("all_accessions.svg", width=16, height=14, units="in", dpi=600)
+
+ath_acc = all_acc %>%
+    filter(species=="Arabidopsis thaliana")
+ggmap(baselayer) +
+    geom_point(aes(x=longitude, y=latitude, colour=dataset), data=ath_acc) +
+    labs(x="Longitude", y="Latitude") +
+    theme(legend.position="right")
+ggsave("ath_accessions.svg", width=16, height=14, units="in", dpi=600)
 
