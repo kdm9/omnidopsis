@@ -1,0 +1,189 @@
+﻿No. of
+No. of
+Population
+Town
+Latitude Longitude Altitude collected
+pooled
+plants¹
+plants²
+PREI-A
+Preignan
+43.7179 0.6233
+120
+17
+16
+PUYM-B
+Puymaurin
+43.3729 0.7657
+278
+17
+16
+RADE-A
+Sainte Radegonde
+44.3452 2.6208
+622
+17
+11
+RAYR-A
+Rayret (Cassagne-Begontes)
+44.1960 2.4932
+555
+17
+16
+RAYR-B
+Rayret (Cassagne-Begontes)
+44.1960 2.4931
+555
+17
+16
+REAL-A
+Réalmont
+43.8317 2.2016
+239
+17
+16
+ROME-A
+Saint-Rome-du-tar
+44.0416 2.9096
+446
+17
+16
+ROQU-B
+Roquecourbe
+43.6679 2.2902
+261
+17
+16
+SALE-A
+Saleich
+43.0250 0.9660
+413
+17
+16
+SALV-A
+Saint-Salvy-de-la-Balme
+43.6026 2.3634
+473
+17
+15
+SAMA-A
+Samatan
+43.4943 0.9239
+179
+17
+16
+SAUB-A
+Saubens
+43.4649 1.3651
+164
+17
+16
+SAUB-B
+Saubens
+43.4741 1.3642
+164
+17
+16
+SAUB-C
+Saubens
+43.4756 1.3676
+164
+17
+16
+SAUR-A
+Saurat
+42.8898 1.4852
+1023
+17
+16
+SEIS-A
+Seissan
+43.4873 0.5888
+193
+17
+16
+SIMO-A
+Simorre
+43.4494 0.7346
+204
+17
+16
+SORE-A
+Sorèze
+43.4526 2.0725
+293
+17
+16
+TARN-C
+Villemur-sur-Tam
+43.8533 1.5020
+99
+17
+16
+THOM-A
+Saint Thomas
+43.5140 1.0829
+322
+17
+16
+VALE-A
+Valence d' Albiegeois
+44.0223 2.4034
+459
+17
+15
+VICT-B
+Saint Victor et Melvieu
+44.0522 2.8340
+629
+17
+16
+VICT-C
+Saint Victor et Melvieu
+44.0522 2.8340
+629
+17
+16
+VIEL-A
+Vielmur sur Agout
+43.6238 2.0896
+155
+17
+16
+VILLA-A
+Villate
+43.4582 1.3810
+169
+17
+16
+VILLE-A
+Villenouvelle
+43.4398 1.6710
+188
+17
+16
+VILLE-B
+Villenouvelle
+43.4403 1.6696
+187
+17
+16
+VILLE-C
+Villenouvelle
+43.4400 1.6701
+188
+17
+16
+VILLE-D
+Villenouvelle
+43.4397 1.6707
+188
+17
+16
+VILLEM-A
+Villembits
+43.2738
+0.3212
+326
+17
+16

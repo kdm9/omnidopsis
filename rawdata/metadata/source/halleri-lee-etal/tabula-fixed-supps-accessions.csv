@@ -1,0 +1,7 @@
+locality,country,pop_code,latitude,longitude,pop_size,sample_name
+Ponte Nossa,Italy,Noss,N45°51'33.5”,E09°52'36.1”,500-5000,Noss_05
+Ponte Nossa,Italy,Noss,N45°51'33.5”,E09°52'36.1”,500-5000,Noss_10
+Paisco Loveno,Italy,Pais,N46°03'20.0”,E10°14'34.7”,500-5000,Pais_05
+Paisco Loveno,Italy,Pais,N46°03'20.0”,E10°14'34.7”,500-5000,Pais_09
+Wallenfels,Germany,Wall,N50°24'40.9”,E11°33'19.1”,50-500,Wall_07
+Wallenfels,Germany,Wall,N50°24'40.9”,E11°33'19.1”,50-500,Wall_10

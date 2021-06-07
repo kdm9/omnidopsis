@@ -1,0 +1,15 @@
+ID,Region,Latitude,Longitude,Altitude,Collector,Site info,Mean coverage
+A1,Pico do Areeiro,32.74,-16.93,1812,Fabrice Roux,n.r.,31
+A2,Pico do Areeiro,32.74,-16.93,1812,Fabrice Roux,n.r.,26.9
+A3,Pico do Areeiro,32.74,-16.93,1812,Fabrice Roux,n.r.,29.4
+A4,Pico do Areeiro,32.74,-16.93,1812,Fabrice Roux,n.r.,27.7
+A5,Pico do Areeiro,32.74,-16.93,1812,Fabrice Roux,n.r.,29.4
+A6,Pico do Areeiro,32.745,-16.937,1600,Svante Holm,n.r.,24.9
+P1,Palheiro,32.658,-16.866,509,Maarten Koornneef,p.g.,27.5
+P2,Palheiro,32.659,-16.867,524,Maarten Koornneef,p.g.,29.9
+P3,Palheiro,32.659,-16.866,521,Maarten Koornneef,p.g.,30.7
+R1,Rabacal,32.754,-17.13,1200,Maarten Koornneef,n.r.,25
+R2,Rabacal,32.754,-17.13,1200,Maarten Koornneef,n.r.,33.2
+R3,Rabacal,32.754,-17.13,1200,Maarten Koornneef,n.r.,26.4
+R4,Rabacal,32.758,-17.132,1200,Svante Holm,n.r.,20.5
+U1,Pico Ruivo,32.759,-16.943,1800,Svante Holm,n.r.,22

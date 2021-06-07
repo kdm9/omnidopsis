@@ -24,18 +24,11 @@ library(ggmap)
 library(validate)
 library(sp)
 library(SRAdb)
+library(parzer)
 #BiocManager::install("SRAdb")
 #install.packages(c("tidyverse", "sp", "sf", "ggplot2", "ggmap", "validate",
 #                   "readxl", "janitor"))
 
-
-nsew = function(x) {
-    # 43.2 N -> 43.2
-    # 23.12234 S -> -23.12234
-    num = str_extract(x, "\\d+(.\\d+)?") %>% as.numeric()
-    card = str_extract(x, "[NSEW]")
-    ifelse(card %in% c("S", "W"), num * -1, num)
-}
 
 dist_to_land_km = function(eastings, northings, crs=4326) {
     world = sf::st_as_sf(rworldmap::getMap(resolution="high"))
@@ -72,7 +65,6 @@ multiplicity = function(x) {
 
 sra.sql = "/home/kevin/data/work/2021-06-06_SRAmetadb.sqlite.gz"
 sra = dbConnect(SQLite(), sra.sql)
-str(sra)
 
 # ## The OG 1001 Genomes
 #
@@ -82,17 +74,17 @@ str(sra)
 # next to the reads on the ebio storage unit.
 
 kg_acc = read_csv("source/1kg/1kg-accessions.csv")
-str(kg_acc[])
+#str(kg_acc[])
 
 kg_acc_pre = kg_acc %>%
-    mutate(oa_id = sprintf("oakg%04d", ecotype_id)) %>%
+    mutate(oa_id = sprintf("OAKG%04d", ecotype_id)) %>%
     select(oa_id, ecotype_id, sample_name=name, latitude, longitude, locality, 
            country, collector, collection_date, cs_number)
-str(kg_acc_pre)
+#str(kg_acc_pre)
 
 
 kg_sra = read_csv("source/1kg/1kg-sra-run-table.csv")
-str(kg_sra[])
+#str(kg_sra[])
 
 kg_sra_pre = kg_sra %>%
     select(ecotype_id=Ecotype, sra_run=Run, bioproject=BioProject,
@@ -100,12 +92,13 @@ kg_sra_pre = kg_sra %>%
            species=Organism)
 stopifnot(all(kg_sra_pre$ecotype_id %in% kg_acc_pre$ecotype_id))
 stopifnot(all(kg_acc_pre$ecotype_id %in% kg_sra_pre$ecotype_id))
-str(kg_sra_pre)
+#str(kg_sra_pre)
 
 
-all_meta = inner_join(kg_acc_pre, kg_sra_pre, by="ecotype_id")
-str(all_meta)
+kg_meta = inner_join(kg_acc_pre, kg_sra_pre, by="ecotype_id")
+str(kg_meta)
 
+all_meta = kg_meta
 
 # ## African lines
 #
@@ -116,37 +109,37 @@ str(all_meta)
 # observations (inner join).
 
 af_acc = read_csv("source/africans/tabula-pnas.1616736114.sapp.csv", na='-')
-str(af_acc[])
+#str(af_acc[])
 
 af_acc_pre = af_acc %>%
     mutate(collection_date = as.character(collection_year)) %>%
     select(sample_name=name, latitude=Latitude, longitude=Longitude,
            locality=Region, country=Country, collection_date) %>%
-    mutate(oa_id=sprintf("oaaf%04d", 1:n()))
-str(af_acc_pre)
+    mutate(oa_id=sprintf("OAAF%04d", 1:n()))
+#str(af_acc_pre)
 
 af_sra = read_csv("source/africans/SraRunTable.txt")
-str(af_sra[])
+#str(af_sra[])
 
 af_sra_pre = af_sra %>%
     select(sra_run=Run, bioproject=BioProject,
            sample_name=Alias, library_layout=LibraryLayout,
            instrument=Instrument, species=Organism)
-stopifnot(all(af_sra_pre$sample_name %in% af_acc_pre$sample_name))
-str(af_sra_pre)
+all(af_sra_pre$sample_name %in% af_acc_pre$sample_name)
+#str(af_sra_pre)
 
 af_meta = full_join(af_acc_pre, af_sra_pre, by="sample_name")
 
 af_missing_meta = af_meta %>%
     filter(is.na(latitude) | is.na(sra_run))
-str(af_missing_meta)
+#str(af_missing_meta)
 
 # Not all recods in the metadata were sequenced. The above is a list of the
 # non-intersecting records. Keep just the complete rows (below)
 
 af_meta_complete =  af_meta %>%
     filter(!is.na(latitude) & !is.na(sra_run))
-str(af_meta_complete)
+#str(af_meta_complete)
 
 all_meta = bind_rows(all_meta, af_meta_complete)
 
@@ -156,17 +149,17 @@ all_meta = bind_rows(all_meta, af_meta_complete)
 # From [Luciana Kasulin's paper in MolEcol](https://dx.doi.org/10.1111/mec.14107)
 
 arg_sra = read_tsv("source/argentinians/SraRunTable_PRJEB9862.txt")
-str(arg_sra[])
+#str(arg_sra[])
 
 arg_sra_pre = arg_sra %>%
     select(sra_run=run_accession, bioproject=study_accession,
            sample_name=sample_alias, library_layout,
            instrument=instrument_model, species=scientific_name)
-str(arg_sra_pre)
+#str(arg_sra_pre)
 
 
 arg_acc = read_csv("source/argentinians/tabula-mec14107-sup-0001-supinfo.csv")
-str(arg_acc[])
+#str(arg_acc[])
 
 # The metadata need a bit of fixing. the lat and longs are in there as deg,
 # min, sec, and the metadata is in there per site. we need to make it per
@@ -175,18 +168,18 @@ str(arg_acc[])
 arg_acc_pre = arg_acc %>%
     transmute(
         sample_name=sprintf("Pat-%d", site),
-        latitude = as.numeric(sp::char2dms(latitude, chd='d', chm='m')),
-        longitude = as.numeric(sp::char2dms(longitude, chd='d', chm='m')),
+        latitude = parse_lat(latitude),
+        longitude = parse_lon(longitude),
         elevation,
         collector,
         country="Argentina",
         locality="Patagonia",
     )
-str(arg_acc_pre)
+#str(arg_acc_pre)
 
 
 arg_meta = full_join(arg_sra_pre, arg_acc_pre, by="sample_name") %>%
-    mutate(oa_id=sprintf("oaar%04d", 1:n()))
+    mutate(oa_id=sprintf("OAAR%04d", 1:n()))
 str(arg_meta)
 
 
@@ -205,15 +198,15 @@ all_meta = bind_rows(all_meta, arg_meta)
 # 2017](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-017-1378-9).
 
 chi_sra = read_tsv("source/chinese/SraRunTable_PRJNA293798.txt")
-str(chi_sra[])
+#str(chi_sra[])
 chi_sra_pre = chi_sra %>%
     select(sra_run=run_accession, bioproject=study_accession,
            sample_name=sample_alias, library_layout,
            instrument=instrument_model, species=scientific_name)
-str(chi_sra_pre)
+#str(chi_sra_pre)
 
 chi_acc = read_tsv("source/chinese/supp-table-3.tsv")
-str(chi_acc[])
+#str(chi_acc[])
 chi_acc_pre = chi_acc %>%
     transmute(
         sample_name=SampleID,
@@ -233,7 +226,7 @@ chi_meta %>%
 
 
 chi_meta = chi_meta %>%
-    mutate(oa_id=sprintf("oacn%04d", 1:n()))
+    mutate(oa_id=sprintf("OACN%04d", 1:n()))
 all_meta = bind_rows(all_meta, chi_meta)
 
 
@@ -245,17 +238,17 @@ all_meta = bind_rows(all_meta, chi_meta)
 # species noted. 
 
 cat_sra = read_tsv("source/catalonian/catalonianSraRunTable.txt")
-str(cat_sra[])
+#str(cat_sra[])
 cat_sra_pre = cat_sra %>%
     select(sra_run=Run, bioproject=BioProject, sample_name=Sample_Name,
            library_layout=LibraryLayout, instrument=Instrument,
            species=Organism)
-str(cat_sra_pre)
+#str(cat_sra_pre)
 
 
 cat_acc_orig = read_xlsx("source/catalonian/pnas.1816964115.sd01.xlsx") %>%
     clean_names()
-str(cat_acc_orig)
+#str(cat_acc_orig)
 
 # So this metadata is a bit shitty, most of the data rows are
 # actually missing metadata, and gps coords are concatentated. We
@@ -270,7 +263,7 @@ cat_acc_sample = cat_acc_orig %>%
 
 cat_acc_deme = cat_acc_orig %>%
     select(deme_of_origin, locality=town, gps_coordinates, inland_or_coastal=location) %>%
-    filter(!is.na(town)) %>%
+    filter(!is.na(locality)) %>%
     unique() %>%
     mutate(gps = purrr::map(gps_coordinates, function(x) {
             g = str_split(x, ",") %>%
@@ -281,11 +274,11 @@ cat_acc_deme = cat_acc_orig %>%
     })) %>%
     unnest(gps) %>%
     select(-gps_coordinates)
-str(cat_acc_deme)
+#str(cat_acc_deme)
 
 cat_acc = cat_acc_sample %>%
     left_join(cat_acc_deme, by="deme_of_origin")
-str(cat_acc)
+#str(cat_acc)
 
 cat_acc_pre = cat_acc %>%
     select(sample_name, latitude, longitude, locality)
@@ -328,7 +321,7 @@ cat_merged = full_join(cat_sra_pre_name, cat_acc, by=c("match_name"="sample_name
 
 cat_acc_merge_by_deme = cat_sra_pre_name %>%
     left_join(cat_acc_deme, by=c("deme"="deme_of_origin"))
-str(cat_acc_merge_by_deme)
+#str(cat_acc_merge_by_deme)
 
 cat_acc_merge_by_deme %>%
     filter(is.na(latitude))
@@ -340,11 +333,11 @@ cat_acc_merge_by_deme_pre = cat_acc_merge_by_deme %>%
     select(sample_name, locality, latitude, longitude) %>%
     mutate(country="Spain") %>%
     filter(!is.na(locality))
-str(cat_acc_merge_by_deme_pre)
+#str(cat_acc_merge_by_deme_pre)
 
 cat_meta = cat_sra_pre %>%
     inner_join(cat_acc_merge_by_deme_pre, by="sample_name") %>%
-    mutate(oa_id=sprintf("oact%04d", 1:n()))
+    mutate(oa_id=sprintf("OACT%04d", 1:n()))
 str(cat_meta)
 
 all_meta = bind_rows(all_meta, cat_meta)
@@ -361,7 +354,7 @@ all_meta = bind_rows(all_meta, cat_meta)
 # > when it had blossomed and borne fruit. 
 
 tib_sra = read_csv("source/tibetian/SraRunTable.txt")
-str(tib_sra[])
+#str(tib_sra[])
 tib_sra_pre = tib_sra %>%
     select(sra_run=Run, bioproject=BioProject, sample_name=`Sample Name`,
            library_layout=LibraryLayout, instrument=Instrument,
@@ -373,7 +366,7 @@ tib_acc = tribble(
 )
 
 tib_meta = full_join(tib_sra_pre, tib_acc, by="sample_name") %>%
-    mutate(oa_id=sprintf("oatb%04d", 1:n()))
+    mutate(oa_id=sprintf("OATB%04d", 1:n()))
 str(tib_meta)
 
 all_meta = bind_rows(all_meta, tib_meta)
@@ -385,7 +378,7 @@ all_meta = bind_rows(all_meta, tib_meta)
 # One accession from Korea
 
 kor_sra = read_tsv("source/korean/filereport_read_run_SRX10808800_tsv.txt")
-str(kor_sra[])
+#str(kor_sra[])
 kor_sra_pre = kor_sra %>%
     select(sra_run=run_accession, bioproject=study_accession,
            sample_name=sample_alias, library_layout,
@@ -398,7 +391,7 @@ kor_acc = tribble(
 
 
 kor_meta = full_join(kor_acc, kor_sra_pre, by="sample_name") %>%
-    mutate(oa_id=sprintf("oakr%04d", 1:n()))
+    mutate(oa_id=sprintf("OAKR%04d", 1:n()))
 str(kor_meta)
 all_meta = bind_rows(all_meta, kor_meta)
 
@@ -411,7 +404,7 @@ all_meta = bind_rows(all_meta, kor_meta)
 # Shimizu labs. As these overlap I'm going to process these as a single block.
 
 nov_acc_orig = read_xlsx("source/novikova/41588_2016_BFng3617_MOESM15_ESM.xlsx")
-str(nov_acc_orig)
+#str(nov_acc_orig)
 
 nov_acc_pre = nov_acc_orig %>%
     transmute(
@@ -422,7 +415,7 @@ nov_acc_pre = nov_acc_orig %>%
         ploidy = ploidy,
         biosample = BioSample,
         bioproject = BioProject,
-        oa_id = sprintf("oank%04d", 1:n()),
+        oa_id = sprintf("OANK%04d", 1:n()),
     ) %>% 
     filter(!is.na(latitude), !is.na(longitude), species!= "outgroup") 
 
@@ -434,7 +427,7 @@ nov_bioproj = nov_acc_pre %>%
 
 nov_all_sra =  read_tsv("source/novikova/results_read_run_tsv.txt",
                         col_types=cols(collection_date=col_character()))
-str(nov_all_sra[])
+#str(nov_all_sra[])
 
 nov_all_sra = nov_all_sra %>%
     mutate(matchable_sample_acc = ifelse(accession%in%nov_acc_pre$biosample,
@@ -467,7 +460,7 @@ nov_iffy
 nov_meta_pre = nov_meta_pre %>%
     filter(is.na(lat_sra) | latitude == lat_sra,
            is.na(lon_sra) | longitude == lon_sra)
-str(nov_meta_pre)
+#str(nov_meta_pre)
 
 nov_meta = nov_meta_pre %>%
     select(oa_id, sample_name, species=species.y, latitude, longitude, ploidy,
@@ -482,16 +475,15 @@ all_meta = bind_rows(all_meta, nov_meta)
 # Natural variation in A. kamchatika. From Paape et al. nat comms
 
 pkm_acc_orig = read_tsv("source/paape-kamchatika/tabula-41467_2018_6108_MOESM1_ESM-just-accessions.tsv")
-str(pkm_acc_orig[])
+#str(pkm_acc_orig[])
 
 pkm_acc_pre = pkm_acc_orig %>%
-    mutate(latitude = nsew(latitude),
-           longitude = nsew(longitude),
-           oa_id = sprintf("oapk%04d", seq_len(n())))
-
+    mutate(latitude = parse_lat(latitude),
+           longitude = parse_lon(longitude),
+           oa_id = sprintf("OAPK%04d", seq_len(n())))
 
 pkm_sra_orig = read_tsv("source/paape-kamchatika/filereport_read_run_PRJDB6166_tsv.txt")
-str(pkm_sra_orig[])
+#str(pkm_sra_orig[])
 
 pkm_sra_pre = pkm_sra_orig %>%
     transmute(bioproject=study_accession, sra_run=run_accession,
@@ -531,10 +523,10 @@ all_meta = bind_rows(all_meta, pkm_meta)
 # from 10.1038/s41559-019-0807-4
 
 mon_pops = read_csv("source/monnahan/tabula-41559_2019_807_MOESM1_ESM.csv") 
-str(mon_pops[])
+#str(mon_pops[])
 
 mon_sra_orig = read_tsv("source/monnahan/filereport_read_run_PRJNA484107_tsv.txt")
-str(mon_sra_orig[])
+#str(mon_sra_orig[])
 
 mon_sra_pre = mon_sra_orig %>%
     select(sra_run=run_accession, bioproject=study_accession,
@@ -565,7 +557,7 @@ country_fix = c("Sk"="Slovakia", "Pol"="Poland", "At"="Austria",
                 "D"="Germany", "Lit"="Lithuania")
 
 mon_meta = mon_meta_pre %>%
-    mutate(oa_id=sprintf("oaan%04d", seq_len(n())),
+    mutate(oa_id=sprintf("OAAN%04d", seq_len(n())),
            country=as.character(country_fix[Country])) %>%
     separate(Locality, c("locality", "collection_notes"), sep=", ", remove=T,
              extra="merge", fill="right") %>%
@@ -585,22 +577,22 @@ all_meta = bind_rows(all_meta, mon_meta)
 # of the data that is there from the paper to check it all concurrs.
 
 lwl_pop = read_xlsx("source/lucek_willi/journal.pgen.1009477.s008.xlsx", skip=2)
-str(lwl_pop)
+#str(lwl_pop)
 
 lwl_sra = read_csv("source/lucek_willi/SraRunTable.txt")
-str(lwl_sra[])
+#str(lwl_sra[])
 
 lwl_meta = lwl_sra %>%
     select(sra_run=Run, bioproject=BioProject, biosample=BioSample,
            country=geo_loc_name_country, instrument_model=Instrument,
            lat_lon, library_layout=LibraryLayout, species=Organism, sample_name) %>%
-    mutate(oa_id=sprintf("oall%04d", seq_len(n()))) %>%
+    mutate(oa_id=sprintf("OALL%04d", as.numeric(as.factor(biosample)))) %>%
     select(oa_id, sample_name, everything()) %>%
     tidyr::extract(lat_lon, into=c("latitude", "longitude"),
                    regex="(\\d+\\.\\d+ ?[NS]) ?(\\d+\\.\\d+ ?[EW])") %>%
-    mutate(latitude = nsew(latitude),
-           longitude = nsew(longitude))
-str(lwl_meta)
+    mutate(latitude = parse_lat(latitude),
+           longitude = parse_lon(longitude))
+#str(lwl_meta)
 
 lwl_pop = lwl_pop %>%
     transmute(pop = Population, latitude_supps=`Latitude (°N)`,
@@ -612,8 +604,8 @@ lwl_check = lwl_meta %>%
 
 lwl_bad = lwl_check %>%
     filter(!is.na(latitude_supps) & round(latitude_supps, 2) != latitude |
-           !is.na(longitude_supps) & round(-longitude_supps, 2) != longitude)
-lwl_bad
+           !is.na(longitude_supps) & round(longitude_supps, 2) != longitude)
+str(lwl_bad)
 
 # So in short, the lat/longs from the supps are a lot more precise, but when
 # rounded down to two digits (like the ones in the SRA), they match exactly for
@@ -623,16 +615,97 @@ lwl_bad
 # matching it up, I'm going to use the lat/longs from the supps unless they're
 # not present, in which case we'll use the SRA ones.
 
-str(lwl_check)
+#str(lwl_check)
 lwl_meta_pop = lwl_check %>%
     mutate(latitude = ifelse(!is.na(latitude_supps), latitude_supps, latitude),
            longitude = ifelse(!is.na(longitude_supps), longitude_supps, longitude)) %>%
     select(-pop, -latitude_supps, -longitude_supps)
+
 str(lwl_meta_pop)
 
 all_meta = bind_rows(all_meta, lwl_meta_pop)
 
+# ## Lee et al. A. halleri
+#
+# From a biorxiv paper, 10.1101/859249
+# The Wall_07 and Wall_10 samples seem missing from SRA?
 
+lh_sra = read_tsv("source/halleri-lee-etal/filereport_read_run_PRJEB35573_tsv.txt")
+#str(lh_sra[])
+
+lh_sra_pre = lh_sra %>%
+    filter(library_strategy != "RNA-Seq") %>%
+    select(sra_run=run_accession, bioproject=study_accession,
+           biosample=sample_accession, sample_name=sample_alias,
+           library_layout, instrument=instrument_model,
+           species=scientific_name)
+#str(lh_sra_pre)
+
+lh_acc = read_csv("source/halleri-lee-etal/tabula-fixed-supps-accessions.csv")
+
+lh_acc_pre = lh_acc %>%
+    mutate(sample_name = gsub("_0?", "", sample_name))
+
+lh_meta = inner_join(lh_sra_pre, lh_acc_pre, by="sample_name") %>%
+    mutate(oa_id=sprintf("OALH%04d", as.numeric(as.factor(biosample)))) %>%
+    mutate(latitude = parse_lat(latitude), longitude = parse_lon(longitude))
+str(lh_meta)
+
+all_meta = bind_rows(all_meta, lh_meta)
+
+
+# ## Frachon et al. Pyrnees
+#
+# This is poolseq unfortunately, but might be useful anyway as it's very nice
+# dense sampling in a moderately sized region.
+
+fp_sites = read_csv("source/frachon-midi-pyrnees/all-meta-imgextracted.csv") %>%
+    janitor::clean_names()
+#str(fp_sites[])
+
+fp_sra = read_csv("source/frachon-midi-pyrnees/SraRunTable.txt")
+#str(fp_sra[])
+
+fp_sra_pre = fp_sra %>%
+    select(sra_run=Run, bioproject=`SRA Study`, biosample=BioSample,
+           instrument_model=Instrument, library_layout=LibraryLayout,
+           species=Organism, sample_name=title) %>%
+    mutate(sample_name = gsub("^Climares_Ath_", "", sample_name),
+           # There is a second pool for the MONTM-A population, MONTM-Abis. So
+           # we regex a way the bis suffix so it matches.
+           sample_name_match = gsub("bis$", "", sample_name))
+#str(fp_sra_pre)
+
+# Do all sites match the lat/longs?
+all(with(fp_sra_pre, sample_name_match %in% fp_sites$population))
+
+fp_meta = left_join(fp_sra_pre, fp_sites, by=c("sample_name_match"="population")) %>%
+    mutate(oa_id=sprintf("OAFP%04d", as.numeric(as.factor(biosample)))) %>%
+    select(oa_id, sample_name, latitude, longitude, elevation=altitude,
+           locality=town, species, sra_run, bioproject, biosample,
+           library_layout, instrument_model, pooled_plants=no_of_pooled_plants)
+str(fp_meta)
+
+all_meta = bind_rows(all_meta, fp_meta)
+
+
+# ## Fulgione et al.  Maiderans
+#
+# from 10.1093/molbev/msx300
+#
+# The data isn't on the sra, but we have the reads internally
+
+fm_acc = read_csv("source/madeirans/msx300_supp.csv")
+#str(fm_acc[])
+
+fm_meta = fm_acc %>%
+    mutate(oa_id=sprintf("OAFM%04d", as.numeric(as.factor(ID))), internal_data="Y") %>%
+    select(oa_id, sample_name=ID, locality=Region, latitude=Latitude,
+           longitude=Longitude, elevation=Altitude, collector=Collector,
+           internal_data)
+str(fm_meta)
+
+all_meta = bind_rows(all_meta, fm_meta)
 
 # ## TODO Consistent unique IDs for all accessions
 #
@@ -642,10 +715,10 @@ all_meta = bind_rows(all_meta, lwl_meta_pop)
 # IDs, we'll just use the ecotype ID. For others, we'll make new ones.
 
 str(all_meta)
+
 all_sra = all_meta %>%
     select(sra_run, bioproject, instrument, library_layout, oa_id) %>%
     unique()
-str(all_sra)
 
 all_acc = all_meta %>%
     select(oa_id, ecotype_id, sample_name, species, latitude, longitude,
@@ -661,8 +734,6 @@ str(all_acc)
 str(all_sra)
 
 table(all_acc$dataset)
-
-
 
 
 # # Validate metadata
@@ -721,7 +792,7 @@ all_acc_bad = all_acc %>%
 all_acc =  all_acc %>%
     rows_update(tribble(
         ~oa_id, ~latitude, ~longitude,
-        "oaaf0072", -33.399, 19.282
+        "OAAF0072", -33.399, 19.282
         ), by="oa_id")
 
 
