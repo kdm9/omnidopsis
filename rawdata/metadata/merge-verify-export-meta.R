@@ -17,6 +17,8 @@
 #
 # Import packages, declare helper functions
 
+library(CoordinateCleaner)
+library(countrycode)
 library(tidyverse)
 library(readxl)
 library(janitor)
@@ -27,21 +29,22 @@ library(SRAdb)
 library(parzer)
 #BiocManager::install("SRAdb")
 #install.packages(c("tidyverse", "sp", "sf", "ggplot2", "ggmap", "validate",
-#                   "readxl", "janitor"))
+#                   "readxl", "janitor", "countrycode", "CoordinateCleaner"))
 
 
-dist_to_land_km = function(eastings, northings, crs=4326) {
+match_country = function(eastings, northings, ret, crs=4326) {
     world = sf::st_as_sf(rworldmap::getMap(resolution="high"))
     everything = data.frame(eastings, northings, i=seq_along(eastings))
     points = everything %>%
         filter(!is.na(eastings), !is.na(northings)) %>%
         sf::st_as_sf(coords=1:2, crs=crs)
     points$nearest = sf::st_nearest_feature(points, world)
-    points$dists = sf::st_distance(points, world[points$nearest,], by_element=T) %>%
+    points$ISO3 = world[points$nearest,]$ISO3
+    points$dist = sf::st_distance(points, world[points$nearest,], by_element=T) %>%
         units::set_units("km") %>%
         as.numeric()
     everything = dplyr::left_join(everything, points, by='i')
-    everything$dists
+    return(everything[[ret]])
 }
 
 get_failing_tests = function(validator_values) {
@@ -1084,8 +1087,12 @@ setdiff(colnames(sn_meta), colnames(all_meta))
 all_meta = bind_rows(all_meta, sn_meta)
 
 
+# # Global dataset modification
+# 
+# There are some modifications that need to be done for the whole dataset, now
+# that we have imported all individual datasets.
 
-# # Split merged metadata
+# ## Split dataset
 #
 # Until now we have combined the per-accession metadata with the run-level
 # metadata for simplicity. However, we want the two separate, so split them
@@ -1118,6 +1125,30 @@ str(all_sra)
 
 table(all_acc$dataset)
 
+# ## Normalise country codes
+
+custom_codes = c(
+    "GER"="DEU",
+    "NED"="NLD",
+    "SUI"="CHE",
+    "POR"="PRT",
+    "DEN"="DNK",
+    "UNK"=NA,
+    "CRO"="HRV",
+    "BUL"="BGR",
+    "Tibet"="CHN"
+)
+
+ctry = tibble(orig=na.omit(unique(all_acc$country))) %>%
+    mutate(country_code =
+           ifelse(orig %in% names(custom_codes), custom_codes[orig],
+           ifelse(orig %in% codelist$iso3c, orig,
+           ifelse(orig %in% codelist$iso2c, countrycode(orig, "iso2c", "iso3c"),
+                  countrycode(orig, "country.name.en", "iso3c")))),
+           country_name=countrycode(country_code, "iso3c", "country.name"))
+
+all_acc = all_acc %>%
+    left_join(ctry, by=c("country"="orig"))
 
 # # Validate metadata
 
@@ -1146,15 +1177,18 @@ write_tsv(all_sra_bad, "all_sra_bad.tsv")
 
 # ## Accession metadata
 
+
 acc_val = validator(
     oa_unq = multiplicity(oa_id) == 1,
     eco_unq = multiplicity(ecotype_id) == 1,
     # Some names are duplicated, but have unique ecotype IDs.
     name_unq  = (!is.na(ecotype_id)) | multiplicity(sample_name) == 1,
     latlong_ok = !(is.na(latitude) | is.na(longitude)),
-    dist2land = dist_to_land_km(longitude, latitude) < 5,
+    dist2land = match_country(longitude, latitude, 'dist') < 5,
+    ctrymatch = match_country(longitude, latitude, 'ISO3') == country_code,
     spp = !is.na(species) | !grepl("^Arabidopsis", species)
 )
+
 
 all_acc_val = confront(all_acc, acc_val)
 summary(all_acc_val)
