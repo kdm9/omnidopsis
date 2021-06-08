@@ -8,10 +8,9 @@ rmd := $(patsubst %.R,%.Rmd,$(wildcard *.R)) \
 outmd := $(patsubst %.Rmd,%.out.md,$(rmd))
 outhtml := $(patsubst %.Rmd,%.html,$(rmd))
 
-
+html: $(outhtml)
 all: $(rmd)
 md: $(outmd)
-html: $(outhtml)
 
 .PHONY: clean
 clean:

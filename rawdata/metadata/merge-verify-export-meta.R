@@ -458,7 +458,10 @@ nov_meta_pre  = left_join(nov_acc_pre, nov_sra_pre,
     mutate(mult = multiplicity(sra_run)) %>%
     arrange(mult, biosample)
 
-# So the metadata in the table is actually
+# So the metadata in the supps table is actually per BAM, i.e. you get two
+# records for each polyploid. We only want one record per sample, so we ablate
+# the bits of the sample name that refer to the reference genome.
+
 name_fix = c(
     "AkamchaticaKWShal"="AkamchaticaKWS",
     "AkamchaticaPAKhal"="AkamchaticaPAK",
@@ -475,9 +478,6 @@ name_fix = c(
     "Ath.ASO5" ="ASO5",
     "Ath.ASS3a"="ASS3a"
 )
-
-str(nov_meta_pre)
-nov_meta_pre$sample_name
 
 nov_meta_pre = nov_meta_pre %>%
     mutate(sample_name = ifelse(sample_name %in% names(name_fix),
@@ -667,6 +667,7 @@ str(lwl_meta_pop)
 setdiff(colnames(lwl_meta_pop), colnames(all_meta))
 all_meta = bind_rows(all_meta, lwl_meta_pop)
 
+
 # ## Lee et al. A. halleri
 #
 # From a biorxiv paper, 10.1101/859249
@@ -730,7 +731,6 @@ fp_meta = left_join(fp_sra_pre, fp_sites, by=c("sample_name_match"="population")
            library_layout, instrument_model, pooled_plants=no_of_pooled_plants)
 str(fp_meta)
 
-
 setdiff(colnames(fp_meta), colnames(all_meta))
 all_meta = bind_rows(all_meta, fp_meta)
 
@@ -761,8 +761,6 @@ all_meta = bind_rows(all_meta, fm_meta)
 #
 # The first, Hohmann & Koch, is kl
 # https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-017-4220-6
-#
-
 
 hl_sra = read_csv("source/koch_lab_lyrata/SraRunTable_PRJEB34247.txt",
                    col_types=cols(collection_date=col_character())) %>%
@@ -777,11 +775,10 @@ hl_meta = hl_sra %>%
            locality=geographic_location_region_and_locality,
            instrument_model=instrument, library_layout, species=organism)
 
-
 # The second one is from Marburger et al. Nat comms.
 
 ml_sra = read_csv("source/koch_lab_lyrata/SraRunTable_PRJEB20573.txt")
-str(ml_sra[])
+#str(ml_sra[])
 
 ml_sra_pre = ml_sra %>%
     select(sra_run=Run, sample_name=Alias, bioproject=BioProject,
@@ -789,7 +786,7 @@ ml_sra_pre = ml_sra %>%
            library_layout=LibraryLayout, species=Organism) %>%
     # In the sra all the sample names have a " WGS" suffix, remove this
     mutate(sample_name =sub(" WGS$", "", sample_name))
-str(ml_sra_pre)
+#str(ml_sra_pre)
 
 ml_acc = read_xlsx("source/koch_lab_lyrata/12864_2017_4220_MOESM2_ESM.xlsx", 
                    skip=1) %>%
@@ -813,10 +810,10 @@ str(ml_acc_pre)
 
 ml_meta = full_join(ml_acc_pre, ml_sra_pre)
 
-
 setdiff(colnames(ml_meta), colnames(all_meta))
 setdiff(colnames(hl_meta), colnames(all_meta))
 all_meta = bind_rows(all_meta, ml_meta, hl_meta)
+
 
 # ## Serpentine soil halleri and arenosa
 #
@@ -849,6 +846,7 @@ str(sh_meta)
 
 setdiff(colnames(sh_meta), colnames(all_meta))
 all_meta = bind_rows(all_meta, sh_meta)
+
 
 # ## PRJEB23202 
 #
@@ -883,6 +881,7 @@ str(wn_meta)
 # Any extra cols?
 setdiff(colnames(wn_meta), colnames(all_meta))
 all_meta = bind_rows(all_meta, wn_meta)
+
         
 # ## Polish arenosa
 #
@@ -891,16 +890,16 @@ all_meta = bind_rows(all_meta, wn_meta)
 
 ka_sra = read_csv("source/arenosa-PRJNA667586/SraRunTable.txt") %>%
     clean_names()
-str(ka_sra[])
+#str(ka_sra[])
 
 ka_pops = read_csv("source/arenosa-PRJNA667586/media-1-2.pdf.csv") %>%
     clean_names()
-str(ka_pops[])
+#str(ka_pops[])
 
 ka_pops_pre = ka_pops %>%
     select(soil_type=bedrock, latitude=lat, longitude=lon, ploidy,
            elevation=altitude, pop, pop_code, locality=pop_name) %>%
-    mutate(collection_notes = sprintf("soil_type=%s;", soil_type))
+    mutate(collection_notes = sprintf("soil_type=%s", soil_type))
 
 ka_sra_pre = ka_sra %>%
     select(sample_name, population, biosample=bio_sample,
@@ -908,20 +907,19 @@ ka_sra_pre = ka_sra %>%
            instrument_model=instrument, country=geo_loc_name_country,
            locality=geo_loc_name, species=organism) %>%
     mutate(locality=sub("^[^:]+: ", "", locality))
-str(ka_sra_pre)
+#str(ka_sra_pre)
 
 ka_meta_pre = ka_sra_pre %>%
     left_join(ka_pops_pre, by=c("population"="pop", "locality")) %>%
     filter(!is.na(latitude)) %>%
     select(-population, -pop_code, -soil_type) %>%
     mutate(oa_id = sprintf("OAKA%04d", as.numeric(as.factor(biosample))))
-
-str(ka_meta_pre)
-
+#str(ka_meta_pre)
 
 setdiff(colnames(ka_meta_pre), colnames(all_meta))
 
 all_meta = bind_rows(all_meta, ka_meta_pre)
+
 
 # ## Hamala et al lyrata
 #
@@ -935,17 +933,15 @@ hm_sra_2 = read_csv("source/hamala-lyrata/SraRunTable_PRJNA459481.txt") %>%
     clean_names()
 
 hm_sra = bind_rows(hm_sra_1, hm_sra_2)
-str(hm_sra[])
+#str(hm_sra[])
 
 hm_pop = read_csv("source/hamala-lyrata/page-1_table-1.csv") %>%
     mutate(latitude=parse_lat(latitude), longitude=parse_lon(longitude)) %>%
     mutate(geo_loc_name = sprintf("%s: %s", country, locality))
-str(hm_pop)
-
+#str(hm_pop)
 
 hm_meta_pre = left_join(hm_sra, hm_pop, by="geo_loc_name")
-
-str(hm_meta_pre[])
+#str(hm_meta_pre[])
 
 hm_meta = hm_meta_pre %>%
     select(sra_run=run, bioproject=bio_project, biosample=bio_sample,
@@ -954,15 +950,144 @@ hm_meta = hm_meta_pre %>%
     mutate(oa_id = sprintf("OAHS%04d", as.numeric(as.factor(biosample))))
 
 setdiff(colnames(hm_meta), colnames(all_meta))
-
 all_meta = bind_rows(all_meta, hm_meta)
 
-# ## TODO Consistent unique IDs for all accessions
+
+# ## Parker et al. Snowdonia
 #
-# Not all plants have ecotype IDs, and many names have charachers we dont' want
-# in file names (non-ascii, or weird punctuation). For our general sanity, we
-# want a simple ID like an ecotype ID for all samples. For samples with ecotype
-# IDs, we'll just use the ecotype ID. For others, we'll make new ones.
+# [Parker et al.](https://dx.doi.org/10.1038/s41598-017-08461-5)
+
+ps_sra = read_csv("source/snowdonia/SraRunTable.txt",
+                  col_types=cols(collection_date=col_character())) %>%
+    clean_names()
+#str(ps_sra[])
+
+ps_meta_pre = ps_sra %>%
+    select(sra_run=run, sample_name=title, bioproject=bio_project,
+           biosample=bio_sample, collector=collected_by, collection_date,
+           country=geo_loc_name_country,
+           elevation=geographic_location_altitude,
+           latitude=geographic_location_latitude,
+           longitude=geographic_location_longitude,
+           locality=geographic_location_region_and_locality,
+           instrument_model=instrument, library_layout, species=organism,
+           ploidy) %>%
+    mutate(oa_id = sprintf("OAPS%04d", as.numeric(as.factor(biosample)))) %>%
+    filter(instrument_model != "MinION")
+
+setdiff(colnames(ps_meta_pre), colnames(all_meta))
+str(ps_meta_pre)
+
+all_meta = bind_rows(all_meta, ps_meta_pre)
+
+
+# # Guggisberg Bohemian Arabidopsis
+#
+# A. thaliana, negelecta, and lyrata from Bohemia
+
+bo_sra = read_csv("source/guggisberg/SraRunTable.txt",
+                  col_types=cols(collection_date=col_character())) %>%
+    clean_names()
+bo_acc = read_tsv("source/guggisberg/mec14930-sup-0002-tables1.csv",
+                  col_types=cols(Date=col_character())) %>%
+    clean_names()
+
+bo_sra_pre = bo_sra %>%
+    transmute(
+        sra_run=run, sample_name=isolate, bioproject=bio_project,
+        biosample=bio_sample, collector=collected_by, collection_date,
+        collection_notes=sprintf("soil_type=%s", isolation_source),
+        country=geo_loc_name_country, locality=geo_loc_name,
+        instrument_model=instrument, library_layout, species=organism,
+        lat_lon
+    ) %>%
+    mutate(oa_id = sprintf("OABO%04d", as.numeric(as.factor(biosample)))) %>%
+    mutate(lat_lon = sub("(N|S) ", "\\1, ", lat_lon) %>%
+                     parse_llstr(),
+           lat_sra = lat_lon[,1],
+           lon_sra = lat_lon[,2],
+    ) %>% select(-lat_lon)
+
+bo_meta = full_join(bo_sra_pre, bo_acc, by=c("sample_name"="acronym")) %>%
+    mutate(latitude = ifelse(is.na(latitude), lat_sra, latitude),
+           longitude = ifelse(is.na(longitude), lon_sra, longitude)) %>%
+    select(oa_id, sra_run, sample_name, bioproject, biosample, collector,
+           collection_date, country=country.x, locality, instrument_model,
+           library_layout, elevation=altitude, species=species.x)
+
+setdiff(colnames(bo_meta), colnames(all_meta))
+str(bo_meta)
+all_meta = bind_rows(all_meta, bo_meta)
+
+
+# ## Gould et al North american Ath
+#
+# PRJNA288374
+
+gn_sra = read_csv("source/gould-north-american/SraRunTable_PRJNA288374.txt") %>%
+    clean_names()
+#str(gn_sra[])
+
+gn_acc = read_tsv("source/gould-north-american/mec13643-sup-0002-tables1.csv",
+                  na="--") %>% clean_names()
+#str(gn_acc[])
+
+gn_sra_pre = gn_sra %>%
+    select(sra_run=run, sample_name, bioproject=bio_project,
+           biosample=bio_sample, country=geo_loc_name_country,
+           instrument_model=instrument, library_layout, species=organism)
+
+gn_acc_pre = gn_acc %>%
+    select(sample_name=line_name, latitude, longitude, cs_number)
+
+gn_meta = left_join(gn_sra_pre, gn_acc_pre) %>%
+    mutate(oa_id = sprintf("OAGN%04d", as.numeric(as.factor(biosample)))) 
+
+setdiff(colnames(gn_meta), colnames(all_meta))
+all_meta = bind_rows(all_meta, gn_meta)
+
+
+# # Shirsekar et al North American lines
+#
+# So this is pretty incomplete, but I'll follow it up with Gautam once his
+# revisions are done.
+
+sn_sra = read_csv("source/shirsekar-north-american/SraRunTable.txt") %>%
+    clean_names() %>%
+    filter(library_selection != "Reduced Representation")
+#str(sn_sra[])
+
+sn_sra_pre = sn_sra %>%
+    transmute(sra_run=run, sample_name_sra=sample_name_2, bioproject=bio_project,
+              biosample=bio_sample, collection_date=as.character(collection_year),
+              instrument_model=instrument, library_layout, species=organism) %>%
+    mutate(sample_name = sub("^r\\d+_l\\d+_", "", sample_name_sra))
+#str(sn_sra_pre[])
+
+sn_acc = read_tsv("source/shirsekar-north-american/srisekar-acc.csv") %>% 
+    clean_names()
+#str(sn_acc[])
+
+sn_acc_pre = sn_acc %>%
+    transmute(sample_name = sub("^ind_", "", individual), latitude, longitude,
+              country, locality=population)
+#str(sn_acc_pre[])
+
+sn_meta = inner_join(sn_sra_pre, sn_acc_pre, by="sample_name") %>%
+    mutate(oa_id = sprintf("OASN%04d", as.numeric(as.factor(biosample))))  %>%
+    select(-sample_name_sra)
+str(sn_meta)
+
+setdiff(colnames(sn_meta), colnames(all_meta))
+all_meta = bind_rows(all_meta, sn_meta)
+
+
+
+# # Split merged metadata
+#
+# Until now we have combined the per-accession metadata with the run-level
+# metadata for simplicity. However, we want the two separate, so split them
+# into two tables.
 
 str(all_meta)
 
@@ -1046,7 +1171,7 @@ write_tsv(all_acc_bad, "all_acc_bad.tsv")
 # code fixes these in a documented way.
 
 # One afican sample has the latitude up-side down. It's supposedly in south
-# africa, but appears int the middle of the medeterrainian sea. Inverting the
+# africa, but appears in the middle of the medeterrainian sea. Inverting the
 # latitude 
 
 all_acc =  all_acc %>%
@@ -1067,6 +1192,7 @@ errors(all_acc_val)
 all_acc_bad = all_acc %>%
     mutate(failed = get_failing_tests(all_acc_val)) %>%
     filter(failed != "")
+all_acc_bad
 
 write_tsv(all_acc_bad, "all_acc_still_bad.tsv")
 
@@ -1075,6 +1201,7 @@ write_tsv(all_sra, "omniath_all_sra.tsv", na="")
 
 str(all_acc)
 str(all_sra)
+
 
 # # Mapping of accessions
 
