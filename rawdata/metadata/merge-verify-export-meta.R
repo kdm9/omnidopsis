@@ -1013,10 +1013,12 @@ bo_meta = full_join(bo_sra_pre, bo_acc, by=c("sample_name"="acronym")) %>%
            longitude = ifelse(is.na(longitude), lon_sra, longitude)) %>%
     select(oa_id, sra_run, sample_name, bioproject, biosample, collector,
            collection_date, country=country.x, locality, instrument_model,
-           library_layout, elevation=altitude, species=species.x)
+           latitude, longitude, library_layout, elevation=altitude,
+           species=species.x)
 
 setdiff(colnames(bo_meta), colnames(all_meta))
 str(bo_meta)
+
 all_meta = bind_rows(all_meta, bo_meta)
 
 
