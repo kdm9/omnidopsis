@@ -141,6 +141,7 @@ af_meta_complete =  af_meta %>%
     filter(!is.na(latitude) & !is.na(sra_run))
 #str(af_meta_complete)
 
+setdiff(colnames(af_meta_complete), colnames(all_meta))
 all_meta = bind_rows(all_meta, af_meta_complete)
 
 
@@ -189,6 +190,7 @@ str(arg_meta)
 arg_meta = arg_meta %>%
     filter(!is.na(latitude))
 
+setdiff(colnames(arg_meta), colnames(all_meta))
 all_meta = bind_rows(all_meta, arg_meta)
 
 
@@ -227,6 +229,7 @@ chi_meta %>%
 
 chi_meta = chi_meta %>%
     mutate(oa_id=sprintf("OACN%04d", 1:n()))
+setdiff(colnames(chi_meta), colnames(all_meta))
 all_meta = bind_rows(all_meta, chi_meta)
 
 
@@ -340,6 +343,7 @@ cat_meta = cat_sra_pre %>%
     mutate(oa_id=sprintf("OACT%04d", 1:n()))
 str(cat_meta)
 
+setdiff(colnames(cat_meta), colnames(all_meta))
 all_meta = bind_rows(all_meta, cat_meta)
 
 
@@ -369,6 +373,7 @@ tib_meta = full_join(tib_sra_pre, tib_acc, by="sample_name") %>%
     mutate(oa_id=sprintf("OATB%04d", 1:n()))
 str(tib_meta)
 
+setdiff(colnames(tib_meta), colnames(all_meta))
 all_meta = bind_rows(all_meta, tib_meta)
 
 
@@ -393,6 +398,7 @@ kor_acc = tribble(
 kor_meta = full_join(kor_acc, kor_sra_pre, by="sample_name") %>%
     mutate(oa_id=sprintf("OAKR%04d", 1:n()))
 str(kor_meta)
+setdiff(colnames(kor_meta), colnames(all_meta))
 all_meta = bind_rows(all_meta, kor_meta)
 
 
@@ -501,6 +507,7 @@ nov_meta = nov_meta_pre %>%
            collector, collection_date, sra_run, oa_id, biosample, bioproject,
            instrument_model, library_layout)
 
+setdiff(colnames(nov_meta), colnames(all_meta))
 all_meta = bind_rows(all_meta, nov_meta)
 
 
@@ -546,8 +553,7 @@ pkm_meta = pkm_meta_pre %>%
            bioproject, library_layout, instrument_model)
 str(pkm_meta[])
 
-all(colnames(pkm_meta) %in% colnames(all_meta))
-
+setdiff(colnames(pkm_meta), colnames(all_meta))
 all_meta = bind_rows(all_meta, pkm_meta)
 
 
@@ -599,6 +605,7 @@ mon_meta = mon_meta_pre %>%
            locality, collection_notes, sra_run, bioproject, biosample, library_layout,
            instrument_model, ploidy)
 
+setdiff(colnames(mon_meta), colnames(all_meta))
 all_meta = bind_rows(all_meta, mon_meta)
 
 # ## Lucek & Willi North American A. lyrata
@@ -657,6 +664,7 @@ lwl_meta_pop = lwl_check %>%
 
 str(lwl_meta_pop)
 
+setdiff(colnames(lwl_meta_pop), colnames(all_meta))
 all_meta = bind_rows(all_meta, lwl_meta_pop)
 
 # ## Lee et al. A. halleri
@@ -686,6 +694,7 @@ lh_meta = inner_join(lh_sra_pre, lh_acc_pre, by="sample_name") %>%
     mutate(latitude = parse_lat(latitude), longitude = parse_lon(longitude))
 str(lh_meta)
 
+setdiff(colnames(lh_meta), colnames(all_meta))
 all_meta = bind_rows(all_meta, lh_meta)
 
 
@@ -721,6 +730,8 @@ fp_meta = left_join(fp_sra_pre, fp_sites, by=c("sample_name_match"="population")
            library_layout, instrument_model, pooled_plants=no_of_pooled_plants)
 str(fp_meta)
 
+
+setdiff(colnames(fp_meta), colnames(all_meta))
 all_meta = bind_rows(all_meta, fp_meta)
 
 
@@ -740,6 +751,7 @@ fm_meta = fm_acc %>%
            internal_data)
 str(fm_meta)
 
+setdiff(colnames(fm_meta), colnames(all_meta))
 all_meta = bind_rows(all_meta, fm_meta)
 
 
@@ -802,9 +814,148 @@ str(ml_acc_pre)
 ml_meta = full_join(ml_acc_pre, ml_sra_pre)
 
 
+setdiff(colnames(ml_meta), colnames(all_meta))
+setdiff(colnames(hl_meta), colnames(all_meta))
 all_meta = bind_rows(all_meta, ml_meta, hl_meta)
 
+# ## Serpentine soil halleri and arenosa
+#
+# From [a paper from Levi Yant's
+# lab](https://royalsocietypublishing.org/doi/full/10.1098/rstb.2018.0243)
 
+sh_pops = read_tsv("source/arenosa-halleri-PRJNA506705/pops.tsv") %>%
+    clean_names() %>%
+    mutate(latitude=parse_lat(latitude), longitude=parse_lon(longitude))
+#str(sh_pops[])
+
+sh_sra = read_csv("source/arenosa-halleri-PRJNA506705/SraRunTable.txt")
+#str(sh_sra[])
+
+sh_sra_pre = sh_sra %>%
+    select(sra_run=Run,  bioproject=BioProject, biosample=BioSample,
+           country=geo_loc_name_country, instrument_model=Instrument,
+           sample_name=`Library Name`, library_layout=LibraryLayout,
+           species=Organism, lat_lon) %>%
+    mutate(popcode=str_split(sample_name, "_", n=2, simplify=T)[,1]) %>%
+    mutate(oa_id=sprintf("OASH%04d", as.numeric(as.factor(sample_name)))) %>%
+    arrange(popcode, oa_id)
+#str(sh_sra_pre)
+
+sh_meta = left_join(sh_sra_pre, sh_pops, by=c("popcode"="population"))  %>%
+    select(-lat_lon, -popcode, -soil_type) %>%
+    rename(elevation=altitude)
+
+str(sh_meta)
+
+setdiff(colnames(sh_meta), colnames(all_meta))
+all_meta = bind_rows(all_meta, sh_meta)
+
+# ## PRJEB23202 
+#
+# This seems like a nice dataset, but I can't find the paper. Submission
+# information suggests it's from Yvonne Willi's lab at Basel.
+
+wn_sra = read_csv("source/PRJEB23202/SraRunTable.txt") %>%
+    clean_names()
+#str(wn_sra[])
+
+wn_meta_pre = wn_sra %>%
+    select(sra_run=run, sample_name=alias, bioproject=bio_project,
+           biosample=bio_sample, collection_date, country=geo_loc_name_country,
+           lat_lon, instrument_model=instrument, library_layout,
+           species=organism) %>%
+    mutate(
+        oa_id = sprintf("OAWN%04d", as.numeric(as.factor(sample_name))),
+        lat_lon = sub("(\\d+\\.\\d+)\\s*([NSEW])\\s*(\\d+\\.\\d+)\\s*([NSEW])",
+                      "\\2\\1 \\4\\3", lat_lon, perl=T),
+    )
+
+# This is a bit of a faff, but it's how the parzer package extracts lat&long
+wn_ll = parse_llstr(wn_meta_pre$lat_lon) %>% as.matrix()
+wn_ll[!is.finite(wn_ll)] = NA
+wn_ll = as.data.frame(wn_ll)
+
+wn_meta = wn_meta_pre %>%
+    mutate(longitude = wn_ll$lon, latitude=wn_ll$lat) %>%
+    select(-lat_lon)
+str(wn_meta)
+
+# Any extra cols?
+setdiff(colnames(wn_meta), colnames(all_meta))
+all_meta = bind_rows(all_meta, wn_meta)
+        
+# ## Polish arenosa
+#
+# PRJNA667586, from [Konečná et
+# al.](https://www.biorxiv.org/content/10.1101/2021.01.15.426785v1)
+
+ka_sra = read_csv("source/arenosa-PRJNA667586/SraRunTable.txt") %>%
+    clean_names()
+str(ka_sra[])
+
+ka_pops = read_csv("source/arenosa-PRJNA667586/media-1-2.pdf.csv") %>%
+    clean_names()
+str(ka_pops[])
+
+ka_pops_pre = ka_pops %>%
+    select(soil_type=bedrock, latitude=lat, longitude=lon, ploidy,
+           elevation=altitude, pop, pop_code, locality=pop_name) %>%
+    mutate(collection_notes = sprintf("soil_type=%s;", soil_type))
+
+ka_sra_pre = ka_sra %>%
+    select(sample_name, population, biosample=bio_sample,
+           bioproject=bio_project, sra_run=run, library_layout,
+           instrument_model=instrument, country=geo_loc_name_country,
+           locality=geo_loc_name, species=organism) %>%
+    mutate(locality=sub("^[^:]+: ", "", locality))
+str(ka_sra_pre)
+
+ka_meta_pre = ka_sra_pre %>%
+    left_join(ka_pops_pre, by=c("population"="pop", "locality")) %>%
+    filter(!is.na(latitude)) %>%
+    select(-population, -pop_code, -soil_type) %>%
+    mutate(oa_id = sprintf("OAKA%04d", as.numeric(as.factor(biosample))))
+
+str(ka_meta_pre)
+
+
+setdiff(colnames(ka_meta_pre), colnames(all_meta))
+
+all_meta = bind_rows(all_meta, ka_meta_pre)
+
+# ## Hamala et al lyrata
+#
+# [Hamala & Savolainen](https://doi.org/10.1093/molbev/msz149) is the main
+# paper, but some lats and longs are only in a different paper from the same
+# lab, [Pyhäjärvi et al.](https://doi.org/10.3732/ajb.1100580).
+
+hm_sra_1 = read_csv("source/hamala-lyrata/SraRunTable.txt") %>%
+    clean_names()
+hm_sra_2 = read_csv("source/hamala-lyrata/SraRunTable_PRJNA459481.txt") %>%
+    clean_names()
+
+hm_sra = bind_rows(hm_sra_1, hm_sra_2)
+str(hm_sra[])
+
+hm_pop = read_csv("source/hamala-lyrata/page-1_table-1.csv") %>%
+    mutate(latitude=parse_lat(latitude), longitude=parse_lon(longitude)) %>%
+    mutate(geo_loc_name = sprintf("%s: %s", country, locality))
+str(hm_pop)
+
+
+hm_meta_pre = left_join(hm_sra, hm_pop, by="geo_loc_name")
+
+str(hm_meta_pre[])
+
+hm_meta = hm_meta_pre %>%
+    select(sra_run=run, bioproject=bio_project, biosample=bio_sample,
+           instrument_model=instrument, sample_name, species=organism, 
+           country, locality, latitude, longitude, collection_notes, collector) %>%
+    mutate(oa_id = sprintf("OAHS%04d", as.numeric(as.factor(biosample))))
+
+setdiff(colnames(hm_meta), colnames(all_meta))
+
+all_meta = bind_rows(all_meta, hm_meta)
 
 # ## TODO Consistent unique IDs for all accessions
 #

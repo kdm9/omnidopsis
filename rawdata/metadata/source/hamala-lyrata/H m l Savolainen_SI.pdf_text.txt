@@ -1,0 +1,64 @@
+﻿Table S1. Location information for the study populations.
+Population
+Location
+Lat (N)
+Lon (E)
+Altitude (m.a.s.l)
+J1
+Lom, Jotunheimen
+61°84'
+8°57'
+300
+J3
+Spiterstulen, Jotunheimen
+61°62'
+8°40'
+1100
+T1
+Sunndalsøra, Trollheimen
+62°66'
+8°62'
+10
+T4
+Nedre Kamtjern, Trollheimen
+62°74'
+9°30'
+1360
+SWE
+Stubbsand, Sweden
+63°12'
+18°57'
+5
+GER
+Plech, Germany
+49°39'
+11°29'
+400
+Table S2. Pairwise FST estimates for the study populations.
+Population
+J1
+J3
+T1
+T4
+SWE
+J3
+0.086
+T1
+0.267
+0.276
+T4
+0.305
+0.312
+0.165
+SWE
+0.335
+0.340
+0.313
+0.352
+GER
+0.412
+0.425
+0.369
+0.413
+0.417
+Values are weighted genome-wide averages estimated for synonymous sites.
