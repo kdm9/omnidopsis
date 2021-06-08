@@ -1043,7 +1043,8 @@ gn_sra_pre = gn_sra %>%
            instrument_model=instrument, library_layout, species=organism)
 
 gn_acc_pre = gn_acc %>%
-    select(sample_name=line_name, latitude, longitude, cs_number)
+    select(sample_name=line_name, latitude, longitude, cs_number) %>%
+    mutate(longitude = -longitude) # these are degrees W
 
 gn_meta = left_join(gn_sra_pre, gn_acc_pre) %>%
     mutate(oa_id = sprintf("OAGN%04d", as.numeric(as.factor(biosample)))) 
@@ -1087,6 +1088,37 @@ setdiff(colnames(sn_meta), colnames(all_meta))
 all_meta = bind_rows(all_meta, sn_meta)
 
 
+# ## Günther et al Tyrolian
+#
+# 5 poolseq pops from alpine and valley pops in Tyrol
+
+gt_sra = read_csv("source/günther-alpine-italy/SraRunTable_PRJEB12316.txt") %>%
+    clean_names()
+#str(gt_sra[])
+
+gt_sra_pre = gt_sra %>%
+    select(sra_run=run, sample_name=alias, bioproject=bio_project,
+           biosample=bio_sample, instrument_model=instrument, library_layout,
+           species=organism)
+
+gt_pops = read_tsv("source/günther-alpine-italy/sites.tsv") %>%
+    clean_names()
+#str(gt_pops[])
+
+gt_pops_pre = gt_pops %>%
+    transmute(population=sub("/", "", population), pooled_plants=individuals,
+              elevation, latitude=parse_lat(latitude),
+              longitude=parse_lon(longitude), country="ITA",
+              oa_id = sprintf("OAGT%04d", as.numeric(as.factor(population))))
+
+
+gt_meta_pre = inner_join(gt_sra_pre, gt_pops_pre, by=c("sample_name"="population"))
+str(gt_meta_pre)
+
+setdiff(colnames(gt_meta_pre), colnames(all_meta))
+all_meta = bind_rows(all_meta, gt_meta_pre)
+
+
 # # Global dataset modification
 # 
 # There are some modifications that need to be done for the whole dataset, now
@@ -1126,6 +1158,10 @@ str(all_sra)
 table(all_acc$dataset)
 
 # ## Normalise country codes
+#
+# There are a whole panoply of ways of refering to countries in the `country`
+# column of our metadata. The below code normalises this to two columns, an ISO
+# 3-letter code, and a normalised country name.
 
 custom_codes = c(
     "GER"="DEU",
@@ -1150,10 +1186,8 @@ ctry = tibble(orig=na.omit(unique(all_acc$country))) %>%
 all_acc = all_acc %>%
     left_join(ctry, by=c("country"="orig"))
 
-# # Validate metadata
 
-
-# ## Sra metadata validation
+# ## SRA metadata validation
 #
 # This is pretty cursary, chekcing that the run IDs look legit, and there isn't
 # any duplication.
@@ -1175,8 +1209,8 @@ all_sra_bad = all_sra %>%
     filter(failed != "")
 write_tsv(all_sra_bad, "all_sra_bad.tsv")
 
-# ## Accession metadata
 
+# ## Accession metadata
 
 acc_val = validator(
     oa_unq = multiplicity(oa_id) == 1,
@@ -1188,7 +1222,6 @@ acc_val = validator(
     ctrymatch = match_country(longitude, latitude, 'ISO3') == country_code,
     spp = !is.na(species) | !grepl("^Arabidopsis", species)
 )
-
 
 all_acc_val = confront(all_acc, acc_val)
 summary(all_acc_val)
