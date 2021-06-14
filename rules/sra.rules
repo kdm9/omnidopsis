@@ -25,6 +25,7 @@ rule sra_fastqdump:
         "data/log/fastqdump/{run}~{lib}.log"
     resources: **acanthophis.rule_resources(config, "sra_fastqdump", time_min=180, mem_gb=2)
     conda: "sra.environment"
+    threads: 4
     shell:
         "( fastq-dump"
         "   --split-spot"
@@ -34,8 +35,8 @@ rule sra_fastqdump:
         "   --defline-seq '@$sn/$ri'"
         "   --defline-qual '+'"
         "   {input}"
-        "| gzip"
-        "   -9"
+        "| pigz"
+        "   -p {threads}"
         "   > {output}"
         ") >{log} 2>&1"
 

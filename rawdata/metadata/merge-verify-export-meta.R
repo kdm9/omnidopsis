@@ -66,8 +66,8 @@ multiplicity = function(x) {
 
 # ## Load SRA DB
 
-sra.sql = "/home/kevin/data/work/2021-06-06_SRAmetadb.sqlite.gz"
-sra = dbConnect(SQLite(), sra.sql)
+#sra.sql = "/home/kevin/data/work/2021-06-06_SRAmetadb.sqlite.gz"
+#sra = dbConnect(SQLite(), sra.sql)
 
 # ## The OG 1001 Genomes
 #
@@ -102,6 +102,22 @@ kg_meta = inner_join(kg_acc_pre, kg_sra_pre, by="ecotype_id")
 str(kg_meta)
 
 all_meta = kg_meta
+
+
+# ## Cao et al Resequencing
+#
+# This is fernando's re-sequecning of the lines from Cao et al. 2011.
+
+cr_acc = read_tsv("source/internal-data/cao-reseq.txt")
+
+cr_meta = kg_acc_pre %>%
+    select(-oa_id) %>%
+    inner_join(cr_acc, by="ecotype_id") %>%
+    mutate(oa_id = sprintf("OACR%04d", ecotype_id),
+           internal_data=T, internal_sample_name=as.character(ecotype_id))
+
+all_meta = bind_rows(all_meta, cr_meta)
+
 
 # ## African lines
 #
@@ -440,11 +456,11 @@ nov_all_sra =  read_tsv("source/novikova/results_read_run_tsv.txt",
 #str(nov_all_sra[])
 
 nov_all_sra = nov_all_sra %>%
-    mutate(matchable_sample_acc = ifelse(accession%in%nov_acc_pre$biosample,
-                                         accession,
-                                  ifelse(secondary_sample_accession%in%nov_acc_pre$biosample,
-                                         secondary_sample_accession,
-                                         NA)))
+    mutate(matchable_sample_acc = case_when(
+        accession %in% nov_acc_pre$biosample ~ accession,
+        secondary_sample_accession %in% nov_acc_pre$biosample ~ secondary_sample_accession,
+        TRUE ~ as.character(NA)
+    ))
 
 nov_sra_pre = nov_all_sra %>%
     filter(!is.na(matchable_sample_acc)) %>%
@@ -754,7 +770,7 @@ fm_meta = fm_acc %>%
            country="Spain") %>%
     select(oa_id, sample_name=ID, locality=Region, latitude=Latitude,
            longitude=Longitude, elevation=Altitude, collector=Collector,
-           internal_data, country)
+           internal_data, internal_sample_name=ID, country)
 str(fm_meta)
 
 setdiff(colnames(fm_meta), colnames(all_meta))
@@ -1147,12 +1163,14 @@ custom_codes = c(
 )
 
 ctry = tibble(orig=na.omit(unique(all_meta$country))) %>%
-    mutate(country_code =
-           ifelse(orig %in% names(custom_codes), custom_codes[orig],
-           ifelse(orig %in% codelist$iso3c, orig,
-           ifelse(orig %in% codelist$iso2c, countrycode(orig, "iso2c", "iso3c"),
-                  countrycode(orig, "country.name.en", "iso3c")))),
-           country_name=countrycode(country_code, "iso3c", "country.name"))
+    mutate(
+        country_code = case_when(
+            (orig %in% names(custom_codes)) ~ custom_codes[orig],
+            (orig %in% codelist$iso2c) ~ countrycode(orig, "iso2c", "iso3c"),
+            (orig %in% codelist$iso3c) ~ orig,
+            TRUE ~ countrycode(orig, "country.name.en", "iso3c")
+        ),
+        country_name=countrycode(country_code, "iso3c", "country.name"))
 
 all_meta = all_meta %>%
     left_join(ctry, by=c("country"="orig"))
@@ -1185,10 +1203,10 @@ all_meta %>%
 # latitude 
 
 all_meta =  all_meta %>%
-    rows_update(tribble(
-        ~oa_id, ~latitude, ~longitude,
-        "OAAF0072", -33.399, 19.282
-        ), by="oa_id")
+    mutate(latitude = case_when(
+        oa_id=="OAAF0072" ~ -latitude,
+        T ~ latitude
+    ))
 
 
 # # Metadata finalisation
@@ -1277,7 +1295,7 @@ write_tsv(all_acc_bad, "all_acc_bad.tsv")
 
 rl2s = all_meta %>%
     transmute(
-        library=ifelse(is.na(sra_run), sample_name, sra_run),
+        library=ifelse(is.na(sra_run), internal_sample_name, sra_run),
         run=ifelse(is.na(bioproject), dataset, bioproject),
         sample=oa_id,
         include="Y",
@@ -1303,8 +1321,5 @@ ggmap(baselayer) +
     labs(x="Longitude", y="Latitude") +
     theme(legend.position="right")
 ggsave("ath_accessions.svg", width=16, height=14, units="in", dpi=600)
-
-
-
 
 # # SRA size and coverage estimation

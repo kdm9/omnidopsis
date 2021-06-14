@@ -2,6 +2,6 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - gzip
-  - sra-toolkit
+  - pigz
+  - sra-tools
 
