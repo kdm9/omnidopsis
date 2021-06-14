@@ -1125,8 +1125,74 @@ all_meta = bind_rows(all_meta, gt_meta_pre)
 # # Global dataset modification
 # 
 # There are some modifications that need to be done for the whole dataset, now
-# that we have imported all individual datasets.
+# that we have imported all individual datasets. There are also some fixes here
+# for problems previously identified in the validation process below.
 
+# ## Normalise country codes
+#
+# There are a whole panoply of ways of refering to countries in the `country`
+# column of our metadata. The below code normalises this to two columns, an ISO
+# 3-letter code, and a normalised country name.
+
+custom_codes = c(
+    "GER"="DEU",
+    "NED"="NLD",
+    "SUI"="CHE",
+    "POR"="PRT",
+    "DEN"="DNK",
+    "UNK"=NA,
+    "CRO"="HRV",
+    "BUL"="BGR",
+    "Tibet"="CHN"
+)
+
+ctry = tibble(orig=na.omit(unique(all_meta$country))) %>%
+    mutate(country_code =
+           ifelse(orig %in% names(custom_codes), custom_codes[orig],
+           ifelse(orig %in% codelist$iso3c, orig,
+           ifelse(orig %in% codelist$iso2c, countrycode(orig, "iso2c", "iso3c"),
+                  countrycode(orig, "country.name.en", "iso3c")))),
+           country_name=countrycode(country_code, "iso3c", "country.name"))
+
+all_meta = all_meta %>%
+    left_join(ctry, by=c("country"="orig"))
+
+# ## Normalise ploidy values
+#
+# Likewise, ploidies are refered to in a number of different codes. We sanitise
+# all to words, e.g. diploid, tetraploid, allotetraploid, etc. 4x is asssumed
+# to be autotetraploid.
+
+all_meta = all_meta %>%
+    mutate(ploidy = ifelse(grepl("2", ploidy), "diploid",
+                    ifelse(grepl("4", ploidy), "tetraploid",
+                    ifelse(grepl("allo", ploidy), "allotetraploid",
+                           ploidy))))
+
+# Which species don't have annotated ploidy?
+all_meta %>%
+    filter(is.na(ploidy)) %>%
+    group_by(species) %>%
+    summarise(n=n())
+
+# ## Corrections to metadata as a result of validation
+#
+# Some issues have been higlighted by the validation process. The following
+# code fixes these in a documented way.
+
+# One afican sample has the latitude up-side down. It's supposedly in south
+# africa, but appears in the middle of the medeterrainian sea. Inverting the
+# latitude 
+
+all_meta =  all_meta %>%
+    rows_update(tribble(
+        ~oa_id, ~latitude, ~longitude,
+        "OAAF0072", -33.399, 19.282
+        ), by="oa_id")
+
+
+# # Metadata finalisation
+#
 # ## Split dataset
 #
 # Until now we have combined the per-accession metadata with the run-level
@@ -1159,53 +1225,6 @@ str(all_acc)
 str(all_sra)
 
 table(all_acc$dataset)
-
-# ## Normalise country codes
-#
-# There are a whole panoply of ways of refering to countries in the `country`
-# column of our metadata. The below code normalises this to two columns, an ISO
-# 3-letter code, and a normalised country name.
-
-custom_codes = c(
-    "GER"="DEU",
-    "NED"="NLD",
-    "SUI"="CHE",
-    "POR"="PRT",
-    "DEN"="DNK",
-    "UNK"=NA,
-    "CRO"="HRV",
-    "BUL"="BGR",
-    "Tibet"="CHN"
-)
-
-ctry = tibble(orig=na.omit(unique(all_acc$country))) %>%
-    mutate(country_code =
-           ifelse(orig %in% names(custom_codes), custom_codes[orig],
-           ifelse(orig %in% codelist$iso3c, orig,
-           ifelse(orig %in% codelist$iso2c, countrycode(orig, "iso2c", "iso3c"),
-                  countrycode(orig, "country.name.en", "iso3c")))),
-           country_name=countrycode(country_code, "iso3c", "country.name"))
-
-all_acc = all_acc %>%
-    left_join(ctry, by=c("country"="orig"))
-
-# ## Normalise ploidy values
-#
-# Likewise, ploidies are refered to in a number of different codes. We sanitise
-# all to words, e.g. diploid, tetraploid, allotetraploid, etc. 4x is asssumed
-# to be autotetraploid.
-
-all_meta = all_meta %>%
-    mutate(ploidy = ifelse(grepl("2", ploidy), "diploid",
-                    ifelse(grepl("4", ploidy), "tetraploid",
-                    ifelse(grepl("allo", ploidy), "allotetraploid",
-                           ploidy))))
-
-# Which species don't have annotated ploidy?
-all_meta %>%
-    filter(is.na(ploidy)) %>%
-    group_by(species) %>%
-    summarise(n=n())
 
 
 # ## SRA metadata validation
@@ -1254,44 +1273,17 @@ all_acc_bad = all_acc %>%
 
 write_tsv(all_acc_bad, "all_acc_bad.tsv")
 
+# ## Acanthophis sample2runlib file
 
-# ## Corrections to metadata as a result of validation
-#
-# Some issues have been higlighted by the validation process. The following
-# code fixes these in a documented way.
-
-# One afican sample has the latitude up-side down. It's supposedly in south
-# africa, but appears in the middle of the medeterrainian sea. Inverting the
-# latitude 
-
-all_acc =  all_acc %>%
-    rows_update(tribble(
-        ~oa_id, ~latitude, ~longitude,
-        "OAAF0072", -33.399, 19.282
-        ), by="oa_id")
-
-
-# ## Final metadata validation
-#
-# After the fixes we applied above, is everything kosher?
-
-all_acc_val = confront(all_acc, acc_val)
-summary(all_acc_val)
-errors(all_acc_val)
-
-all_acc_bad = all_acc %>%
-    mutate(failed = get_failing_tests(all_acc_val)) %>%
-    filter(failed != "")
-all_acc_bad
-
-write_tsv(all_acc_bad, "all_acc_still_bad.tsv")
-
-write_tsv(all_acc, "omniath_all_accessions.tsv", na="")
-write_tsv(all_sra, "omniath_all_sra.tsv", na="")
-
-str(all_acc)
-str(all_sra)
-
+rl2s = all_meta %>%
+    transmute(
+        library=ifelse(is.na(sra_run), sample_name, sra_run),
+        run=ifelse(is.na(bioproject), dataset, bioproject),
+        sample=oa_id,
+        include="Y",
+        is_sra=ifelse(is.na(internal_data)| !internal_data, "Y", ""),
+    )
+write_tsv(rl2s, "omniath_rl2s.tsv")
 
 # # Mapping of accessions
 

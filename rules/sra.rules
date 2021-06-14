@@ -1,0 +1,41 @@
+
+if config.get("cluster_resources", {}).get("internet_only_localrules", False):
+    localrules: sra_prefetch
+rule sra_prefetch:
+    output:
+        temp("data/sra/{bioproj}/{srr}.sra"),
+    log:
+        "data/log/prefetch/{bioproj}~{srr}.log"
+    resources: **acanthophis.rule_resources(config, "sra_prefetch", internet=1, time_min=180, mem_gb=1)
+    conda: rules/sra.environment
+    shell:
+        "prefetch"
+        "   --output-file {output}"
+        "   --verify yes"
+        "   --max-size 1T"
+        "   {wildcards.srr}"
+
+rule sra_fastqdump:
+    input:
+        "data/sra/{run}/{lib}.sra",
+    output:
+        "data/rawreads/{run}/{lib}_il.fastq.gz",
+    log:
+        "data/log/fastqdump/{run}~{lib}.log"
+    resources: **acanthophis.rule_resources(config, "sra_fastqdump", time_min=180, mem_gb=2)
+    conda: rules/sra.environment
+    shell:
+        "( fastq-dump"
+        "   --split-spot"
+        "   --skip-technical"
+        "   --stdout"
+        "   --readids"
+        "   --defline-seq '@$sn/$ri'"
+        "   --defline-qual '+'"
+        "   {input}"
+        "| gzip"
+        "   -9"
+        "   > {output}"
+        ") >{log} 2>&1"
+
+
