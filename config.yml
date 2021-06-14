@@ -2,8 +2,8 @@
 #                           Metadata files                            #
 #######################################################################
 metadata:
-  runlib2samp_file: "rawdata/rl2s.tsv"
-  sample_meta_file: "rawdata/samples.tsv"
+  runlib2samp_file: "rawdata/metadata/omniath_rl2s.tsv"
+  sample_meta_file: "rawdata/metadata/omniath_all_accessions.tsv"
   setfile_glob: "rawdata/setfiles/*.txt"
 
 
