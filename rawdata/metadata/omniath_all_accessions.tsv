@@ -1932,189 +1932,189 @@ OALH0001	LH		Noss5	SAMEA6249100	Arabidopsis halleri subsp. halleri	45.8593063354
 OALH0002	LH		Noss10	SAMEA6249101	Arabidopsis halleri subsp. halleri	45.85930633544922	9.876694679260254		Ponte Nossa	Italy								ITA	Italy
 OALH0003	LH		Pais5	SAMEA6249102	Arabidopsis halleri subsp. halleri	46.05555725097656	10.242972373962402		Paisco Loveno	Italy								ITA	Italy
 OALH0004	LH		Pais9	SAMEA6249103	Arabidopsis halleri subsp. halleri	46.05555725097656	10.242972373962402		Paisco Loveno	Italy								ITA	Italy
-OAFP0001	FP		CRAN-A	SAMN06691196	Arabidopsis thaliana	44.5298	2.2605	318	Cransac (Aubin)								13		
-OAFP0002	FP		BARC-A	SAMN06691197	Arabidopsis thaliana	43.362	0.3877	218	Barcugnan								16		
-OAFP0003	FP		BARA-B	SAMN06691198	Arabidopsis thaliana	44.2697	2.4263	756	Baraqueville								16		
-OAFP0004	FP		MART-A	SAMN06691199	Arabidopsis thaliana	43.2021	1.011	266	Martres Tolosane								16		
-OAFP0005	FP		LOUB-A	SAMN06691200	Arabidopsis thaliana	43.5743	1.786	220	Loubens-Lauragais								12		
-OAFP0006	FP		AXLE-A	SAMN06691201	Arabidopsis thaliana	42.7242	1.834	734	Axles Thermes								10		
-OAFP0007	FP		LACR-A	SAMN06691202	Arabidopsis thaliana	42.9999	1.0757	497	Lacraste (Montgauch)								16		
-OAFP0008	FP		JUZET-B	SAMN06691203	Arabidopsis thaliana	42.9774	0.7555	576	Juzet d'Izaut								16		
-OAFP0009	FP		CLAR-C	SAMN06691204	Arabidopsis thaliana	43.4641	1.218	218	Saint Clar-de-Rivière								16		
-OAFP0010	FP		NAZA-A	SAMN06691205	Arabidopsis thaliana	44.2203	1.065	93	Saint-Pierre-de-Najac (Miramont de Quercy)								16		
-OAFP0011	FP		MAZA-A	SAMN06691206	Arabidopsis thaliana	43.4978	2.3754	242	Mazamet								16		
-OAFP0012	FP		BERNA-A	SAMN06691207	Arabidopsis thaliana	43.1622	0.1114	394	Bernac-dessus								16		
-OAFP0013	FP		PANA-C	SAMN06691208	Arabidopsis thaliana	44.0789	2.7111	767	Villefrance de Panat								16		
-OAFP0014	FP		BELC-B	SAMN06691209	Arabidopsis thaliana	44.3875	2.3368	412	Belcastel								16		
-OAFP0015	FP		MONTG-B	SAMN06691210	Arabidopsis thaliana	43.1273	0.1107	437	Montgaillard								16		
-OAFP0016	FP		LABA-C	SAMN06691211	Arabidopsis thaliana	43.4515	1.3994	165	Labarthe-sur-Lèze								16		
-OAFP0017	FP		CAMA-D	SAMN06691212	Arabidopsis thaliana	43.8237	2.881	393	Camarés								15		
-OAFP0018	FP		NAUV-C	SAMN06691213	Arabidopsis thaliana	44.5204	2.4272	259	Nauviale								16		
-OAFP0019	FP		BACC-E	SAMN06691214	Arabidopsis thaliana	43.3119	1.5157	201	Baccarets (Cintegabelle)								8		
-OAFP0020	FP		LABA-A	SAMN06691215	Arabidopsis thaliana	43.4516	1.4005	165	Labarthe-sur-Lèze								16		
-OAFP0021	FP		THOM-A	SAMN06691216	Arabidopsis thaliana	43.514	1.0829	322	Saint Thomas								16		
-OAFP0022	FP		MONTM-Abis	SAMN06691217	Arabidopsis thaliana	42.8616	0.5959	792	Montmajou (Cier de Luchon)								16		
-OAFP0023	FP		BANI-C	SAMN06691218	Arabidopsis thaliana	43.0436	0.2343	487	Banios								16		
-OAFP0024	FP		GAIL-A	SAMN06691219	Arabidopsis thaliana	43.9089	1.9006	144	Gaillac								16		
-OAFP0025	FP		LANT-B	SAMN06691220	Arabidopsis thaliana	43.5649	1.6524	246	Lanta								16		
-OAFP0026	FP		CLAR-A	SAMN06691221	Arabidopsis thaliana	43.4648	1.219	218	Saint Clar-de-Rivière								16		
-OAFP0027	FP		SAUB-A	SAMN06691222	Arabidopsis thaliana	43.4649	1.3651	164	Saubens								16		
-OAFP0028	FP		CARL-A	SAMN06691223	Arabidopsis thaliana	43.1511	1.3923	385	Carla-bayle								16		
-OAFP0029	FP		MONB-A	SAMN06691224	Arabidopsis thaliana	43.4653	0.9863	231	Monblanc								16		
-OAFP0030	FP		LAGR-A	SAMN06691225	Arabidopsis thaliana	43.7953	1.0738	264	Lagraulhet St Nicolas								16		
-OAFP0031	FP		FERR-A	SAMN06691226	Arabidopsis thaliana	43.6577	2.4437	541	Ferrières								16		
-OAFP0032	FP		MONF-A	SAMN06691227	Arabidopsis thaliana	43.6163	0.9724	209	Monferran-Savès								16		
-OAFP0033	FP		SAUR-A	SAMN06691228	Arabidopsis thaliana	42.8898	1.4852	1023	Saurat								16		
-OAFP0034	FP		LECT-A	SAMN06691229	Arabidopsis thaliana	43.9117	0.6297	85	Lectoure								16		
-OAFP0035	FP		VILLE-D	SAMN06691230	Arabidopsis thaliana	43.4397	1.6707	188	Villenouvelle								16		
-OAFP0036	FP		LAUZ-A	SAMN06691231	Arabidopsis thaliana	44.256100000000004	1.1405	176	Lauzerte								15		
-OAFP0037	FP		VIEL-A	SAMN06691232	Arabidopsis thaliana	43.6238	2.0896	155	Vielmur sur Agout								16		
-OAFP0038	FP		CIER-C	SAMN06691233	Arabidopsis thaliana	42.8602	0.6011	656	Cier de Luchon								16		
-OAFP0039	FP		LUZE-B	SAMN06691234	Arabidopsis thaliana	42.7644	1.7536	584	Luzenac (Garanou)								16		
-OAFP0040	FP		BROU-A	SAMN06691235	Arabidopsis thaliana	43.9993	2.6217	281	Brousse-le-château								16		
-OAFP0041	FP		CAMA-E	SAMN06691236	Arabidopsis thaliana	43.8249	2.8817	397	Camarés								16		
-OAFP0042	FP		MERE-A	SAMN06691237	Arabidopsis thaliana	42.6566	1.8362	1080	Merens-les-Vals								16		
-OAFP0043	FP		BROU-C	SAMN06691238	Arabidopsis thaliana	44.0333	2.6387	678	Brousse-le-château								16		
-OAFP0044	FP		LUZE-A	SAMN06691239	Arabidopsis thaliana	42.7647	1.753	584	Luzenac (Garanou)								16		
-OAFP0045	FP		JACO-C	SAMN06691240	Arabidopsis thaliana	42.9058	1.4065	990	Jacoy (Boussenac)								16		
-OAFP0046	FP		SALV-A	SAMN06691241	Arabidopsis thaliana	43.6026	2.3634	473	Saint-Salvy-de-la-Balme								15		
-OAFP0047	FP		SIMO-A	SAMN06691242	Arabidopsis thaliana	43.4494	0.7346	204	Simorre								16		
-OAFP0048	FP		LESP-A	SAMN06691243	Arabidopsis thaliana	43.0942	1.72	290	Lespujols								16		
-OAFP0049	FP		PASD-B	SAMN06691244	Arabidopsis thaliana	43.8118	2.8717	603	Pas du loup (Camarès)								16		
-OAFP0050	FP		MONTI-A	SAMN06691245	Arabidopsis thaliana	43.3894	0.6728	313	Montiés								16		
-OAFP0051	FP		VALE-A	SAMN06691246	Arabidopsis thaliana	44.0223	2.4034	459	Valence d' Albiegeois								15		
-OAFP0052	FP		BELC-A	SAMN06691247	Arabidopsis thaliana	44.3875	2.3361	415	Belcastel								16		
-OAFP0053	FP		NAUV-A	SAMN06691248	Arabidopsis thaliana	44.5208	2.4274	259	Nauviale								16		
-OAFP0054	FP		LANT-D	SAMN06691249	Arabidopsis thaliana	43.5648	1.652	246	Lanta								12		
-OAFP0055	FP		VILLEM-A	SAMN06691250	Arabidopsis thaliana	43.2738	0.3212	326	Villembits								16		
-OAFP0056	FP		PAMP-B	SAMN06691251	Arabidopsis thaliana	44.1249	2.2552	317	Pampelonne								16		
-OAFP0057	FP		DAMI-A	SAMN06691252	Arabidopsis thaliana	43.6545	1.9776	143	Damiatte								8		
-OAFP0058	FP		CERN-B	SAMN06691253	Arabidopsis thaliana	44.0147	2.9679	407	Saint-Rome-de-Cemnon								16		
-OAFP0059	FP		DAMI-B	SAMN06691254	Arabidopsis thaliana	43.6545	1.9776	143	Damiatte								12		
-OAFP0060	FP		BOULO-A	SAMN06691255	Arabidopsis thaliana	43.2891	0.6398	339	Boulogne-sur-Gesse								16		
-OAFP0061	FP		COMT-A	SAMN06691256	Arabidopsis thaliana	44.5407	2.6022	558	Villecomtal								16		
-OAFP0062	FP		DAMI-C	SAMN06691257	Arabidopsis thaliana	43.6545	1.9776	143	Damiatte								12		
-OAFP0063	FP		BACC-D	SAMN06691258	Arabidopsis thaliana	43.3119	1.5156	201	Baccarets (Cintegabelle)								8		
-OAFP0064	FP		LOUB-B	SAMN06691259	Arabidopsis thaliana	43.5746	1.7857	217	Loubens-Lauragais								11		
-OAFP0065	FP		RADE-A	SAMN06691260	Arabidopsis thaliana	44.3452	2.6208	622	Sainte Radegonde								11		
-OAFP0066	FP		MONTB-A	SAMN06691261	Arabidopsis thaliana	43.1305	1.2699	281	Montbrunbocage								16		
-OAFP0067	FP		RAYR-A	SAMN06691262	Arabidopsis thaliana	44.196	2.4932	555	Rayret (Cassagne-Begontes)								16		
-OAFP0068	FP		MERV-A	SAMN06691263	Arabidopsis thaliana	43.7204	1.2968	156	Merville								16		
-OAFP0069	FP		CAMA-C	SAMN06691264	Arabidopsis thaliana	43.8249	2.8817	397	Camarés								16		
-OAFP0070	FP		SEIS-A	SAMN06691265	Arabidopsis thaliana	43.4873	0.5888	193	Seissan								16		
-OAFP0071	FP		CAZA-B	SAMN06691266	Arabidopsis thaliana	42.8315	0.4201	1140	Cazaux-Fréchet								16		
-OAFP0072	FP		BROU-B	SAMN06691267	Arabidopsis thaliana	44.0331	2.6387	678	Brousse-le-château								14		
-OAFP0073	FP		SAMA-A	SAMN06691268	Arabidopsis thaliana	43.4943	0.9239	179	Samatan								16		
-OAFP0074	FP		BULE-B	SAMN06691269	Arabidopsis thaliana	42.9106	1.2481	525	Buleix (Soulan)								12		
-OAFP0075	FP		MARS-A	SAMN06691270	Arabidopsis thaliana	43.6625	0.7183	196	Glaciane (Marsans)								16		
-OAFP0076	FP		VILLE-C	SAMN06691271	Arabidopsis thaliana	43.44	1.6701	188	Villenouvelle								16		
-OAFP0077	FP		LAMA-A	SAMN06691272	Arabidopsis thaliana	43.4874	1.2436	182	Lamasquère								16		
-OAFP0078	FP		AURE-B	SAMN06691273	Arabidopsis thaliana	43.478	1.4522	197	Aureville								16		
-OAFP0079	FP		LABAS-A	SAMN06691274	Arabidopsis thaliana	43.0084	1.42	397	Labastidede Sérou								16		
-OAFP0080	FP		BULA-A	SAMN06691275	Arabidopsis thaliana	43.0398	0.2773	491	Bulan								16		
-OAFP0081	FP		MERV-B	SAMN06691276	Arabidopsis thaliana	43.7251	1.2476	123	Merville								16		
-OAFP0082	FP		SALE-A	SAMN06691277	Arabidopsis thaliana	43.025	0.966	413	Saleich								16		
-OAFP0083	FP		CIER-B	SAMN06691278	Arabidopsis thaliana	42.86	0.6004	667	Cier de Luchon								16		
-OAFP0084	FP		BANI-B	SAMN06691279	Arabidopsis thaliana	43.0436	0.2343	487	Banios								16		
-OAFP0085	FP		BARA-C	SAMN06691280	Arabidopsis thaliana	44.2708	2.4276	756	Baraqueville								16		
-OAFP0086	FP		BESS-A	SAMN06691281	Arabidopsis thaliana	44.5264	2.7301	352	Bessuéjouls								16		
-OAFP0087	FP		SAUB-B	SAMN06691282	Arabidopsis thaliana	43.4741	1.3642	164	Saubens								16		
-OAFP0088	FP		REAL-A	SAMN06691283	Arabidopsis thaliana	43.8317	2.2016	239	Réalmont								16		
-OAFP0089	FP		ESPE-B	SAMN06691284	Arabidopsis thaliana	43.6933	2.5346	573	Esperausses								16		
-OAFP0090	FP		LABR-A	SAMN06691285	Arabidopsis thaliana	43.5312	2.2626	206	Labruguière								16		
-OAFP0091	FP		BARR-A	SAMN06691286	Arabidopsis thaliana	44.2024	1.7675	174	Barry le Cas (Caylus)								14		
-OAFP0092	FP		DECA-A	SAMN06691287	Arabidopsis thaliana	44.1999	1.7719	234	Châteaude Cas (Espinas)								16		
-OAFP0093	FP		JUZET-C	SAMN06691288	Arabidopsis thaliana	42.9774	0.7555	576	Juzet d'Izaut								16		
-OAFP0094	FP		BACC-C	SAMN06691289	Arabidopsis thaliana	43.3119	1.5155	201	Baccarets (Cintegabelle)								8		
-OAFP0095	FP		NAYR-A	SAMN06691290	Arabidopsis thaliana	44.1614	2.5447	631	Le Nayrac (Cassagnes-Bégontes								16		
-OAFP0096	FP		AXLE-B	SAMN06691291	Arabidopsis thaliana	42.7246	1.8335	733	les Thermes								16		
-OAFP0097	FP		ANGE-A	SAMN06691292	Arabidopsis thaliana	43.912	1.6566	169	Saint Angel. Salvagnac								16		
-OAFP0098	FP		CLAR-B	SAMN06691293	Arabidopsis thaliana	43.4653	1.2186	218	Saint Clar-de-Rivière								16		
-OAFP0099	FP		BAZI-A	SAMN06691294	Arabidopsis thaliana	43.4536	1.6207	166	Baziège								16		
-OAFP0100	FP		LANT-C	SAMN06691295	Arabidopsis thaliana	43.5648	1.652	246	Lanta								12		
-OAFP0101	FP		JULI-A	SAMN06691296	Arabidopsis thaliana	44.5226	2.3635	407	Saint Julien de Malmont (St Cyprien de Dourdou)								16		
-OAFP0102	FP		LAMA-B	SAMN06691297	Arabidopsis thaliana	43.4797	1.2416	182	Lamasquère								16		
-OAFP0103	FP		COLO-A	SAMN06691298	Arabidopsis thaliana	44.3469	2.3402	670	Colombiés								16		
-OAFP0104	FP		VILLA-A	SAMN06691299	Arabidopsis thaliana	43.4582	1.381	169	Villate								16		
-OAFP0105	FP		AULO-A	SAMN06691300	Arabidopsis thaliana	43.1906	0.8158	339	Aulon								15		
-OAFP0106	FP		CAPE-A	SAMN06691301	Arabidopsis thaliana	44.1085	1.9902	322	Lacappelle-Ségalar								16		
-OAFP0107	FP		CASS-A	SAMN06691302	Arabidopsis thaliana	44.1765	2.5182	616	Cassagne-Begontes								16		
-OAFP0108	FP		VILLE-B	SAMN06691303	Arabidopsis thaliana	43.4403	1.6696	187	Villenouvelle								16		
-OAFP0109	FP		TARN-C	SAMN06691304	Arabidopsis thaliana	43.8533	1.502	99	Villemur-sur-Tam								16		
-OAFP0110	FP		AUZE-A	SAMN06691305	Arabidopsis thaliana	43.5278	1.4916	200	Auzeville								16		
-OAFP0111	FP		BACC-B	SAMN06691306	Arabidopsis thaliana	43.3122	1.5152	201	Baccarets (Cintegabelle)								16		
-OAFP0112	FP		MASS-A	SAMN06691307	Arabidopsis thaliana	43.4375	0.5793	204	Masseube								16		
-OAFP0113	FP		COLO-C	SAMN06691308	Arabidopsis thaliana	44.3481	2.3397	664	Colombiès								16		
-OAFP0114	FP		JACO-A	SAMN06691309	Arabidopsis thaliana	42.9058	1.4065	990	Jacoy (Boussenac)								10		
-OAFP0115	FP		PUYM-B	SAMN06691310	Arabidopsis thaliana	43.3729	0.7657	278	Puymaurin								16		
-OAFP0116	FP		MONE-A	SAMN06691311	Arabidopsis thaliana	44.1154	2.0947	405	Monestiés								16		
-OAFP0117	FP		ROQU-B	SAMN06691312	Arabidopsis thaliana	43.6679	2.2902	261	Roquecourbe								16		
-OAFP0118	FP		MONTM-B	SAMN06691313	Arabidopsis thaliana	42.8612	0.5969	774	Montmajou (Cier de Luchon)								16		
-OAFP0119	FP		VILLE-A	SAMN06691314	Arabidopsis thaliana	43.4398	1.671	188	Villenouvelle								16		
-OAFP0120	FP		ROME-A	SAMN06691315	Arabidopsis thaliana	44.0416	2.9096	446	Saint-Rome-du-tar								16		
-OAFP0121	FP		CAST-A	SAMN06691316	Arabidopsis thaliana	43.6985	1.4279	126	Castelginset								16		
-OAFP0122	FP		PAMP-A	SAMN06691317	Arabidopsis thaliana	44.1249	2.2555	317	Pampelonne								16		
-OAFP0123	FP		LABA-B	SAMN06691318	Arabidopsis thaliana	43.4509	1.4012	165	Labarthe-sur-Lèze								16		
-OAFP0124	FP		GREZ-A	SAMN06691319	Arabidopsis thaliana	42.8769	0.3497	740	Grézian								16		
-OAFP0125	FP		COLO-B	SAMN06691320	Arabidopsis thaliana	44.3477	2.3397	664	Colombiès								16		
-OAFP0126	FP		PREI-A	SAMN06691321	Arabidopsis thaliana	43.7179	0.6233	120	Preignan								16		
-OAFP0127	FP		MONTI-D	SAMN06691322	Arabidopsis thaliana	43.3839	0.6726	313	Montiés								16		
-OAFP0128	FP		VICT-B	SAMN06691323	Arabidopsis thaliana	44.0522	2.834	629	Saint Victor et Melvieu								16		
-OAFP0129	FP		AMBR-A	SAMN06691324	Arabidopsis thaliana	43.7332	1.8239	136	Ambres								16		
-OAFP0130	FP		MONT-A	SAMN06691325	Arabidopsis thaliana	43.8522	1.8743	156	Montans								16		
-OAFP0131	FP		BELL-A	SAMN06691326	Arabidopsis thaliana	43.7903	1.1065	229	Belleserre								16		
-OAFP0132	FP		LUZE-D	SAMN06691327	Arabidopsis thaliana	42.7644	1.7536	584	Luzenac (Garanou)								16		
-OAFP0133	FP		ANGE-B	SAMN06691328	Arabidopsis thaliana	43.9121	1.6569	168	Saint Angel. Salvagnac								16		
-OAFP0134	FP		LECT-B	SAMN06691329	Arabidopsis thaliana	43.9117	0.6297	85	Lectoure								16		
-OAFP0135	FP		CINT-B	SAMN06691330	Arabidopsis thaliana	43.3056	1.5207	204	Cintegabelle								16		
-OAFP0136	FP		BELC-C	SAMN06691331	Arabidopsis thaliana	44.3892	2.3366	453	Belcastel								15		
-OAFP0137	FP		CASTI-A	SAMN06691332	Arabidopsis thaliana	42.9205	1.0341	574	Castillon en Cousserans								16		
-OAFP0138	FP		MEDA-A	SAMN06691333	Arabidopsis thaliana	43.4905	0.4614	180	Saint Medard								16		
-OAFP0139	FP		NAUV-B	SAMN06691334	Arabidopsis thaliana	44.5204	2.4271	257	Nauviale								16		
-OAFP0140	FP		LUZE-E	SAMN06691335	Arabidopsis thaliana	42.7647	1.753	584	Luzenac (Garanou)								16		
-OAFP0141	FP		LABAS-B	SAMN06691336	Arabidopsis thaliana	43.0087	1.4201	396	Labastidede Sérou								16		
-OAFP0142	FP		CEPE-A	SAMN06691337	Arabidopsis thaliana	43.7552	1.436	125	Cepet								16		
-OAFP0143	FP		MERE-B	SAMN06691338	Arabidopsis thaliana	42.6565	1.8362	1080	Merens-les-Vals								16		
-OAFP0144	FP		JUZE-A	SAMN06691339	Arabidopsis thaliana	43.4488	1.7905	235	Juzes								16		
-OAFP0145	FP		MONTM-A	SAMN06691340	Arabidopsis thaliana	42.8616	0.5959	792	Montmajou (Cier de Luchon)								16		
-OAFP0146	FP		JUZET-A	SAMN06691341	Arabidopsis thaliana	42.9777	0.7564	571	Juzet d'izaut								16		
-OAFP0147	FP		RAYR-B	SAMN06691342	Arabidopsis thaliana	44.196	2.4931	555	Rayret (Cassagne-Begontes)								16		
-OAFP0148	FP		CHEI-A	SAMN06691343	Arabidopsis thaliana	43.0137	0.8671	603	Chein-dessus								16		
-OAFP0149	FP		BACC-F	SAMN06691344	Arabidopsis thaliana	43.3119	1.5155	201	Baccarets (Cintegabelle)								8		
-OAFP0150	FP		CINT-A	SAMN06691345	Arabidopsis thaliana	43.3055	1.5204	204	Cintegabelle								16		
-OAFP0151	FP		SORE-A	SAMN06691346	Arabidopsis thaliana	43.4526	2.0725	293	Sorèze								16		
-OAFP0152	FP		LACR-C	SAMN06691347	Arabidopsis thaliana	43.0002	1.0756	493	Lacraste (Montgauch)								16		
-OAFP0153	FP		BANI-A	SAMN06691348	Arabidopsis thaliana	43.0429	0.2347	488	Banios								5		
-OAFP0154	FP		BAGNB-B	SAMN06691349	Arabidopsis thaliana	43.0765	0.1515	530	Bagnères de Bigore								16		
-OAFP0155	FP		LUNA-A	SAMN06691350	Arabidopsis thaliana	43.3397	0.6898	283	Lunax								16		
-OAFP0156	FP		MOUL-A	SAMN06691351	Arabidopsis thaliana	44.0898	2.2961	428	Moularés								15		
-OAFP0157	FP		BAGNB-A	SAMN06691352	Arabidopsis thaliana	43.0757	0.1518	532	Bagnères de Bigore								16		
-OAFP0158	FP		LABA-D	SAMN06691353	Arabidopsis thaliana	43.458	1.3811	172	Labarthe-sur-Lèze								16		
-OAFP0159	FP		MONTG-D	SAMN06691354	Arabidopsis thaliana	43.1277	0.1106	437	Montgaillard								16		
-OAFP0160	FP		MONT-B	SAMN06691355	Arabidopsis thaliana	43.8527	1.8735	156	Montans								16		
-OAFP0161	FP		CIER-A	SAMN06691356	Arabidopsis thaliana	42.8533	0.602	594	Cier sur Luchon								16		
-OAFP0162	FP		VICT-C	SAMN06691357	Arabidopsis thaliana	44.0522	2.834	629	Saint Victor et Melvieu								16		
-OAFP0163	FP		GAIL-B	SAMN06691358	Arabidopsis thaliana	43.909	1.9011	144	Gaillac								16		
-OAFP0164	FP		MARS-B	SAMN06691359	Arabidopsis thaliana	43.6625	0.7183	196	Glaciane (Marsans)								16		
-OAFP0165	FP		MONTI-B	SAMN06691360	Arabidopsis thaliana	43.3839	0.6726	313	Montiés								16		
-OAFP0166	FP		CERN-A	SAMN06691361	Arabidopsis thaliana	44.0119	2.9665	406	Saint-Rome-de-Cemnon								15		
-OAFP0167	FP		FAYA-A	SAMN06691362	Arabidopsis thaliana	43.8021	2.9517	457	Fayet								16		
-OAFP0168	FP		SAUB-C	SAMN06691363	Arabidopsis thaliana	43.4756	1.3676	164	Saubens								16		
-OAFP0169	FP		DIEU-A	SAMN06691364	Arabidopsis thaliana	44.0598	1.221	91	Ville-Dieu-du-temple								14		
-OAFM0001	FM		A1			32.74	-16.93	1812	Pico do Areeiro		Fabrice Roux					TRUE			
-OAFM0002	FM		A2			32.74	-16.93	1812	Pico do Areeiro		Fabrice Roux					TRUE			
-OAFM0003	FM		A3			32.74	-16.93	1812	Pico do Areeiro		Fabrice Roux					TRUE			
-OAFM0004	FM		A4			32.74	-16.93	1812	Pico do Areeiro		Fabrice Roux					TRUE			
-OAFM0005	FM		A5			32.74	-16.93	1812	Pico do Areeiro		Fabrice Roux					TRUE			
-OAFM0006	FM		A6			32.745	-16.937	1600	Pico do Areeiro		Svante Holm					TRUE			
-OAFM0007	FM		P1			32.658	-16.866	509	Palheiro		Maarten Koornneef					TRUE			
-OAFM0008	FM		P2			32.659	-16.867	524	Palheiro		Maarten Koornneef					TRUE			
-OAFM0009	FM		P3			32.659	-16.866	521	Palheiro		Maarten Koornneef					TRUE			
-OAFM0010	FM		R1			32.754	-17.13	1200	Rabacal		Maarten Koornneef					TRUE			
-OAFM0011	FM		R2			32.754	-17.13	1200	Rabacal		Maarten Koornneef					TRUE			
-OAFM0012	FM		R3			32.754	-17.13	1200	Rabacal		Maarten Koornneef					TRUE			
-OAFM0013	FM		R4			32.758	-17.132	1200	Rabacal		Svante Holm					TRUE			
-OAFM0014	FM		U1			32.759	-16.943	1800	Pico Ruivo		Svante Holm					TRUE			
+OAFP0001	FP		CRAN-A	SAMN06691196	Arabidopsis thaliana	44.5298	2.2605	318	Cransac (Aubin)	France							13	FRA	France
+OAFP0002	FP		BARC-A	SAMN06691197	Arabidopsis thaliana	43.362	0.3877	218	Barcugnan	France							16	FRA	France
+OAFP0003	FP		BARA-B	SAMN06691198	Arabidopsis thaliana	44.2697	2.4263	756	Baraqueville	France							16	FRA	France
+OAFP0004	FP		MART-A	SAMN06691199	Arabidopsis thaliana	43.2021	1.011	266	Martres Tolosane	France							16	FRA	France
+OAFP0005	FP		LOUB-A	SAMN06691200	Arabidopsis thaliana	43.5743	1.786	220	Loubens-Lauragais	France							12	FRA	France
+OAFP0006	FP		AXLE-A	SAMN06691201	Arabidopsis thaliana	42.7242	1.834	734	Axles Thermes	France							10	FRA	France
+OAFP0007	FP		LACR-A	SAMN06691202	Arabidopsis thaliana	42.9999	1.0757	497	Lacraste (Montgauch)	France							16	FRA	France
+OAFP0008	FP		JUZET-B	SAMN06691203	Arabidopsis thaliana	42.9774	0.7555	576	Juzet d'Izaut	France							16	FRA	France
+OAFP0009	FP		CLAR-C	SAMN06691204	Arabidopsis thaliana	43.4641	1.218	218	Saint Clar-de-Rivière	France							16	FRA	France
+OAFP0010	FP		NAZA-A	SAMN06691205	Arabidopsis thaliana	44.2203	1.065	93	Saint-Pierre-de-Najac (Miramont de Quercy)	France							16	FRA	France
+OAFP0011	FP		MAZA-A	SAMN06691206	Arabidopsis thaliana	43.4978	2.3754	242	Mazamet	France							16	FRA	France
+OAFP0012	FP		BERNA-A	SAMN06691207	Arabidopsis thaliana	43.1622	0.1114	394	Bernac-dessus	France							16	FRA	France
+OAFP0013	FP		PANA-C	SAMN06691208	Arabidopsis thaliana	44.0789	2.7111	767	Villefrance de Panat	France							16	FRA	France
+OAFP0014	FP		BELC-B	SAMN06691209	Arabidopsis thaliana	44.3875	2.3368	412	Belcastel	France							16	FRA	France
+OAFP0015	FP		MONTG-B	SAMN06691210	Arabidopsis thaliana	43.1273	0.1107	437	Montgaillard	France							16	FRA	France
+OAFP0016	FP		LABA-C	SAMN06691211	Arabidopsis thaliana	43.4515	1.3994	165	Labarthe-sur-Lèze	France							16	FRA	France
+OAFP0017	FP		CAMA-D	SAMN06691212	Arabidopsis thaliana	43.8237	2.881	393	Camarés	France							15	FRA	France
+OAFP0018	FP		NAUV-C	SAMN06691213	Arabidopsis thaliana	44.5204	2.4272	259	Nauviale	France							16	FRA	France
+OAFP0019	FP		BACC-E	SAMN06691214	Arabidopsis thaliana	43.3119	1.5157	201	Baccarets (Cintegabelle)	France							8	FRA	France
+OAFP0020	FP		LABA-A	SAMN06691215	Arabidopsis thaliana	43.4516	1.4005	165	Labarthe-sur-Lèze	France							16	FRA	France
+OAFP0021	FP		THOM-A	SAMN06691216	Arabidopsis thaliana	43.514	1.0829	322	Saint Thomas	France							16	FRA	France
+OAFP0022	FP		MONTM-Abis	SAMN06691217	Arabidopsis thaliana	42.8616	0.5959	792	Montmajou (Cier de Luchon)	France							16	FRA	France
+OAFP0023	FP		BANI-C	SAMN06691218	Arabidopsis thaliana	43.0436	0.2343	487	Banios	France							16	FRA	France
+OAFP0024	FP		GAIL-A	SAMN06691219	Arabidopsis thaliana	43.9089	1.9006	144	Gaillac	France							16	FRA	France
+OAFP0025	FP		LANT-B	SAMN06691220	Arabidopsis thaliana	43.5649	1.6524	246	Lanta	France							16	FRA	France
+OAFP0026	FP		CLAR-A	SAMN06691221	Arabidopsis thaliana	43.4648	1.219	218	Saint Clar-de-Rivière	France							16	FRA	France
+OAFP0027	FP		SAUB-A	SAMN06691222	Arabidopsis thaliana	43.4649	1.3651	164	Saubens	France							16	FRA	France
+OAFP0028	FP		CARL-A	SAMN06691223	Arabidopsis thaliana	43.1511	1.3923	385	Carla-bayle	France							16	FRA	France
+OAFP0029	FP		MONB-A	SAMN06691224	Arabidopsis thaliana	43.4653	0.9863	231	Monblanc	France							16	FRA	France
+OAFP0030	FP		LAGR-A	SAMN06691225	Arabidopsis thaliana	43.7953	1.0738	264	Lagraulhet St Nicolas	France							16	FRA	France
+OAFP0031	FP		FERR-A	SAMN06691226	Arabidopsis thaliana	43.6577	2.4437	541	Ferrières	France							16	FRA	France
+OAFP0032	FP		MONF-A	SAMN06691227	Arabidopsis thaliana	43.6163	0.9724	209	Monferran-Savès	France							16	FRA	France
+OAFP0033	FP		SAUR-A	SAMN06691228	Arabidopsis thaliana	42.8898	1.4852	1023	Saurat	France							16	FRA	France
+OAFP0034	FP		LECT-A	SAMN06691229	Arabidopsis thaliana	43.9117	0.6297	85	Lectoure	France							16	FRA	France
+OAFP0035	FP		VILLE-D	SAMN06691230	Arabidopsis thaliana	43.4397	1.6707	188	Villenouvelle	France							16	FRA	France
+OAFP0036	FP		LAUZ-A	SAMN06691231	Arabidopsis thaliana	44.256100000000004	1.1405	176	Lauzerte	France							15	FRA	France
+OAFP0037	FP		VIEL-A	SAMN06691232	Arabidopsis thaliana	43.6238	2.0896	155	Vielmur sur Agout	France							16	FRA	France
+OAFP0038	FP		CIER-C	SAMN06691233	Arabidopsis thaliana	42.8602	0.6011	656	Cier de Luchon	France							16	FRA	France
+OAFP0039	FP		LUZE-B	SAMN06691234	Arabidopsis thaliana	42.7644	1.7536	584	Luzenac (Garanou)	France							16	FRA	France
+OAFP0040	FP		BROU-A	SAMN06691235	Arabidopsis thaliana	43.9993	2.6217	281	Brousse-le-château	France							16	FRA	France
+OAFP0041	FP		CAMA-E	SAMN06691236	Arabidopsis thaliana	43.8249	2.8817	397	Camarés	France							16	FRA	France
+OAFP0042	FP		MERE-A	SAMN06691237	Arabidopsis thaliana	42.6566	1.8362	1080	Merens-les-Vals	France							16	FRA	France
+OAFP0043	FP		BROU-C	SAMN06691238	Arabidopsis thaliana	44.0333	2.6387	678	Brousse-le-château	France							16	FRA	France
+OAFP0044	FP		LUZE-A	SAMN06691239	Arabidopsis thaliana	42.7647	1.753	584	Luzenac (Garanou)	France							16	FRA	France
+OAFP0045	FP		JACO-C	SAMN06691240	Arabidopsis thaliana	42.9058	1.4065	990	Jacoy (Boussenac)	France							16	FRA	France
+OAFP0046	FP		SALV-A	SAMN06691241	Arabidopsis thaliana	43.6026	2.3634	473	Saint-Salvy-de-la-Balme	France							15	FRA	France
+OAFP0047	FP		SIMO-A	SAMN06691242	Arabidopsis thaliana	43.4494	0.7346	204	Simorre	France							16	FRA	France
+OAFP0048	FP		LESP-A	SAMN06691243	Arabidopsis thaliana	43.0942	1.72	290	Lespujols	France							16	FRA	France
+OAFP0049	FP		PASD-B	SAMN06691244	Arabidopsis thaliana	43.8118	2.8717	603	Pas du loup (Camarès)	France							16	FRA	France
+OAFP0050	FP		MONTI-A	SAMN06691245	Arabidopsis thaliana	43.3894	0.6728	313	Montiés	France							16	FRA	France
+OAFP0051	FP		VALE-A	SAMN06691246	Arabidopsis thaliana	44.0223	2.4034	459	Valence d' Albiegeois	France							15	FRA	France
+OAFP0052	FP		BELC-A	SAMN06691247	Arabidopsis thaliana	44.3875	2.3361	415	Belcastel	France							16	FRA	France
+OAFP0053	FP		NAUV-A	SAMN06691248	Arabidopsis thaliana	44.5208	2.4274	259	Nauviale	France							16	FRA	France
+OAFP0054	FP		LANT-D	SAMN06691249	Arabidopsis thaliana	43.5648	1.652	246	Lanta	France							12	FRA	France
+OAFP0055	FP		VILLEM-A	SAMN06691250	Arabidopsis thaliana	43.2738	0.3212	326	Villembits	France							16	FRA	France
+OAFP0056	FP		PAMP-B	SAMN06691251	Arabidopsis thaliana	44.1249	2.2552	317	Pampelonne	France							16	FRA	France
+OAFP0057	FP		DAMI-A	SAMN06691252	Arabidopsis thaliana	43.6545	1.9776	143	Damiatte	France							8	FRA	France
+OAFP0058	FP		CERN-B	SAMN06691253	Arabidopsis thaliana	44.0147	2.9679	407	Saint-Rome-de-Cemnon	France							16	FRA	France
+OAFP0059	FP		DAMI-B	SAMN06691254	Arabidopsis thaliana	43.6545	1.9776	143	Damiatte	France							12	FRA	France
+OAFP0060	FP		BOULO-A	SAMN06691255	Arabidopsis thaliana	43.2891	0.6398	339	Boulogne-sur-Gesse	France							16	FRA	France
+OAFP0061	FP		COMT-A	SAMN06691256	Arabidopsis thaliana	44.5407	2.6022	558	Villecomtal	France							16	FRA	France
+OAFP0062	FP		DAMI-C	SAMN06691257	Arabidopsis thaliana	43.6545	1.9776	143	Damiatte	France							12	FRA	France
+OAFP0063	FP		BACC-D	SAMN06691258	Arabidopsis thaliana	43.3119	1.5156	201	Baccarets (Cintegabelle)	France							8	FRA	France
+OAFP0064	FP		LOUB-B	SAMN06691259	Arabidopsis thaliana	43.5746	1.7857	217	Loubens-Lauragais	France							11	FRA	France
+OAFP0065	FP		RADE-A	SAMN06691260	Arabidopsis thaliana	44.3452	2.6208	622	Sainte Radegonde	France							11	FRA	France
+OAFP0066	FP		MONTB-A	SAMN06691261	Arabidopsis thaliana	43.1305	1.2699	281	Montbrunbocage	France							16	FRA	France
+OAFP0067	FP		RAYR-A	SAMN06691262	Arabidopsis thaliana	44.196	2.4932	555	Rayret (Cassagne-Begontes)	France							16	FRA	France
+OAFP0068	FP		MERV-A	SAMN06691263	Arabidopsis thaliana	43.7204	1.2968	156	Merville	France							16	FRA	France
+OAFP0069	FP		CAMA-C	SAMN06691264	Arabidopsis thaliana	43.8249	2.8817	397	Camarés	France							16	FRA	France
+OAFP0070	FP		SEIS-A	SAMN06691265	Arabidopsis thaliana	43.4873	0.5888	193	Seissan	France							16	FRA	France
+OAFP0071	FP		CAZA-B	SAMN06691266	Arabidopsis thaliana	42.8315	0.4201	1140	Cazaux-Fréchet	France							16	FRA	France
+OAFP0072	FP		BROU-B	SAMN06691267	Arabidopsis thaliana	44.0331	2.6387	678	Brousse-le-château	France							14	FRA	France
+OAFP0073	FP		SAMA-A	SAMN06691268	Arabidopsis thaliana	43.4943	0.9239	179	Samatan	France							16	FRA	France
+OAFP0074	FP		BULE-B	SAMN06691269	Arabidopsis thaliana	42.9106	1.2481	525	Buleix (Soulan)	France							12	FRA	France
+OAFP0075	FP		MARS-A	SAMN06691270	Arabidopsis thaliana	43.6625	0.7183	196	Glaciane (Marsans)	France							16	FRA	France
+OAFP0076	FP		VILLE-C	SAMN06691271	Arabidopsis thaliana	43.44	1.6701	188	Villenouvelle	France							16	FRA	France
+OAFP0077	FP		LAMA-A	SAMN06691272	Arabidopsis thaliana	43.4874	1.2436	182	Lamasquère	France							16	FRA	France
+OAFP0078	FP		AURE-B	SAMN06691273	Arabidopsis thaliana	43.478	1.4522	197	Aureville	France							16	FRA	France
+OAFP0079	FP		LABAS-A	SAMN06691274	Arabidopsis thaliana	43.0084	1.42	397	Labastidede Sérou	France							16	FRA	France
+OAFP0080	FP		BULA-A	SAMN06691275	Arabidopsis thaliana	43.0398	0.2773	491	Bulan	France							16	FRA	France
+OAFP0081	FP		MERV-B	SAMN06691276	Arabidopsis thaliana	43.7251	1.2476	123	Merville	France							16	FRA	France
+OAFP0082	FP		SALE-A	SAMN06691277	Arabidopsis thaliana	43.025	0.966	413	Saleich	France							16	FRA	France
+OAFP0083	FP		CIER-B	SAMN06691278	Arabidopsis thaliana	42.86	0.6004	667	Cier de Luchon	France							16	FRA	France
+OAFP0084	FP		BANI-B	SAMN06691279	Arabidopsis thaliana	43.0436	0.2343	487	Banios	France							16	FRA	France
+OAFP0085	FP		BARA-C	SAMN06691280	Arabidopsis thaliana	44.2708	2.4276	756	Baraqueville	France							16	FRA	France
+OAFP0086	FP		BESS-A	SAMN06691281	Arabidopsis thaliana	44.5264	2.7301	352	Bessuéjouls	France							16	FRA	France
+OAFP0087	FP		SAUB-B	SAMN06691282	Arabidopsis thaliana	43.4741	1.3642	164	Saubens	France							16	FRA	France
+OAFP0088	FP		REAL-A	SAMN06691283	Arabidopsis thaliana	43.8317	2.2016	239	Réalmont	France							16	FRA	France
+OAFP0089	FP		ESPE-B	SAMN06691284	Arabidopsis thaliana	43.6933	2.5346	573	Esperausses	France							16	FRA	France
+OAFP0090	FP		LABR-A	SAMN06691285	Arabidopsis thaliana	43.5312	2.2626	206	Labruguière	France							16	FRA	France
+OAFP0091	FP		BARR-A	SAMN06691286	Arabidopsis thaliana	44.2024	1.7675	174	Barry le Cas (Caylus)	France							14	FRA	France
+OAFP0092	FP		DECA-A	SAMN06691287	Arabidopsis thaliana	44.1999	1.7719	234	Châteaude Cas (Espinas)	France							16	FRA	France
+OAFP0093	FP		JUZET-C	SAMN06691288	Arabidopsis thaliana	42.9774	0.7555	576	Juzet d'Izaut	France							16	FRA	France
+OAFP0094	FP		BACC-C	SAMN06691289	Arabidopsis thaliana	43.3119	1.5155	201	Baccarets (Cintegabelle)	France							8	FRA	France
+OAFP0095	FP		NAYR-A	SAMN06691290	Arabidopsis thaliana	44.1614	2.5447	631	Le Nayrac (Cassagnes-Bégontes	France							16	FRA	France
+OAFP0096	FP		AXLE-B	SAMN06691291	Arabidopsis thaliana	42.7246	1.8335	733	les Thermes	France							16	FRA	France
+OAFP0097	FP		ANGE-A	SAMN06691292	Arabidopsis thaliana	43.912	1.6566	169	Saint Angel. Salvagnac	France							16	FRA	France
+OAFP0098	FP		CLAR-B	SAMN06691293	Arabidopsis thaliana	43.4653	1.2186	218	Saint Clar-de-Rivière	France							16	FRA	France
+OAFP0099	FP		BAZI-A	SAMN06691294	Arabidopsis thaliana	43.4536	1.6207	166	Baziège	France							16	FRA	France
+OAFP0100	FP		LANT-C	SAMN06691295	Arabidopsis thaliana	43.5648	1.652	246	Lanta	France							12	FRA	France
+OAFP0101	FP		JULI-A	SAMN06691296	Arabidopsis thaliana	44.5226	2.3635	407	Saint Julien de Malmont (St Cyprien de Dourdou)	France							16	FRA	France
+OAFP0102	FP		LAMA-B	SAMN06691297	Arabidopsis thaliana	43.4797	1.2416	182	Lamasquère	France							16	FRA	France
+OAFP0103	FP		COLO-A	SAMN06691298	Arabidopsis thaliana	44.3469	2.3402	670	Colombiés	France							16	FRA	France
+OAFP0104	FP		VILLA-A	SAMN06691299	Arabidopsis thaliana	43.4582	1.381	169	Villate	France							16	FRA	France
+OAFP0105	FP		AULO-A	SAMN06691300	Arabidopsis thaliana	43.1906	0.8158	339	Aulon	France							15	FRA	France
+OAFP0106	FP		CAPE-A	SAMN06691301	Arabidopsis thaliana	44.1085	1.9902	322	Lacappelle-Ségalar	France							16	FRA	France
+OAFP0107	FP		CASS-A	SAMN06691302	Arabidopsis thaliana	44.1765	2.5182	616	Cassagne-Begontes	France							16	FRA	France
+OAFP0108	FP		VILLE-B	SAMN06691303	Arabidopsis thaliana	43.4403	1.6696	187	Villenouvelle	France							16	FRA	France
+OAFP0109	FP		TARN-C	SAMN06691304	Arabidopsis thaliana	43.8533	1.502	99	Villemur-sur-Tam	France							16	FRA	France
+OAFP0110	FP		AUZE-A	SAMN06691305	Arabidopsis thaliana	43.5278	1.4916	200	Auzeville	France							16	FRA	France
+OAFP0111	FP		BACC-B	SAMN06691306	Arabidopsis thaliana	43.3122	1.5152	201	Baccarets (Cintegabelle)	France							16	FRA	France
+OAFP0112	FP		MASS-A	SAMN06691307	Arabidopsis thaliana	43.4375	0.5793	204	Masseube	France							16	FRA	France
+OAFP0113	FP		COLO-C	SAMN06691308	Arabidopsis thaliana	44.3481	2.3397	664	Colombiès	France							16	FRA	France
+OAFP0114	FP		JACO-A	SAMN06691309	Arabidopsis thaliana	42.9058	1.4065	990	Jacoy (Boussenac)	France							10	FRA	France
+OAFP0115	FP		PUYM-B	SAMN06691310	Arabidopsis thaliana	43.3729	0.7657	278	Puymaurin	France							16	FRA	France
+OAFP0116	FP		MONE-A	SAMN06691311	Arabidopsis thaliana	44.1154	2.0947	405	Monestiés	France							16	FRA	France
+OAFP0117	FP		ROQU-B	SAMN06691312	Arabidopsis thaliana	43.6679	2.2902	261	Roquecourbe	France							16	FRA	France
+OAFP0118	FP		MONTM-B	SAMN06691313	Arabidopsis thaliana	42.8612	0.5969	774	Montmajou (Cier de Luchon)	France							16	FRA	France
+OAFP0119	FP		VILLE-A	SAMN06691314	Arabidopsis thaliana	43.4398	1.671	188	Villenouvelle	France							16	FRA	France
+OAFP0120	FP		ROME-A	SAMN06691315	Arabidopsis thaliana	44.0416	2.9096	446	Saint-Rome-du-tar	France							16	FRA	France
+OAFP0121	FP		CAST-A	SAMN06691316	Arabidopsis thaliana	43.6985	1.4279	126	Castelginset	France							16	FRA	France
+OAFP0122	FP		PAMP-A	SAMN06691317	Arabidopsis thaliana	44.1249	2.2555	317	Pampelonne	France							16	FRA	France
+OAFP0123	FP		LABA-B	SAMN06691318	Arabidopsis thaliana	43.4509	1.4012	165	Labarthe-sur-Lèze	France							16	FRA	France
+OAFP0124	FP		GREZ-A	SAMN06691319	Arabidopsis thaliana	42.8769	0.3497	740	Grézian	France							16	FRA	France
+OAFP0125	FP		COLO-B	SAMN06691320	Arabidopsis thaliana	44.3477	2.3397	664	Colombiès	France							16	FRA	France
+OAFP0126	FP		PREI-A	SAMN06691321	Arabidopsis thaliana	43.7179	0.6233	120	Preignan	France							16	FRA	France
+OAFP0127	FP		MONTI-D	SAMN06691322	Arabidopsis thaliana	43.3839	0.6726	313	Montiés	France							16	FRA	France
+OAFP0128	FP		VICT-B	SAMN06691323	Arabidopsis thaliana	44.0522	2.834	629	Saint Victor et Melvieu	France							16	FRA	France
+OAFP0129	FP		AMBR-A	SAMN06691324	Arabidopsis thaliana	43.7332	1.8239	136	Ambres	France							16	FRA	France
+OAFP0130	FP		MONT-A	SAMN06691325	Arabidopsis thaliana	43.8522	1.8743	156	Montans	France							16	FRA	France
+OAFP0131	FP		BELL-A	SAMN06691326	Arabidopsis thaliana	43.7903	1.1065	229	Belleserre	France							16	FRA	France
+OAFP0132	FP		LUZE-D	SAMN06691327	Arabidopsis thaliana	42.7644	1.7536	584	Luzenac (Garanou)	France							16	FRA	France
+OAFP0133	FP		ANGE-B	SAMN06691328	Arabidopsis thaliana	43.9121	1.6569	168	Saint Angel. Salvagnac	France							16	FRA	France
+OAFP0134	FP		LECT-B	SAMN06691329	Arabidopsis thaliana	43.9117	0.6297	85	Lectoure	France							16	FRA	France
+OAFP0135	FP		CINT-B	SAMN06691330	Arabidopsis thaliana	43.3056	1.5207	204	Cintegabelle	France							16	FRA	France
+OAFP0136	FP		BELC-C	SAMN06691331	Arabidopsis thaliana	44.3892	2.3366	453	Belcastel	France							15	FRA	France
+OAFP0137	FP		CASTI-A	SAMN06691332	Arabidopsis thaliana	42.9205	1.0341	574	Castillon en Cousserans	France							16	FRA	France
+OAFP0138	FP		MEDA-A	SAMN06691333	Arabidopsis thaliana	43.4905	0.4614	180	Saint Medard	France							16	FRA	France
+OAFP0139	FP		NAUV-B	SAMN06691334	Arabidopsis thaliana	44.5204	2.4271	257	Nauviale	France							16	FRA	France
+OAFP0140	FP		LUZE-E	SAMN06691335	Arabidopsis thaliana	42.7647	1.753	584	Luzenac (Garanou)	France							16	FRA	France
+OAFP0141	FP		LABAS-B	SAMN06691336	Arabidopsis thaliana	43.0087	1.4201	396	Labastidede Sérou	France							16	FRA	France
+OAFP0142	FP		CEPE-A	SAMN06691337	Arabidopsis thaliana	43.7552	1.436	125	Cepet	France							16	FRA	France
+OAFP0143	FP		MERE-B	SAMN06691338	Arabidopsis thaliana	42.6565	1.8362	1080	Merens-les-Vals	France							16	FRA	France
+OAFP0144	FP		JUZE-A	SAMN06691339	Arabidopsis thaliana	43.4488	1.7905	235	Juzes	France							16	FRA	France
+OAFP0145	FP		MONTM-A	SAMN06691340	Arabidopsis thaliana	42.8616	0.5959	792	Montmajou (Cier de Luchon)	France							16	FRA	France
+OAFP0146	FP		JUZET-A	SAMN06691341	Arabidopsis thaliana	42.9777	0.7564	571	Juzet d'izaut	France							16	FRA	France
+OAFP0147	FP		RAYR-B	SAMN06691342	Arabidopsis thaliana	44.196	2.4931	555	Rayret (Cassagne-Begontes)	France							16	FRA	France
+OAFP0148	FP		CHEI-A	SAMN06691343	Arabidopsis thaliana	43.0137	0.8671	603	Chein-dessus	France							16	FRA	France
+OAFP0149	FP		BACC-F	SAMN06691344	Arabidopsis thaliana	43.3119	1.5155	201	Baccarets (Cintegabelle)	France							8	FRA	France
+OAFP0150	FP		CINT-A	SAMN06691345	Arabidopsis thaliana	43.3055	1.5204	204	Cintegabelle	France							16	FRA	France
+OAFP0151	FP		SORE-A	SAMN06691346	Arabidopsis thaliana	43.4526	2.0725	293	Sorèze	France							16	FRA	France
+OAFP0152	FP		LACR-C	SAMN06691347	Arabidopsis thaliana	43.0002	1.0756	493	Lacraste (Montgauch)	France							16	FRA	France
+OAFP0153	FP		BANI-A	SAMN06691348	Arabidopsis thaliana	43.0429	0.2347	488	Banios	France							5	FRA	France
+OAFP0154	FP		BAGNB-B	SAMN06691349	Arabidopsis thaliana	43.0765	0.1515	530	Bagnères de Bigore	France							16	FRA	France
+OAFP0155	FP		LUNA-A	SAMN06691350	Arabidopsis thaliana	43.3397	0.6898	283	Lunax	France							16	FRA	France
+OAFP0156	FP		MOUL-A	SAMN06691351	Arabidopsis thaliana	44.0898	2.2961	428	Moularés	France							15	FRA	France
+OAFP0157	FP		BAGNB-A	SAMN06691352	Arabidopsis thaliana	43.0757	0.1518	532	Bagnères de Bigore	France							16	FRA	France
+OAFP0158	FP		LABA-D	SAMN06691353	Arabidopsis thaliana	43.458	1.3811	172	Labarthe-sur-Lèze	France							16	FRA	France
+OAFP0159	FP		MONTG-D	SAMN06691354	Arabidopsis thaliana	43.1277	0.1106	437	Montgaillard	France							16	FRA	France
+OAFP0160	FP		MONT-B	SAMN06691355	Arabidopsis thaliana	43.8527	1.8735	156	Montans	France							16	FRA	France
+OAFP0161	FP		CIER-A	SAMN06691356	Arabidopsis thaliana	42.8533	0.602	594	Cier sur Luchon	France							16	FRA	France
+OAFP0162	FP		VICT-C	SAMN06691357	Arabidopsis thaliana	44.0522	2.834	629	Saint Victor et Melvieu	France							16	FRA	France
+OAFP0163	FP		GAIL-B	SAMN06691358	Arabidopsis thaliana	43.909	1.9011	144	Gaillac	France							16	FRA	France
+OAFP0164	FP		MARS-B	SAMN06691359	Arabidopsis thaliana	43.6625	0.7183	196	Glaciane (Marsans)	France							16	FRA	France
+OAFP0165	FP		MONTI-B	SAMN06691360	Arabidopsis thaliana	43.3839	0.6726	313	Montiés	France							16	FRA	France
+OAFP0166	FP		CERN-A	SAMN06691361	Arabidopsis thaliana	44.0119	2.9665	406	Saint-Rome-de-Cemnon	France							15	FRA	France
+OAFP0167	FP		FAYA-A	SAMN06691362	Arabidopsis thaliana	43.8021	2.9517	457	Fayet	France							16	FRA	France
+OAFP0168	FP		SAUB-C	SAMN06691363	Arabidopsis thaliana	43.4756	1.3676	164	Saubens	France							16	FRA	France
+OAFP0169	FP		DIEU-A	SAMN06691364	Arabidopsis thaliana	44.0598	1.221	91	Ville-Dieu-du-temple	France							14	FRA	France
+OAFM0001	FM		A1			32.74	-16.93	1812	Pico do Areeiro	Spain	Fabrice Roux					TRUE		ESP	Spain
+OAFM0002	FM		A2			32.74	-16.93	1812	Pico do Areeiro	Spain	Fabrice Roux					TRUE		ESP	Spain
+OAFM0003	FM		A3			32.74	-16.93	1812	Pico do Areeiro	Spain	Fabrice Roux					TRUE		ESP	Spain
+OAFM0004	FM		A4			32.74	-16.93	1812	Pico do Areeiro	Spain	Fabrice Roux					TRUE		ESP	Spain
+OAFM0005	FM		A5			32.74	-16.93	1812	Pico do Areeiro	Spain	Fabrice Roux					TRUE		ESP	Spain
+OAFM0006	FM		A6			32.745	-16.937	1600	Pico do Areeiro	Spain	Svante Holm					TRUE		ESP	Spain
+OAFM0007	FM		P1			32.658	-16.866	509	Palheiro	Spain	Maarten Koornneef					TRUE		ESP	Spain
+OAFM0008	FM		P2			32.659	-16.867	524	Palheiro	Spain	Maarten Koornneef					TRUE		ESP	Spain
+OAFM0009	FM		P3			32.659	-16.866	521	Palheiro	Spain	Maarten Koornneef					TRUE		ESP	Spain
+OAFM0010	FM		R1			32.754	-17.13	1200	Rabacal	Spain	Maarten Koornneef					TRUE		ESP	Spain
+OAFM0011	FM		R2			32.754	-17.13	1200	Rabacal	Spain	Maarten Koornneef					TRUE		ESP	Spain
+OAFM0012	FM		R3			32.754	-17.13	1200	Rabacal	Spain	Maarten Koornneef					TRUE		ESP	Spain
+OAFM0013	FM		R4			32.758	-17.132	1200	Rabacal	Spain	Svante Holm					TRUE		ESP	Spain
+OAFM0014	FM		U1			32.759	-16.943	1800	Pico Ruivo	Spain	Svante Holm					TRUE		ESP	Spain
 OAML0018	ML		85-d	SAMEA104326079	Arabidopsis lyrata subsp. petraea	47.983333587646484	15.566666603088379		AUT; Lower Austria; S Lilienfeld, N Freiland	AUT	G. Muir, L. Li, N. Meyer				4			AUT	Austria
 OAML0019	ML		85-e	SAMEA104326080	Arabidopsis lyrata subsp. petraea	47.983333587646484	15.566666603088379		AUT; Lower Austria; S Lilienfeld, N Freiland	AUT	G. Muir, L. Li, N. Meyer				4			AUT	Austria
 OAML0013	ML		55-b	SAMEA104326081	Arabidopsis lyrata subsp. petraea	48.23500061035156	15.349444389343262		AUT; Lower Austria; Dunkelsteiner Wald, Wachau; Melk, Straße nach Schönbühel, 300 m vor Donaubrücke	AUT	G. Muir, L. Li, N. Meyer				4			AUT	Austria

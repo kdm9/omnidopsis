@@ -728,10 +728,12 @@ fp_sra_pre = fp_sra %>%
 all(with(fp_sra_pre, sample_name_match %in% fp_sites$population))
 
 fp_meta = left_join(fp_sra_pre, fp_sites, by=c("sample_name_match"="population")) %>%
-    mutate(oa_id=sprintf("OAFP%04d", as.numeric(as.factor(biosample)))) %>%
+    mutate(oa_id=sprintf("OAFP%04d", as.numeric(as.factor(biosample))),
+           country="France") %>%
     select(oa_id, sample_name, latitude, longitude, elevation=altitude,
            locality=town, species, sra_run, bioproject, biosample,
-           library_layout, instrument_model, pooled_plants=no_of_pooled_plants)
+           library_layout, instrument_model, pooled_plants=no_of_pooled_plants,
+           country)
 str(fp_meta)
 
 setdiff(colnames(fp_meta), colnames(all_meta))
@@ -748,10 +750,11 @@ fm_acc = read_csv("source/madeirans/msx300_supp.csv")
 #str(fm_acc[])
 
 fm_meta = fm_acc %>%
-    mutate(oa_id=sprintf("OAFM%04d", as.numeric(as.factor(ID))), internal_data=T) %>%
+    mutate(oa_id=sprintf("OAFM%04d", as.numeric(as.factor(ID))), internal_data=T,
+           country="Spain") %>%
     select(oa_id, sample_name=ID, locality=Region, latitude=Latitude,
            longitude=Longitude, elevation=Altitude, collector=Collector,
-           internal_data)
+           internal_data, country)
 str(fm_meta)
 
 setdiff(colnames(fm_meta), colnames(all_meta))
@@ -1186,6 +1189,24 @@ ctry = tibble(orig=na.omit(unique(all_acc$country))) %>%
 all_acc = all_acc %>%
     left_join(ctry, by=c("country"="orig"))
 
+# ## Normalise ploidy values
+#
+# Likewise, ploidies are refered to in a number of different codes. We sanitise
+# all to words, e.g. diploid, tetraploid, allotetraploid, etc. 4x is asssumed
+# to be autotetraploid.
+
+all_meta = all_meta %>%
+    mutate(ploidy = ifelse(grepl("2", ploidy), "diploid",
+                    ifelse(grepl("4", ploidy), "tetraploid",
+                    ifelse(grepl("allo", ploidy), "allotetraploid",
+                           ploidy))))
+
+# Which species don't have annotated ploidy?
+all_meta %>%
+    filter(is.na(ploidy)) %>%
+    group_by(species) %>%
+    summarise(n=n())
+
 
 # ## SRA metadata validation
 #
@@ -1291,3 +1312,7 @@ ggmap(baselayer) +
     theme(legend.position="right")
 ggsave("ath_accessions.svg", width=16, height=14, units="in", dpi=600)
 
+
+
+
+# # SRA size and coverage estimation
