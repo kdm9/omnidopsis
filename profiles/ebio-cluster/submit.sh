@@ -10,6 +10,6 @@ set -x
 #    --conda-frontend mamba \
 #    --conda-create-envs-only 
 
-snakemake               \
-    --profile ./ebio-cluster/   \
+snakemake               		\
+    --profile ./profiles/ebio-cluster/  \
     "$TARGET"
