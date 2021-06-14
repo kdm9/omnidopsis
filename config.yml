@@ -16,9 +16,9 @@ metadata:
 # the R1 & R2 files and append them to the interleaved, then remove the
 # original R1/R2 files.
 raw_paths:
-  r1_path: "rawdata/reads/{run}/{lib}_R1.fastq.gz"
-  r2_path: "rawdata/reads/{run}/{lib}_R2.fastq.gz"
-  il_path: "rawdata/reads/{run}/{lib}_il.fastq.gz"
+  r1_path: "data/reads/{run}/{lib}_R1.fastq.gz"
+  r2_path: "data/reads/{run}/{lib}_R2.fastq.gz"
+  il_path: "data/reads/{run}/{lib}_il.fastq.gz"
 
 
 #######################################################################
