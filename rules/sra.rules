@@ -1,13 +1,14 @@
 
 if config.get("cluster_resources", {}).get("internet_only_localrules", False):
     localrules: sra_prefetch
+
 rule sra_prefetch:
     output:
         temp("data/sra/{bioproj}/{srr}.sra"),
     log:
         "data/log/prefetch/{bioproj}~{srr}.log"
     resources: **acanthophis.rule_resources(config, "sra_prefetch", internet=1, time_min=180, mem_gb=1)
-    conda: rules/sra.environment
+    conda: "sra.environment"
     shell:
         "prefetch"
         "   --output-file {output}"
@@ -23,7 +24,7 @@ rule sra_fastqdump:
     log:
         "data/log/fastqdump/{run}~{lib}.log"
     resources: **acanthophis.rule_resources(config, "sra_fastqdump", time_min=180, mem_gb=2)
-    conda: rules/sra.environment
+    conda: "sra.environment"
     shell:
         "( fastq-dump"
         "   --split-spot"
