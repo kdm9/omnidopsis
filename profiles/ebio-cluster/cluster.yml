@@ -1,0 +1,3 @@
+__default__:
+  output: "data/log/cluster/"
+  DEBUG: True
