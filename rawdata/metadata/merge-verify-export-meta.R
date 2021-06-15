@@ -1303,6 +1303,18 @@ rl2s = all_meta %>%
     )
 write_tsv(rl2s, "omniath_rl2s.tsv")
 
+# ### Sample sets
+
+all_acc %>%
+    filter(species=="Arabidopsis thaliana") %>%
+    pull(oa_id) %>%
+    writeLines("samplesets/Athaliana.txt")
+
+all_acc %>%
+    filter(species!="Arabidopsis thaliana") %>%
+    pull(oa_id) %>%
+    writeLines("samplesets/nonAthaliana.txt")
+
 # # Mapping of accessions
 
 globe_bbox = c(left=-170, bottom=-58, right=179.99, top=75)

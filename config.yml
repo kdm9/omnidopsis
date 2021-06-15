@@ -4,7 +4,7 @@
 metadata:
   runlib2samp_file: "rawdata/metadata/omniath_rl2s.tsv"
   sample_meta_file: "rawdata/metadata/omniath_all_accessions.tsv"
-  setfile_glob: "rawdata/setfiles/*.txt"
+  setfile_glob: "rawdata/metadata/samplesets/*.txt"
 
 
 #######################################################################
@@ -74,7 +74,7 @@ kraken:
     PlusPFP: "https://genome-idx.s3.amazonaws.com/kraken/k2_pluspfp_20210127.tar.gz"
 
   samplesets:
-    all_samples:
+    Athaliana:
       - PlusPFP
 
 
@@ -86,7 +86,7 @@ multiqc:
   # - rawreads
   # - samplereads
   # - alignment
-  all_samples:
+  Athaliana:
     - rawreads
     - samplereads
     - bamstats
@@ -102,7 +102,7 @@ align:
   refs:
     - TAIR10
   samplesets:
-    - all_samples
+    - Athaliana
   ngm: # tool specific settings
     sensitivity: 0.5
   abra2:
@@ -141,7 +141,7 @@ varcall:
   # callers, aligners, and reference genomes get used, and set some parameters
   # specific to each sample set.
   samplesets:
-    all_samples:
+    Athaliana:
       theta_prior: 0.001
       aligners:
         - bwa
