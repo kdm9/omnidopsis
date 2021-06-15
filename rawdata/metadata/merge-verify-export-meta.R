@@ -1305,6 +1305,7 @@ write_tsv(rl2s, "omniath_rl2s.tsv")
 
 # ### Sample sets
 
+if (!dir.exists("samplesets")) dir.create("samplesets")
 all_acc %>%
     filter(species=="Arabidopsis thaliana") %>%
     pull(oa_id) %>%
