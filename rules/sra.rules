@@ -9,6 +9,7 @@ rule sra_prefetch:
         "data/log/prefetch/{bioproj}~{srr}.log"
     resources: **acanthophis.rule_resources(config, "sra_prefetch", internet=1, time_min=180, mem_gb=1)
     conda: "sra.environment"
+    priority: 2
     shell:
         "prefetch"
         "   --output-file {output}"
