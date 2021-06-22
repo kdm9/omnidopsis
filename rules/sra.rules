@@ -16,6 +16,7 @@ rule sra_prefetch:
         "   --verify yes"
         "   --max-size 1T"
         "   {wildcards.srr}"
+        ">{log} 2>&1"
 
 rule sra_fastqdump:
     input:
@@ -40,5 +41,3 @@ rule sra_fastqdump:
         "   -p {threads}"
         "   > {output}"
         ") >{log} 2>&1"
-
-
