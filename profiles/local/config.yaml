@@ -6,5 +6,5 @@ rerun-incomplete: true
 keep-going: true
 latency-wait: 10
 restart-times: 2
-scheduler: greedy
+#scheduler: greedy
 printshellcmds: true

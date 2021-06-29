@@ -1,0 +1,327 @@
+ruleorder: split_pairs_r12 > split_pairs_il
+rule split_pairs_r12:
+    input:
+        r1=config["raw_paths"]["r1_path"],
+        r2=config["raw_paths"]["r2_path"],
+    output:
+        paired=temp("data/reads/raw/{run}~{lib}_il.fastq.gz"),
+        single=temp("data/reads/raw/{run}~{lib}_se.fastq.gz"),
+    resources: **acanthophis.rule_resources(config, "split_pairs", time_min=30, mem_gb=1)
+    log:
+        log="data/log/pecheck/{run}~{lib}.log",
+        stats="data/stats/pecheck/{run}~{lib}.tsv",
+    conda: acanthophis.get_resource("envs/reads.yml")
+    shell:
+        "seqhax pairs"
+        "   -p >(gzip >{output.paired})"
+        "   -u >(gzip >{output.single})"
+        "   -l 20"
+        "   -y {log.stats}"
+        "   {input.r1} {input.r2}"
+        ">{log.log} 2>&1"
+
+rule split_pairs_il:
+    input:
+        il=config["raw_paths"]["il_path"],
+    output:
+        paired=temp("data/reads/raw/{run}~{lib}_il.fastq.gz"),
+        single=temp("data/reads/raw/{run}~{lib}_se.fastq.gz"),
+    resources: **acanthophis.rule_resources(config, "split_pairs", time_min=30, mem_gb=1)
+    log:
+        log="data/log/pecheck/{run}~{lib}.log",
+        stats="data/stats/pecheck/{run}~{lib}.tsv",
+    conda: acanthophis.get_resource("envs/reads.yml")
+    shell:
+        "seqhax pairs"
+        "   -p >(gzip >{output.paired})"
+        "   -u >(gzip >{output.single})"
+        "   -l 20"
+        "   -y {log.stats}"
+        "   {input.il}"
+        ">{log.log} 2>&1"
+
+
+rule qcreads_paired:
+    input:
+        reads="data/reads/raw/{run}~{lib}_il.fastq.gz",
+    output:
+        reads=temp("data/reads/qc/{run}~{lib}_il.fastq.gz"),
+    log:
+        log="data/log/adapterremoval/{run}~{lib}.log",
+        settings="data/stats/adapterremoval/{run}~{lib}_pe.settings",
+    resources: **acanthophis.rule_resources(config, "qcreads", time_min=60, mem_gb=2)
+    threads:
+        2
+    params:
+        adp1=lambda wc: config["qc"].get(wc.run, config["qc"]["_DEFAULT_"])["adapter1"],
+        adp2=lambda wc: config["qc"].get(wc.run, config["qc"]["_DEFAULT_"])["adapter2"],
+        minqual=lambda wc: config["qc"].get(wc.run, config["qc"]["_DEFAULT_"])["minqual"],
+        qualenc=lambda wc: config["qc"].get(wc.run, config["qc"]["_DEFAULT_"])["qualenc"],
+        maxqualval=lambda wc: config["qc"].get(wc.run, config["qc"]["_DEFAULT_"])["maxqualval"],
+    conda: acanthophis.get_resource("envs/reads.yml")
+    shell:
+        "( AdapterRemoval"
+        "   --file1 {input.reads}"
+        "   --adapter1 {params.adp1}"
+        "   --adapter2 {params.adp2}"
+        "   --interleaved"
+        "   --combined-output"
+        "   --gzip"
+        "   --trimns"
+        "   --trimqualities"
+        "   --trimwindows 10"
+        "   --qualitymax {params.maxqualval}"
+        "   --qualitybase {params.qualenc}"
+        "   --qualitybase-output 33"
+        "   --minquality {params.minqual}"
+        "   --threads {threads}"
+        "   --settings {log.settings}"
+        "   --output1 {output.reads}"
+        ") >{log.log} 2>&1"
+
+
+rule qcreads_se:
+    input:
+        reads="data/reads/raw/{run}~{lib}_se.fastq.gz",
+    output:
+        reads=temp("data/reads/qc/{run}~{lib}_se.fastq.gz"),
+    log:
+        log="data/log/adapterremoval/{run}~{lib}.log",
+        settings="data/stats/adapterremoval/{run}~{lib}_se.settings",
+    resources: **acanthophis.rule_resources(config, "qcreads", time_min=60, mem_gb=2)
+    threads:
+        2
+    params:
+        adp1=lambda wc: config["qc"].get(wc.run, config["qc"]["_DEFAULT_"])["adapter1"],
+        adp2=lambda wc: config["qc"].get(wc.run, config["qc"]["_DEFAULT_"])["adapter2"],
+        minqual=lambda wc: config["qc"].get(wc.run, config["qc"]["_DEFAULT_"])["minqual"],
+        qualenc=lambda wc: config["qc"].get(wc.run, config["qc"]["_DEFAULT_"])["qualenc"],
+        maxqualval=lambda wc: config["qc"].get(wc.run, config["qc"]["_DEFAULT_"])["maxqualval"],
+    conda: acanthophis.get_resource("envs/reads.yml")
+    shell:
+        "( AdapterRemoval"
+        "   --file1 {input.reads}"
+        "   --adapter1 {params.adp1}"
+        "   --combined-output"
+        "   --gzip"
+        "   --trimns"
+        "   --trimqualities"
+        "   --trimwindows 10"
+        "   --qualitymax {params.maxqualval}"
+        "   --qualitybase {params.qualenc}"
+        "   --qualitybase-output 33"
+        "   --minquality {params.minqual}"
+        "   --threads {threads}"
+        "   --settings {log.settings}"
+        "   --output1 {output.reads}"
+        ") >{log.log} 2>&1"
+
+
+
+rule merge_qcd_reads:
+    input:
+        pe="data/reads/qc/{run}~{lib}_il.fastq.gz",
+        se="data/reads/qc/{run}~{lib}_se.fastq.gz",
+    output:
+        reads="data/reads/runs/{run}~{lib}.fastq.gz",
+    log:
+        log="data/log/mergeqcd/{run}~{lib}.log",
+    resources: **acanthophis.rule_resources(config, "mergeqcd", time_min=30, mem_gb=2)
+    conda: acanthophis.get_resource("envs/reads.yml")
+    shell:
+        "(cat {input.pe} {input.se} >{output} ) 2>{log}"
+
+
+rule read_count_librun_indiv:
+    input:
+        "data/reads/runs/{run}~{lib}.fastq.gz"
+    output:
+        temp("data/stats/reads/readnum_librun/{run}~{lib}.tsv"),
+    log:
+        "data/log/readstats/seqhax-stats-librun/{run}~{lib}.log",
+    conda: acanthophis.get_resource("envs/reads.yml")
+    resources: **acanthophis.rule_resources(config, "read_count_librun_indiv", time_min=10, mem_gb=1)
+    shell:
+        "( seqhax stats"
+        "    {input}"
+        "    >{output}"
+        " ) 2>{log}"
+
+
+localrules: read_count_fromindiv
+rule read_count_fromindiv:
+    input:
+        ["data/stats/reads/readnum_librun/{run}~{lib}.tsv".format(run=run, lib=lib)
+          for run, lib in config["RUNLIB2SAMP"]],
+    output:
+        "data/stats/reads/readnum_librun.tsv",
+    threads:
+        1
+    run:
+        with open(output[0], "w") as fh:
+            for i, tsv in enumerate(input):
+                with open(tsv) as tsvfh:
+                    if i > 0:
+                        next(tsvfh)  # skip header on all but first file
+                    for line in tsvfh:
+                        fh.write(line)
+
+
+localrules: qc_runlib
+rule qc_runlib:
+    input:
+        ["data/reads/runs/{run}~{lib}.fastq.gz".format(run=run, lib=lib) for run, lib in config["RUNLIB2SAMP"]],
+
+localrules: readstats
+rule readstats:
+    input:
+        "data/stats/reads/readnum_librun.tsv",
+
+
+rule samplefastqpipe:
+    input:
+        lambda wc: ["data/reads/runs/{run}~{lib}.fastq.gz".format(run=r, lib=l) for r, l in config["SAMP2RUNLIB"][wc.sample]],
+    output: pipe("data/reads/samples_pipe/{sample}.fastq.gz")
+    log: "data/log/samplefastqpipe/{sample}.log"
+    threads: 1
+    resources: **acanthophis.rule_resources(config, "samplefastqpipe", time_min=10, mem_gb=1)
+    shell:
+        "cat {input} > {output}"
+
+
+rule samplefastqfile:
+    input:
+        lambda wc: ["data/reads/runs/{run}~{lib}.fastq.gz".format(run=r, lib=l) for r, l in config["SAMP2RUNLIB"][wc.sample]],
+    output: "data/reads/samples/{sample}.fastq.gz"
+    log: "data/log/samplefastqfile/{sample}.log"
+    threads: 1
+    resources: **acanthophis.rule_resources(config, "samplefastqfile", time_min=10, mem_gb=1)
+    shell:
+        "cat {input} > {output}"
+
+
+localrules: sample_fastqs
+rule sample_fastqs:
+    input:
+        [expand("data/reads/samples/{sample}.fastq.gz", sample=config["SAMPLESETS"][sset])
+            for sset in config.get("persample_reads", {}).get("samplesets", [])]
+
+
+localrules: fastqc_adaptors_fa
+rule fastqc_adaptors_fa:
+    output:
+        temp("data/stats/fastqc/adaptors.txt")
+    run:
+        with open(output[0], "w") as fh:
+            for run in config["qc"]:
+                print(run+"ad1", config["qc"][run]["adapter1"], sep='\t', file=fh)
+                print(run+"ad2", config["qc"][run]["adapter2"], sep='\t', file=fh)
+
+
+rule fastqc_raw:
+    input:
+        paired="data/reads/raw/{run}~{lib}_il.fastq",
+        single="data/reads/raw/{run}~{lib}_se.fastq",
+        adaptors="data/stats/fastqc/adaptors.txt"
+    output:
+        fqczip="data/stats/fastqc/raw/{run}~{lib}_fastqc.zip",
+    log:
+        log="data/log/fastqc/raw/{run}~{lib}.log",
+    resources: **acanthophis.rule_resources(config, "fastqc_raw", time_min=30, mem_gb=2)
+    conda: acanthophis.get_resource("envs/qcstats.yml")
+    shell:
+        "(T=$(mktemp -d);"
+        ' trap "rm -rf $T" EXIT;'
+        " cat {input.paired} {input.single} > $T/{wildcards.run}~{wildcards.lib}.fastq &&"
+        " fastqc "
+        "   -o $T"
+        "   -a {input.adaptors}"
+        "   $T/{wildcards.run}~{wildcards.lib}.fastq"
+        " && mv $T/*_fastqc.zip {output.fqczip}"
+        ") >{log} 2>&1"
+
+
+rule fastqc_sample_postqc:
+    input:
+        il="data/reads/samples/{sample}.fastq.gz",
+        adaptors="data/stats/fastqc/adaptors.txt"
+    output:
+        fqczip="data/stats/fastqc/postqc_sample/{sample}_fastqc.zip",
+    log:
+        log="data/log/fastqc/postqc_sample/{sample}.log",
+    resources: **acanthophis.rule_resources(config, "fastqc_sample_postqc", time_min=30, mem_gb=2)
+    conda: acanthophis.get_resource("envs/qcstats.yml")
+    shell:
+        "set -x; (T=$(mktemp -d);"
+        ' trap "rm -rf $T" EXIT;'
+        " fastqc "
+        "   -o $T"
+        "   --adapters {input.adaptors}"
+        "   {input.il}"
+        " && mv $T/*_fastqc.zip {output.fqczip}"
+        ") >{log} 2>&1"
+
+
+rule multiqc_rawreads:
+    input:
+        fqc_raw=lambda wc: ["data/stats/fastqc/raw/{run}~{lib}_fastqc.zip".format(run=run, lib=lib)
+                            for sample in config["SAMPLESETS"][wc.sampleset]
+                            for run, lib in config["SAMP2RUNLIB"][sample]
+                            ],
+        ar=lambda wc: ["data/stats/adapterremoval/{run}~{lib}_{read}.settings".format(run=run, lib=lib, read=read)
+                       for sample in config["SAMPLESETS"][wc.sampleset]
+                       for run, lib in config["SAMP2RUNLIB"][sample]
+                       for read in ["se", "pe"]
+                       ],
+    output:
+        html="data/stats/multiqc/rawreads/{sampleset}_multiqc_report.html",
+    log:
+        log="data/log/multiqc/rawreads/{sampleset}.log",
+    resources: **acanthophis.rule_resources(config, "multiqc_rawreads", time_min=30, mem_gb=2)
+    conda: acanthophis.get_resource("envs/qcstats.yml")
+    shell:
+        "multiqc"
+        "   --no-megaqc-upload"
+        "   --flat"
+        "   --no-data-dir"
+        "   --comment 'Report for sample set {wildcards.sampleset}'"
+        "   --filename {output.html}"
+        "   {input}"
+        " >{log} 2>&1"
+
+
+rule multiqc_samplereads:
+    input:
+        fqc_samp=lambda wc: expand("data/stats/fastqc/postqc_sample/{sample}_fastqc.zip", sample=config["SAMPLESETS"][wc.sampleset]),
+    output:
+        html="data/stats/multiqc/samplereads/{sampleset}_multiqc_report.html",
+    log:
+        log="data/log/multiqc/samplereads/{sampleset}.log",
+    resources: **acanthophis.rule_resources(config, "multiqc_samplereads", time_min=30, mem_gb=2)
+    conda: acanthophis.get_resource("envs/qcstats.yml")
+    shell:
+        "multiqc"
+        "   --no-megaqc-upload"
+        "   --flat"
+        "   --no-data-dir"
+        "   --comment 'Report for sample set {wildcards.sampleset}'"
+        "   --filename {output.html}"
+        "   {input}"
+        " >{log} 2>&1"
+
+localrules: all_read_multiqcs
+rule all_read_multiqcs:
+    input:
+        expand("data/stats/multiqc/samplereads/{sampleset}_multiqc_report.html",
+                sampleset=[s for s in config.get("multiqc", {}) if "samplereads" in config["multiqc"].get(s, set())]),
+        expand("data/stats/multiqc/rawreads/{sampleset}_multiqc_report.html",
+                sampleset=[s for s in config.get("multiqc", {}) if "rawreads" in config["multiqc"].get(s, set())]),
+
+
+localrules: reads
+rule reads:
+    input:
+        rules.qc_runlib.input,
+        rules.readstats.input,
+        rules.all_read_multiqcs.input
+

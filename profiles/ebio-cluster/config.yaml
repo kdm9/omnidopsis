@@ -2,7 +2,7 @@ cluster: "profiles/ebio-cluster/jobsubmit"
 cluster-config: "profiles/ebio-cluster/cluster.yml"
 cluster-status: "profiles/ebio-cluster/jobstatus"
 jobscript: "profiles/ebio-cluster/jobscript.sh"
-jobs: 200
+jobs: 300
 #immediate-submit: true
 verbose: false
 #notemp: true
@@ -15,5 +15,5 @@ max-status-checks-per-second: 5
 latency-wait: 60
 local-cores: 2
 restart-times: 3
-scheduler: greedy
+#scheduler: greedy
 printshellcmds: true
