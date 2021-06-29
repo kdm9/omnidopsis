@@ -1144,6 +1144,23 @@ all_meta = bind_rows(all_meta, gt_meta_pre)
 # that we have imported all individual datasets. There are also some fixes here
 # for problems previously identified in the validation process below.
 
+# ## Include/exclude certain samples
+#
+
+all_meta = all_meta %>%
+    mutate(include="Y")
+
+
+bad_sra_runs = read_tsv("source/sra-failures.tsv") %>%
+    mutate(include="") %>%
+    left_join(all_meta %>%
+              select(bioproject, sra_run, oa_id))
+
+all_meta = all_meta %>%
+    rows_update(bad_sra_runs, by=c("bioproject", "sra_run", "oa_id"))
+
+
+
 # ## Normalise country codes
 #
 # There are a whole panoply of ways of refering to countries in the `country`
@@ -1217,14 +1234,13 @@ all_meta =  all_meta %>%
 # metadata for simplicity. However, we want the two separate, so split them
 # into two tables.
 
-str(all_meta)
-
 all_meta = all_meta %>%
     mutate(dataset=substr(oa_id, 3, 4))
 
 all_sra = all_meta %>%
     filter(is.na(internal_data) | !internal_data) %>%
-    select(sra_run, biosample, bioproject, instrument_model, library_layout, oa_id) %>%
+    select(sra_run, biosample, bioproject, instrument_model, library_layout,
+           oa_id, include) %>%
     unique()
 
 all_acc = all_meta %>%
@@ -1297,8 +1313,7 @@ rl2s = all_meta %>%
     transmute(
         library=ifelse(is.na(sra_run), internal_sample_name, sra_run),
         run=ifelse(is.na(bioproject), dataset, bioproject),
-        sample=oa_id,
-        include="Y",
+        sample=oa_id, include,
         is_sra=ifelse(is.na(internal_data)| !internal_data, "Y", ""),
     )
 write_tsv(rl2s, "omniath_rl2s.tsv")
@@ -1306,14 +1321,16 @@ write_tsv(rl2s, "omniath_rl2s.tsv")
 # ### Sample sets
 
 if (!dir.exists("samplesets")) dir.create("samplesets")
-all_acc %>%
-    filter(species=="Arabidopsis thaliana") %>%
+all_meta %>%
+    filter(species=="Arabidopsis thaliana", include=="Y") %>%
     pull(oa_id) %>%
+    unique() %>%
     writeLines("samplesets/Athaliana.txt")
 
-all_acc %>%
-    filter(species!="Arabidopsis thaliana") %>%
+all_meta %>%
+    filter(species!="Arabidopsis thaliana", include=="Y") %>%
     pull(oa_id) %>%
+    unique() %>%
     writeLines("samplesets/nonAthaliana.txt")
 
 # # Mapping of accessions
