@@ -1,7 +1,7 @@
 #!/bin/bash -l 
 
 set -ueo pipefail
-TARGET=${TARGET:-all}
+TARGET="${TARGET:-all}"
 set -x
 
 #snakemake \
@@ -12,4 +12,4 @@ set -x
 
 snakemake               		\
     --profile ./profiles/ebio-cluster/  \
-    "$TARGET"
+    $TARGET
