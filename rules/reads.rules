@@ -220,8 +220,8 @@ rule fastqc_adaptors_fa:
 
 rule fastqc_raw:
     input:
-        paired="data/reads/raw/{run}~{lib}_il.fastq",
-        single="data/reads/raw/{run}~{lib}_se.fastq",
+        paired="data/reads/raw/{run}~{lib}_il.fastq.gz",
+        single="data/reads/raw/{run}~{lib}_se.fastq.gz",
         adaptors="data/stats/fastqc/adaptors.txt"
     output:
         fqczip="data/stats/fastqc/raw/{run}~{lib}_fastqc.zip",
@@ -232,11 +232,11 @@ rule fastqc_raw:
     shell:
         "(T=$(mktemp -d);"
         ' trap "rm -rf $T" EXIT;'
-        " cat {input.paired} {input.single} > $T/{wildcards.run}~{wildcards.lib}.fastq &&"
+        " cat {input.paired} {input.single} > $T/{wildcards.run}~{wildcards.lib}.fastq.gz &&"
         " fastqc "
         "   -o $T"
         "   -a {input.adaptors}"
-        "   $T/{wildcards.run}~{wildcards.lib}.fastq"
+        "   $T/{wildcards.run}~{wildcards.lib}.fastq.gz"
         " && mv $T/*_fastqc.zip {output.fqczip}"
         ") >{log} 2>&1"
 
@@ -308,6 +308,7 @@ rule multiqc_samplereads:
         "   --filename {output.html}"
         "   {input}"
         " >{log} 2>&1"
+
 
 localrules: all_read_multiqcs
 rule all_read_multiqcs:
