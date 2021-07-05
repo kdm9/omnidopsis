@@ -33,7 +33,7 @@ cmd.append(f"-pe parallel {threads}")
 
 # memory
 mem = int(resources.get("mem_gb", 2))
-mem_percpu = mem / threads
+mem_percpu = max(mem / threads, 1)
 cmd.append(f"-l 'h_vmem={mem_percpu:0.2f}G'")
 
 # walltime

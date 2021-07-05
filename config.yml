@@ -182,10 +182,21 @@ cluster_resources:
     mem_gb: 2
     time_min: 60
   max_values:
-    mem_gb: 192
-    time_min: 2880 # 48h
+    mem_gb: 250
+    time_min: 10080 # 1wk
+    internet: 1
   rules:
-    # A mapping of rule_name: resource overrides, e.g.
-    qcreads:
-      mem_gb: 192
-      time_min: 2880 # 48h
+    mergebam_samp:
+      time_min: 720
+    rawreads_il_fromil:
+      time_min: 120
+    rawreads_il_fromr1r2:
+      time_min: 120
+    read_count_librun_indiv:
+      time_min: 120
+    split_pairs_il:
+      time_min: 180
+    bam_markdups_sort:
+      time_min: 720
+    samplefastqfile:
+      time_min: 120

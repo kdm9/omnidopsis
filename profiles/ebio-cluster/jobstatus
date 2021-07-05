@@ -18,6 +18,7 @@ then
     done
 	if [ "$qacct_errcode" -ne 0 ]
 	then
+        echo "job $1 failed: exit status $qacct_errcode" >&2
 		echo failed
 	else
 		echo success
@@ -26,6 +27,7 @@ else
 	# running or errored
 	if [[ "$qstat_status" =~ E ]]
 	then
+        echo "job $1 failed: qstat status $qstat_status" >&2
 		echo failed
 	else
 		echo running
