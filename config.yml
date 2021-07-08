@@ -194,8 +194,8 @@ cluster_resources:
       time_min: 120
     read_count_librun_indiv:
       time_min: 120
-    split_pairs_il:
-      time_min: 180
+    split_pairs:
+      time_min: 2880
     bam_markdups_sort:
       time_min: 720
     samplefastqfile:
