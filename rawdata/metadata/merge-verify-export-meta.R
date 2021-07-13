@@ -1098,6 +1098,17 @@ sn_acc_pre = sn_acc %>%
               country, locality=population)
 #str(sn_acc_pre[])
 
+sn_meta_full = full_join(sn_sra_pre, sn_acc_pre, by="sample_name")
+
+#sn_meta_full_sort = sn_meta_full %>%
+#    arrange(is.na(sra_run), is.na(latitude))
+#kview(sn_meta_full_sort)
+#
+#sn_meta_anti = sn_meta_full %>%
+#    filter(is.na(sra_run) | is.na(latitude))
+#kview(sn_meta_anti)
+
+
 sn_meta = inner_join(sn_sra_pre, sn_acc_pre, by="sample_name") %>%
     mutate(oa_id = sprintf("OASN%04d", as.numeric(as.factor(biosample))))  %>%
     select(-sample_name_sra)
@@ -1192,6 +1203,7 @@ ctry = tibble(orig=na.omit(unique(all_meta$country))) %>%
 all_meta = all_meta %>%
     left_join(ctry, by=c("country"="orig"))
 
+
 # ## Normalise ploidy values
 #
 # Likewise, ploidies are refered to in a number of different codes. We sanitise
@@ -1245,11 +1257,14 @@ all_sra = all_meta %>%
 
 all_acc = all_meta %>%
     select(oa_id, dataset, ecotype_id, sample_name, biosample, species,
-           latitude, longitude, elevation, locality, country, collector,
-           collection_date, collection_notes, cs_number, ploidy, internal_data,
-           pooled_plants) %>%
+           latitude, longitude, elevation, locality, country, country_code,
+           collector, collection_date, collection_notes, cs_number, ploidy,
+           internal_data, pooled_plants) %>%
     unique()
 
+write_tsv(all_acc, "omniath_all_accessions.tsv")
+write_tsv(all_sra, "omniath_all_sra.tsv")
+write_tsv(all_meta, "omniath_all.tsv")
 
 # Did we miss any columns?
 setdiff(union(colnames(all_acc), colnames(all_sra)), colnames(all_meta))
@@ -1281,10 +1296,10 @@ errors(all_sra_val)
 all_sra_bad = all_sra %>%
     mutate(failed = get_failing_tests(all_sra_val)) %>%
     filter(failed != "")
-write_tsv(all_sra_bad, "all_sra_bad.tsv")
+#write_tsv(all_sra_bad, "all_sra_bad.tsv")
 
 
-# ## Accession metadata
+# ## Accession metadata validation
 
 acc_val = validator(
     oa_unq = multiplicity(oa_id) == 1,
@@ -1333,23 +1348,3 @@ all_meta %>%
     unique() %>%
     writeLines("samplesets/nonAthaliana.txt")
 
-# # Mapping of accessions
-
-globe_bbox = c(left=-170, bottom=-58, right=179.99, top=75)
-baselayer = get_stamenmap(globe_bbox, zoom = 3, maptype = "toner-background")
-
-ggmap(baselayer) +
-    geom_point(aes(x=longitude, y=latitude, colour=dataset), data=all_acc) +
-    labs(x="Longitude", y="Latitude") +
-    theme(legend.position="right")
-ggsave("all_accessions.svg", width=16, height=14, units="in", dpi=600)
-
-ath_acc = all_acc %>%
-    filter(species=="Arabidopsis thaliana")
-ggmap(baselayer) +
-    geom_point(aes(x=longitude, y=latitude, colour=dataset), data=ath_acc) +
-    labs(x="Longitude", y="Latitude") +
-    theme(legend.position="right")
-ggsave("ath_accessions.svg", width=16, height=14, units="in", dpi=600)
-
-# # SRA size and coverage estimation
