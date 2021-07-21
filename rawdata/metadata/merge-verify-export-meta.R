@@ -1315,7 +1315,7 @@ acc_val = validator(
     latlong_ok = !(is.na(latitude) | is.na(longitude)),
     dist2land = match_country(longitude, latitude, 'dist') < 5,
     ctrymatch = match_country(longitude, latitude, 'ISO3') == country_code,
-    spp = !is.na(species) & !grepl("^Arabidopsis", species)
+    spp = (!is.na(species)) & grepl("^Arabidopsis", species)
 )
 
 all_acc_val = confront(all_acc, acc_val)
