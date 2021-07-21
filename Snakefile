@@ -4,8 +4,8 @@ import acanthophis
 acanthophis.populate_metadata(config)
 
 
-include: "rules/sra.rules"
 include: acanthophis.rules.base
+include: "rules/sra.rules"
 include: "rules/reads.rules"
 include: acanthophis.rules.align
 include: acanthophis.rules.varcall

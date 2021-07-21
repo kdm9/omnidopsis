@@ -173,7 +173,7 @@ varcall:
 #######################################################################
 # Here one can set the resources each job will request from the cluster. 
 cluster_resources:
-  DEBUG: False
+  DEBUG: True
   # Must jobs requiring intenet be run on the head node? set to True for
   # clusters where no nodes have internet access, otherwise use a job to some
   # queue that has internet (via the jobsubmit script).
@@ -200,3 +200,6 @@ cluster_resources:
       time_min: 720
     samplefastqfile:
       time_min: 120
+    kraken:
+      mem_gb: 50
+      threads: 16
