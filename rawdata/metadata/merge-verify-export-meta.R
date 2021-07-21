@@ -25,14 +25,14 @@ library(janitor)
 library(ggmap)
 library(validate)
 library(sp)
-library(SRAdb)
+library(sf)
 library(parzer)
-#BiocManager::install("SRAdb")
 #install.packages(c("tidyverse", "sp", "sf", "ggplot2", "ggmap", "validate",
 #                   "readxl", "janitor", "countrycode", "CoordinateCleaner"))
 
 
 match_country = function(eastings, northings, ret, crs=4326) {
+    sf::sf_use_s2(FALSE)
     world = sf::st_as_sf(rworldmap::getMap(resolution="high"))
     everything = data.frame(eastings, northings, i=seq_along(eastings))
     points = everything %>%
@@ -110,9 +110,15 @@ all_meta = kg_meta
 
 cr_acc = read_tsv("source/internal-data/cao-reseq.txt")
 
+kgspp = all_meta %>%
+    filter(!is.na(ecotype_id)) %>%
+    select(ecotype_id, species) %>%
+    unique()
+
 cr_meta = kg_acc_pre %>%
     select(-oa_id) %>%
     inner_join(cr_acc, by="ecotype_id") %>%
+    left_join(kgspp, by="ecotype_id") %>%
     mutate(oa_id = sprintf("OACR%04d", ecotype_id),
            internal_data=T, internal_sample_name=as.character(ecotype_id))
 
@@ -767,10 +773,10 @@ fm_acc = read_csv("source/madeirans/msx300_supp.csv")
 
 fm_meta = fm_acc %>%
     mutate(oa_id=sprintf("OAFM%04d", as.numeric(as.factor(ID))), internal_data=T,
-           country="Spain") %>%
+           country="Spain", species="Arabidopsis thaliana") %>%
     select(oa_id, sample_name=ID, locality=Region, latitude=Latitude,
            longitude=Longitude, elevation=Altitude, collector=Collector,
-           internal_data, internal_sample_name=ID, country)
+           internal_data, internal_sample_name=ID, country, species)
 str(fm_meta)
 
 setdiff(colnames(fm_meta), colnames(all_meta))
@@ -1262,9 +1268,9 @@ all_acc = all_meta %>%
            internal_data, pooled_plants) %>%
     unique()
 
-write_tsv(all_acc, "omniath_all_accessions.tsv")
-write_tsv(all_sra, "omniath_all_sra.tsv")
-write_tsv(all_meta, "omniath_all.tsv")
+write_tsv(all_acc, "omniath_all_accessions.tsv", na="")
+write_tsv(all_sra, "omniath_all_sra.tsv", na="")
+write_tsv(all_meta, "omniath_all.tsv", na="")
 
 # Did we miss any columns?
 setdiff(union(colnames(all_acc), colnames(all_sra)), colnames(all_meta))
@@ -1309,7 +1315,7 @@ acc_val = validator(
     latlong_ok = !(is.na(latitude) | is.na(longitude)),
     dist2land = match_country(longitude, latitude, 'dist') < 5,
     ctrymatch = match_country(longitude, latitude, 'ISO3') == country_code,
-    spp = !is.na(species) | !grepl("^Arabidopsis", species)
+    spp = !is.na(species) & !grepl("^Arabidopsis", species)
 )
 
 all_acc_val = confront(all_acc, acc_val)
@@ -1331,7 +1337,7 @@ rl2s = all_meta %>%
         sample=oa_id, include,
         is_sra=ifelse(is.na(internal_data)| !internal_data, "Y", ""),
     )
-write_tsv(rl2s, "omniath_rl2s.tsv")
+write_tsv(rl2s, "omniath_rl2s.tsv", na="")
 
 # ### Sample sets
 
