@@ -76,6 +76,8 @@ kraken:
     PlusPFP: "https://genome-idx.s3.amazonaws.com/kraken/k2_pluspfp_20210127.tar.gz"
 
   samplesets:
+    all_samples:
+      - PlusPFP
     Athaliana:
       - PlusPFP
 
