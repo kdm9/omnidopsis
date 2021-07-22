@@ -47,7 +47,7 @@ ggplot(select.dat, aes(y=pct.reads.below, x=oaid)) +
     coord_flip() +
     theme_bw() +
     labs(y="Percentage of reads", x=NULL, colour="Taxon", fill="Taxon")
-ggsave("kraken-everything.svg", height=320, width=8, limitsize=F)
+ggsave("out/kraken-everything.svg", height=320, width=8, limitsize=F)
 
 
 bad.samp = all.dat %>%
@@ -68,5 +68,5 @@ ggplot(dat, aes(y=pct.reads.below, x=oaid)) +
     coord_flip() +
     theme_bw() +
     labs(y="Percentage of reads", x=NULL, colour="Taxon", fill="Taxon")
-ggsave("kraken-bad.svg", height=26, width=8, limitsize=F)
+ggsave("out/kraken-bad.svg", height=26, width=8, limitsize=F)
 
