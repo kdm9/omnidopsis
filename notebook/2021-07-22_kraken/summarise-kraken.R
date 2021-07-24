@@ -12,6 +12,11 @@ library(foreach)
 library(doParallel)
 registerDoParallel()
 
+# ## Extract per-sample kraken results
+#
+# Kraken reports are delimited by one or more spaces, which the readers from
+# tidyverse and base R can't do, so we use fread from data.table.
+
 extract.kraken = function(file) {
     colnam = c("pct.reads.below", "n.reads.below", "n.reads",
                "level", "taxid",  "name")
@@ -19,25 +24,32 @@ extract.kraken = function(file) {
     return(raw)
 }
 
-all.dat = foreach(file=Sys.glob("data/OA*.txt"),
+
+# Here we extract the per-sample kraken reports into one massive data frame
+# with a sample column.
+
+all.dat = foreach(file=Sys.glob("data/*.report"),
                   .combine=bind_rows, .multicombine=T) %dopar% {
     res = extract.kraken(file)
-    oaid = sub(".txt", "", basename(file))
+    oaid = sub(".report", "", basename(file))
     res$oaid = oaid
     res
 }
 
 
+# ## Sumarise to some relevant taxa/levels
+
+# We show all samples, summarised at the phylum level.
+
 min.pct = 1
 levels.include = c("U", "P")
-taxid.include = c(72274, 1385, 3701, 0)
-
+#taxid.include = c(72274, 1385, 3701, 0)
 Ath = readLines("data/Athaliana.txt")
 
 
 select.dat = all.dat %>%
     filter(pct.reads.below > min.pct & level%in%levels.include,
-           oaid %in% Ath) %>%
+           oaid %in% Ath | grepl("^CAO", oaid)) %>%
     mutate(name=fct_relevel(name, "unclassified", "Streptophyta"))
 
 ggplot(select.dat, aes(y=pct.reads.below, x=oaid)) +
@@ -49,9 +61,12 @@ ggplot(select.dat, aes(y=pct.reads.below, x=oaid)) +
     labs(y="Percentage of reads", x=NULL, colour="Taxon", fill="Taxon")
 ggsave("out/kraken-everything.svg", height=320, width=8, limitsize=F)
 
+# And now we make something the same as the above, but for only the lines with
+# contamination.
 
 bad.samp = all.dat %>%
-    filter(taxid==3699, pct.reads.below < 60, oaid %in% Ath) %>%
+    filter(taxid==3699, pct.reads.below < 60,
+           oaid %in% Ath | grepl("^CAO", oaid)) %>%
     pull(oaid)
 length(bad.samp)
 
@@ -69,4 +84,5 @@ ggplot(dat, aes(y=pct.reads.below, x=oaid)) +
     theme_bw() +
     labs(y="Percentage of reads", x=NULL, colour="Taxon", fill="Taxon")
 ggsave("out/kraken-bad.svg", height=26, width=8, limitsize=F)
+
 
