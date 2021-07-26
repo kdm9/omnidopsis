@@ -86,3 +86,34 @@ ggplot(dat, aes(y=pct.reads.below, x=oaid)) +
 ggsave("out/kraken-bad.svg", height=26, width=8, limitsize=F)
 
 
+# # Just cao samples
+
+meta = read_tsv("../../rawdata/metadata/omniath_all_accessions.tsv", guess_max=1e5)
+csids = readLines("data/csids.txt")
+cao = meta %>%
+    filter(cs_number %in% csids)
+
+
+dat = all.dat %>%
+    filter(
+       pct.reads.below > min.pct & level%in%levels.include,
+       oaid %in% cao$oa_id | grepl("^CAO", oaid)) %>%
+    mutate(name=fct_relevel(name, "unclassified", "Streptophyta"))
+
+ggplot(dat, aes(y=pct.reads.below, x=oaid)) +
+    geom_col(aes(fill=name, colour=name)) +
+    scale_colour_brewer(palette="Paired") +
+    scale_fill_brewer(palette="Paired") +
+    coord_flip() +
+    theme_bw() +
+    labs(y="Percentage of reads", x=NULL, colour="Taxon", fill="Taxon")
+ggsave("out/kraken-cao.svg", height=21, width=8, limitsize=F)
+
+ggplot(dat, aes(y=n.reads.below, x=oaid)) +
+    geom_col(aes(fill=name, colour=name)) +
+    scale_colour_brewer(palette="Paired") +
+    scale_fill_brewer(palette="Paired") +
+    coord_flip() +
+    theme_bw() +
+    labs(y="N reads", x=NULL, colour="Taxon", fill="Taxon")
+ggsave("out/kraken-cao-reads.svg", height=21, width=8, limitsize=F)
