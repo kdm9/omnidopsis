@@ -13,6 +13,7 @@ include: acanthophis.rules.multiqc
 include: acanthophis.rules.kraken
 #include: acanthophis.rules.variantannotation
 
+
 rule all:
     input:
         rules.reads.input,
@@ -21,3 +22,21 @@ rule all:
         rules.multiqc.input,
         rules.all_kraken.input,
 #        rules.all_snpeff.input,
+
+
+align_rule_samples = set()
+for sset in config["align"]["samplesets"]:
+    for s in config['SAMPLESETS'][sset]:
+        align_rule_samples.add(s)
+
+localrules: align_samples_idx
+rule align_samples_idx:
+    input:
+        expand("data/alignments/samples/{aligner}/{ref}/{sample}.bam",
+               ref=config["align"]["refs"],
+               aligner=config["align"]["aligners"],
+               sample=align_rule_samples),
+        expand("data/alignments/samples/{aligner}/{ref}/{sample}.bam.bai",
+               ref=config["align"]["refs"],
+               aligner=config["align"]["aligners"],
+               sample=align_rule_samples),

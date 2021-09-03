@@ -40,7 +40,24 @@ refs:
     # custom translation codes etc.  See the snpEff documentation.
     organism: Ath Col-0
     snpeff_extra_config: ""
-
+  at6137: {fasta: "rawdata/references/difflines/at6137.scaffolds.bionano.hifiasm.final.fasta"}
+  at6923: {fasta: "rawdata/references/difflines/at6923.scaffolds.bionano.hifiasm.final.fasta"}
+  at6929: {fasta: "rawdata/references/difflines/at6929.scaffolds.bionano.hifiasm.final.fasta"}
+  at7143: {fasta: "rawdata/references/difflines/at7143.scaffolds.bionano.hifiasm.final.fasta"}
+  at8285: {fasta: "rawdata/references/difflines/at8285.scaffolds.bionano.hifiasm.final.fasta"}
+  at9104: {fasta: "rawdata/references/difflines/at9104.scaffolds.bionano.hifiasm.final.fasta"}
+  at9336: {fasta: "rawdata/references/difflines/at9336.scaffolds.bionano.hifiasm.final.fasta"}
+  at9503: {fasta: "rawdata/references/difflines/at9503.scaffolds.bionano.hifiasm.final.fasta"}
+  at9578: {fasta: "rawdata/references/difflines/at9578.scaffolds.bionano.hifiasm.final.fasta"}
+  at9744: {fasta: "rawdata/references/difflines/at9744.scaffolds.bionano.hifiasm.final.fasta"}
+  at9762: {fasta: "rawdata/references/difflines/at9762.scaffolds.bionano.hifiasm.final.fasta"}
+  at9806: {fasta: "rawdata/references/difflines/at9806.scaffolds.bionano.hifiasm.final.fasta"}
+  at9830: {fasta: "rawdata/references/difflines/at9830.scaffolds.bionano.hifiasm.final.fasta"}
+  at9847: {fasta: "rawdata/references/difflines/at9847.scaffolds.bionano.hifiasm.final.fasta"}
+  at9852: {fasta: "rawdata/references/difflines/at9852.scaffolds.bionano.hifiasm.final.fasta"}
+  at9879: {fasta: "rawdata/references/difflines/at9879.scaffolds.bionano.hifiasm.final.fasta"}
+  at9883: {fasta: "rawdata/references/difflines/at9883.scaffolds.bionano.hifiasm.final.fasta"}
+  at9900: {fasta: "rawdata/references/difflines/at9900.scaffolds.bionano.hifiasm.final.fasta"}
 
 #######################################################################
 #                               Read QC                               #
@@ -80,22 +97,29 @@ kraken:
       - PlusPFP
     Athaliana:
       - PlusPFP
+    difflines:
+      - PlusPFP
 
 
 #######################################################################
 #                               Multiqc                               #
 #######################################################################
 multiqc:
+
   # A mapping of sampleset: multiqc stage reports. Stages are:
   # - rawreads
   # - samplereads
   # - alignment
-  Athaliana:
+  #Athaliana:
+  #  - rawreads
+  #  - samplereads
+  #  - bamstats
+  #  - kraken
+  difflines:
     - rawreads
     - samplereads
     - bamstats
     - kraken
-
 
 #######################################################################
 #                       Alignment to Reference                        #
@@ -105,8 +129,27 @@ align:
     - bwa
   refs:
     - TAIR10
+    - at6137
+    - at6923
+    - at6929
+    - at7143
+    - at8285
+    - at9104
+    - at9336
+    - at9503
+    - at9578
+    - at9744
+    - at9762
+    - at9806
+    - at9830
+    - at9847
+    - at9852
+    - at9879
+    - at9883
+    - at9900
   samplesets:
-    - Athaliana
+    #- Athaliana
+    - difflines
   ngm: # tool specific settings
     sensitivity: 0.5
   abra2:
@@ -175,7 +218,7 @@ varcall:
 #######################################################################
 # Here one can set the resources each job will request from the cluster. 
 cluster_resources:
-  DEBUG: True
+  DEBUG: False
   # Must jobs requiring intenet be run on the head node? set to True for
   # clusters where no nodes have internet access, otherwise use a job to some
   # queue that has internet (via the jobsubmit script).
