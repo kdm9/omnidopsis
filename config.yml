@@ -248,3 +248,6 @@ cluster_resources:
     kraken:
       mem_gb: 50
       threads: 16
+    bwaidx:
+      mem_gb: 50
+      time_min: 120
