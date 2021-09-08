@@ -7,6 +7,7 @@ acanthophis.populate_metadata(config)
 include: acanthophis.rules.base
 include: "rules/sra.rules"
 include: "rules/reads.rules"
+include: "rules/qualimap.rules"
 include: acanthophis.rules.align
 include: acanthophis.rules.varcall
 include: acanthophis.rules.multiqc
@@ -40,3 +41,13 @@ rule align_samples_idx:
                ref=config["align"]["refs"],
                aligner=config["align"]["aligners"],
                sample=align_rule_samples),
+
+
+rule difflines_qualimap:
+    input:
+        expand("data/alignments/qualimap/sampleset/{aligner}~{ref}~{sampleset}/", 
+               ref=config["align"]["refs"],
+               aligner=config["align"]["aligners"],
+               sampleset="difflines")
+
+

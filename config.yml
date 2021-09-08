@@ -40,24 +40,24 @@ refs:
     # custom translation codes etc.  See the snpEff documentation.
     organism: Ath Col-0
     snpeff_extra_config: ""
-  at6137: {fasta: "rawdata/references/difflines/at6137.scaffolds.bionano.hifiasm.final.fasta"}
-  at6923: {fasta: "rawdata/references/difflines/at6923.scaffolds.bionano.hifiasm.final.fasta"}
-  at6929: {fasta: "rawdata/references/difflines/at6929.scaffolds.bionano.hifiasm.final.fasta"}
-  at7143: {fasta: "rawdata/references/difflines/at7143.scaffolds.bionano.hifiasm.final.fasta"}
-  at8285: {fasta: "rawdata/references/difflines/at8285.scaffolds.bionano.hifiasm.final.fasta"}
-  at9104: {fasta: "rawdata/references/difflines/at9104.scaffolds.bionano.hifiasm.final.fasta"}
-  at9336: {fasta: "rawdata/references/difflines/at9336.scaffolds.bionano.hifiasm.final.fasta"}
-  at9503: {fasta: "rawdata/references/difflines/at9503.scaffolds.bionano.hifiasm.final.fasta"}
-  at9578: {fasta: "rawdata/references/difflines/at9578.scaffolds.bionano.hifiasm.final.fasta"}
-  at9744: {fasta: "rawdata/references/difflines/at9744.scaffolds.bionano.hifiasm.final.fasta"}
-  at9762: {fasta: "rawdata/references/difflines/at9762.scaffolds.bionano.hifiasm.final.fasta"}
-  at9806: {fasta: "rawdata/references/difflines/at9806.scaffolds.bionano.hifiasm.final.fasta"}
-  at9830: {fasta: "rawdata/references/difflines/at9830.scaffolds.bionano.hifiasm.final.fasta"}
-  at9847: {fasta: "rawdata/references/difflines/at9847.scaffolds.bionano.hifiasm.final.fasta"}
-  at9852: {fasta: "rawdata/references/difflines/at9852.scaffolds.bionano.hifiasm.final.fasta"}
-  at9879: {fasta: "rawdata/references/difflines/at9879.scaffolds.bionano.hifiasm.final.fasta"}
-  at9883: {fasta: "rawdata/references/difflines/at9883.scaffolds.bionano.hifiasm.final.fasta"}
-  at9900: {fasta: "rawdata/references/difflines/at9900.scaffolds.bionano.hifiasm.final.fasta"}
+  at6137: {fasta: "data/references/difflines/at6137.scaffolds.bionano.hifiasm.final.fasta"}
+  at6923: {fasta: "data/references/difflines/at6923.scaffolds.bionano.hifiasm.final.fasta"}
+  at6929: {fasta: "data/references/difflines/at6929.scaffolds.bionano.hifiasm.final.fasta"}
+  at7143: {fasta: "data/references/difflines/at7143.scaffolds.bionano.hifiasm.final.fasta"}
+  at8285: {fasta: "data/references/difflines/at8285.scaffolds.bionano.hifiasm.final.fasta"}
+  at9104: {fasta: "data/references/difflines/at9104.scaffolds.bionano.hifiasm.final.fasta"}
+  at9336: {fasta: "data/references/difflines/at9336.scaffolds.bionano.hifiasm.final.fasta"}
+  at9503: {fasta: "data/references/difflines/at9503.scaffolds.bionano.hifiasm.final.fasta"}
+  at9578: {fasta: "data/references/difflines/at9578.scaffolds.bionano.hifiasm.final.fasta"}
+  at9744: {fasta: "data/references/difflines/at9744.scaffolds.bionano.hifiasm.final.fasta"}
+  at9762: {fasta: "data/references/difflines/at9762.scaffolds.bionano.hifiasm.final.fasta"}
+  at9806: {fasta: "data/references/difflines/at9806.scaffolds.bionano.hifiasm.final.fasta"}
+  at9830: {fasta: "data/references/difflines/at9830.scaffolds.bionano.hifiasm.final.fasta"}
+  at9847: {fasta: "data/references/difflines/at9847.scaffolds.bionano.hifiasm.final.fasta"}
+  at9852: {fasta: "data/references/difflines/at9852.scaffolds.bionano.hifiasm.final.fasta"}
+  at9879: {fasta: "data/references/difflines/at9879.scaffolds.bionano.hifiasm.final.fasta"}
+  at9883: {fasta: "data/references/difflines/at9883.scaffolds.bionano.hifiasm.final.fasta"}
+  at9900: {fasta: "data/references/difflines/at9900.scaffolds.bionano.hifiasm.final.fasta"}
 
 #######################################################################
 #                               Read QC                               #
@@ -248,6 +248,7 @@ cluster_resources:
     kraken:
       mem_gb: 50
       threads: 16
+      time_min: 120
     bwaidx:
-      mem_gb: 50
+      mem_gb: 10
       time_min: 120
