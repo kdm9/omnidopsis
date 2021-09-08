@@ -41,7 +41,10 @@ rule align_samples_idx:
                ref=config["align"]["refs"],
                aligner=config["align"]["aligners"],
                sample=align_rule_samples),
-
+        expand("data/alignments/bamstats/sample/{aligner}~{ref}~{sample}.samtools.stats",
+               ref=config["align"]["refs"],
+               aligner=config["align"]["aligners"],
+               sample=align_rule_samples),
 
 rule difflines_qualimap:
     input:

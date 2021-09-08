@@ -189,7 +189,7 @@ varcall:
   # specific to each sample set.
   samplesets:
     Athaliana:
-      theta_prior: 0.001
+      theta_prior: 0.01
       aligners:
         - bwa
       callers:
@@ -198,7 +198,36 @@ varcall:
         - TAIR10
       filters:
         - default
-      snpeff: True
+      snpeff: False
+    difflines:
+      theta_prior: 0.01
+      aligners:
+        - bwa
+      callers:
+        - mpileup
+      refs:
+        - TAIR10
+        - at6137
+        - at6923
+        - at6929
+        - at7143
+        - at8285
+        - at9104
+        - at9336
+        - at9503
+        - at9578
+        - at9744
+        - at9762
+        - at9806
+        - at9830
+        - at9847
+        - at9852
+        - at9879
+        - at9883
+        - at9900
+      filters:
+        - default
+      snpeff: False
 
 
   # Filters. These are series of command line arguments to pass to bcftools
