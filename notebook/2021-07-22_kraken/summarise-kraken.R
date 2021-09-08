@@ -1,3 +1,12 @@
+---
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .md
+      format_name: markdown
+      format_version: '1.1'
+      jupytext_version: 1.1.0
+---
 # # Kraken taxonomic profiling of omnidopsis
 #
 # Kraken uses kmer matching to identify each read's likely taxonomic origin.
@@ -5,7 +14,9 @@
 # measure of sample qualtiy. This is of particular importance for
 # field-collected samples, which are likely to have non-trivial quantities of
 # microbial contamination.
+#
 
+# # Technical details
 library(tidyverse)
 library(data.table)
 library(foreach)
