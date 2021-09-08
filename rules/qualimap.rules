@@ -10,7 +10,7 @@ rule qualimap_sample:
     conda: "qualimap.environment"
     shell:
         "( unset DISPLAY; qualimap bamqc"
-        "   --java-mem-size=15G"
+        "   --java-mem-size=6G"
         "   -bam {input.bam}"
         "   -nt {threads}"
         "   -nr 10000"
