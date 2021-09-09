@@ -29,7 +29,7 @@ unique(allss$description)
 more_metrics = allss %>%
     pivot_wider(names_from=description, values_from=value) %>%
     mutate(percentage_mapped_reads_mq0 = (reads_mq0/reads_mapped) * 100,
-           percentage_reads_unmapped = (reads_unmapped/sequences)*100)  %>% 
+           percentage_reads_unmapped = (reads_unmapped/sequences) * 100)  %>% 
     pivot_longer(names_to="description", values_to="value", cols=!c(reference, sample))
 
 
@@ -44,9 +44,9 @@ plot_one = function(df, var) {
     title = gsub("_", " ", var) %>% tools::toTitleCase()
     ggplot(df, aes(sample, reference)) +
         geom_raster(aes(fill=value)) +
-        scale_colour_continuous(name="") +
         theme_bw() + 
-        theme(axis.text.x=element_text(angle=90, vjust=0.5, hjust=1)) +
+        theme(axis.text.x=element_text(angle=90, vjust=0.5, hjust=1),
+              legend.title=element_blank()) +
         labs(x=NULL, y=NULL, title=title)
 }
 
