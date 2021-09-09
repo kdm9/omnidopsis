@@ -58,3 +58,5 @@ plots = more_metrics %>%
     mutate(plots = purrr::map2(data, description, plot_one))
 
 cowplot::plot_grid(plotlist=plots$plots, ncol=1)
+ggsave("out/difflines-all2all.pdf", width=16, height=16, unit="in", dpi=600)
+ggsave("out/difflines-all2all.png", width=16, height=16, unit="in", dpi=600)
