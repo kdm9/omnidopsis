@@ -15,6 +15,10 @@ include: acanthophis.rules.kraken
 #include: acanthophis.rules.variantannotation
 
 
+# for running on taco etc
+localrules: bwaidx, mergebam_samp, bamidx, bamstat_sample, qualimap_set,  bcfnorm, bcffilter, multiqc_bamstats, multiqc_kraken, split_pairs_r12, split_pairs_il, qcreads_se, read_count_librun_indiv, samplefastqfile, multiqc_rawreads, multiqc_samplereads
+#localrules: bwaidx, mergebam_samp, bam_markdups_sort, bamidx, bamstat_sample, qualimap_set,  bcfnorm, bcffilter, bcfmerge, multiqc_bamstats, multiqc_kraken, split_pairs_r12, split_pairs_il, qc_reads_se, read_count_librun_raw, samplefastqfile, multiqc_rawreads, multiqc_samplereads
+
 rule all:
     input:
         rules.reads.input,
