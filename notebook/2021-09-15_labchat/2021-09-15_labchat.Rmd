@@ -1,0 +1,258 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+Omnidopsis: natural variation at scale
+================================================================================
+author: Kevin Murray
+date: 2021-09-15
+
+```{r include=F}
+library(tidyverse)
+library(ggmap)
+library(SRAdb)
+library(forcats)
+theme_set(theme_bw())
+if (!dir.exists("out")) dir.create("out")
+```
+
+
+What motivates Omnidopsis
+================================================================================
+
+- **Geographic variation in NLR alleles**
+- Many *Arabidopsis* genomics projects
+  - e.g. 1k1g, 1k1g+, difflines
+  - Also African, Maideran, Chinese
+- Plenty of new long-read genomes
+- Not much integration between datasets
+  - Have to redo curation each study
+
+
+What *is* Omnidopsis
+================================================================================
+
+- ~2000 accessions, ~3k SRA runs
+- All *Arabidopsis* species
+- Multiple references
+  - difflines
+  - 1k1g+ 
+  - Jiao et al, Cdm-0, etc
+  - Non-thaliana
+- **Align everything to everything**
+
+
+Some basic stats
+================================================================================
+
+```{r echo=F, message=F, error=F}
+all_acc = read_tsv("../../rawdata/metadata/omniath_all_accessions.tsv", guess_max=10000) %>%
+  mutate(species_nosub = sub(" subsp.*$", "", species))
+
+length(table(all_acc$species_nosub))
+  
+dataset_n = all_acc %>%
+  group_by(dataset) %>%
+  summarise(n = n()) %>%
+  arrange(-n) %>%
+  mutate(dataset = factor(dataset, levels=dataset))
+
+#knitr::kable(dataset_n)
+
+pal = rep(RColorBrewer::brewer.pal(12, "Paired"), length.out=length(dataset_n$dataset))
+
+ggplot(dataset_n, aes(x="", y=n, fill=dataset)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) +
+  scale_fill_manual(values=pal, name="Dataset") +
+  theme_minimal() +
+  theme(panel.grid = element_blank(), axis.text=element_blank()) +
+  labs(x=NULL, y=NULL)
+ggsave("out/01_datasets.png", width=5, height=4, dpi=600)
+```
+
+================================================================================
+
+```{r echo=F, message=F, error=F}
+species_n = all_acc %>% 
+  mutate(species = forcats::fct_lump_n(species_nosub, 8)) %>%
+  group_by(species) %>%
+  summarise(n = n()) %>%
+  arrange(-n) %>%
+  mutate(species = species %>%
+           factor(levels=species) %>%
+           forcats::fct_relevel("Other", after=Inf)
+           )
+
+         
+pal = rep(RColorBrewer::brewer.pal(12, "Paired"), length.out=length(species_n$species))
+
+ggplot(species_n, aes(x="", y=n, fill=species)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) +
+  scale_fill_manual(values=pal, name="Species") +
+  theme_minimal() +
+  theme(panel.grid = element_blank(), axis.text=element_blank()) +
+  labs(x=NULL, y=NULL)
+ggsave("out/02_species.png", width=6.5, height=4, dpi=600)
+```
+
+
+"Global" collection
+================================================================================
+
+```{r echo=F, message=F, error=F}
+
+globe_bbox = c(left=-170, bottom=-58, right=179.99, top=75)
+baselayer = get_stamenmap(globe_bbox, zoom = 3, maptype = "toner-background")
+
+ggmap(baselayer) +
+    geom_point(aes(x=longitude, y=latitude, colour=dataset), data=all_acc) +
+    scale_colour_discrete(name="Dataset") +
+    labs(x="Longitude", y="Latitude") +
+    theme(legend.position="right")
+ggsave("out/03_map.png", width=7, height=4, dpi=600)
+```
+
+
+Sequencing stats
+================================================================================
+
+```{r echo=F, message=F, warning=F, error=F }
+sra_stats = read_tsv("omni_sra.tsv", guess_max=10000)  %>%
+  mutate(Bases=as.numeric(Bases),
+         Spots = as.numeric(Spots),
+         mean_cov = Bases/130e6,
+         rlen = Bases/Spots,
+         submission_cat = forcats::fct_lump_prop(Submission, 0.03))
+str(sra_stats)
+all_sra = read_tsv("../../rawdata/metadata/omniath_all_sra.tsv")
+all_sra = all_sra %>%
+  left_join(sra_stats, by=c("sra_run"="Accession")) %>%
+  left_join(all_acc)
+
+str(all_sra)
+
+cov.p = ggplot(all_sra, aes(x=mean_cov)) +
+  geom_histogram(aes(fill=instrument_model), position="stack") +
+  scale_x_log10(limits=c(0.5, 200)) +
+  scale_fill_brewer(palette="Paired", name="Instrument") +
+  theme_bw() +
+  labs(x="Coverage (log)", y="Count", title="Expected Coverage")
+print(cov.p)
+ggsave("out/04_cov.png", width=7, height=4, plot=cov.p, dpi=600)
+
+
+age.p = ggplot(all_sra, aes(x=Received)) +
+  geom_histogram(aes(fill=instrument_model), position="stack") +
+  scale_fill_brewer(palette="Paired", name="Instrument") +
+  theme_bw() +
+  labs(x="Upload Date", y="Count", title="Upload Date")
+print(age.p)
+ggsave("out/05_age.png", width=7, height=4, plot=age.p, dpi=600)
+
+rl.p = ggplot(all_sra, aes(x=rlen)) +
+  geom_histogram(aes(fill=instrument_model), position="stack") +
+  scale_fill_brewer(palette="Paired", name="Instrument") +
+  theme_bw() +
+  lims(x=c(0, 350)) +
+  labs(x="Avg. Read Len", y="Count", title="Bases per Read (Pair)")
+print(rl.p)
+ggsave("out/06_readlen.png", width=7, height=4, plot=rl.p, dpi=600)
+```
+
+
+Acanthophis -- one awesome snake(make pipeline)
+================================================================================
+
+- **Read-level stats and QC**
+- **Kraken taxon ID**
+- **Mapping to reference(s)**
+- **Alignment stats**
+- Variant calling
+- Variant annotation
+- (NLR pangenome genotyping)
+
+
+Results so far -- Read-level QC
+================================================================================
+
+
+
+Results so far -- Kraken
+================================================================================
+
+```{r}
+kraken = read_tsv("../2021-07-22_kraken/kraken-results.tsv.xz") %>%
+  filter(oaid %in% all_acc$oa_id, level%in% c("P", "U")) %>%
+  left_join(all_acc, by=c("oaid"="oa_id")) %>%
+  mutate(species = sub(" subsp.*$", "", species)) %>%
+  mutate(spp_joined=fct_lump_n(species, 3),
+         spp_joined=fct_relevel(spp_joined, "Arabidopsis thaliana"))
+  
+kraken2 =  kraken %>%
+  filter(taxid==35493)
+
+ggplot(kraken2, aes(pct.reads.below)) +
+  geom_histogram(aes(fill=spp_joined)) +
+  scale_fill_brewer(palette="Paired", name="Species") +
+  theme_bw() +
+  labs(x="% Plant Reads", y="Count", title="Taxon Identification")
+ggsave("out/07_all_kraken.png", width=7, height=4, dpi=600)
+  
+kraken3 =  kraken %>%
+  filter(taxid%in%c(35493), species=="Arabidopsis thaliana")
+
+ggplot(kraken3, aes(pct.reads.below)) +
+  geom_histogram(aes(fill=spp_joined)) +
+  scale_fill_brewer(palette="Paired", name="Taxon") +
+  theme_bw() +
+  labs(x="% Plant Reads", y="Count", title="Taxon Identification")
+ggsave("out/08_justath_kraken.png", width=7, height=4, dpi=600)
+
+
+levels.include = c("U", "P")
+bad.samp = kraken %>%
+    filter(taxid==35493, pct.reads.below < 60, species=="Arabidopsis thaliana") %>%
+    pull(oaid)
+length(bad.samp)
+
+dat = kraken %>%
+    filter(
+       pct.reads.below > 1, level%in%levels.include,
+       oaid %in% bad.samp) %>%
+    mutate(name=fct_relevel(name, "unclassified") %>%
+             fct_relevel("Streptophyta", after = Inf))
+
+pal = c("#dddddd", RColorBrewer::brewer.pal(12, "Paired")[c(2,5,6,7,8,9,4)])
+ggplot(dat, aes(y=pct.reads.below, x=oaid)) +
+    geom_col(aes(fill=name, colour=name)) +
+    scale_colour_manual(values = pal) +
+    scale_fill_manual(values = pal) +
+    theme_bw() +
+    theme(panel.grid = element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank()) +
+    labs(y="Percentage of reads", x="Samples", colour="Taxon", fill="Taxon")
+ggsave("out/09_krakenbar.png", width=7, height=4, dpi=600)
+```
+
+
+
+Results so far -- Alignment stats
+================================================================================
+
+
+
+What's next
+================================================================================
+
+- Variant calling (trivial)
+- Pan-genome aware NLR genotyping
+  - How????
+  - possibly pandora-based?
+- Please, let's discuss this if you have ideas!
+
+
+  
+
