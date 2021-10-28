@@ -25,7 +25,7 @@ raw_paths:
 #                          Reference Genomes                          #
 #######################################################################
 refs:
-  TAIR10: {fasta: "data/references/araport-11/TAIR10.fa", gff: "data/references/araport-11/TAIR10_GFF3_genes_transposons.gff"}
+  TAIR10: {fasta: "data/references/araport-11/TAIR10_fixiupac.fa", gff: "data/references/araport-11/TAIR10_GFF3_genes_transposons.gff"}
   at6137: {fasta: "data/references/difflines_2021-10-07/at6137.scaffolds.bionano.final.fasta"}
   at6923: {fasta: "data/references/difflines_2021-10-07/at6923.scaffolds.bionano.final.fasta"}
   at6929: {fasta: "data/references/difflines_2021-10-07/at6929.scaffolds.bionano.final.fasta"}
