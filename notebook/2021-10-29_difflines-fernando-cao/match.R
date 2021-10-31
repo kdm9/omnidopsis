@@ -18,6 +18,5 @@ cao_all = meta %>%
 
 cao_dl = cao_all %>%
     filter(in_difflines)
-    
 
 write_csv(cao_dl, "cao_difflines.tsv")
