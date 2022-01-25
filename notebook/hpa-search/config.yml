@@ -1,0 +1,114 @@
+#######################################################################
+#                           Metadata files                            #
+#######################################################################
+metadata:
+  runlib2samp_file: "../../rawdata/metadata/omniath_rl2s.tsv"
+  sample_meta_file: "../../rawdata/metadata/omniath_all_accessions.tsv"
+  setfile_glob: "../../rawdata/metadata/samplesets/*.txt"
+
+
+#######################################################################
+#                           Raw Fastq Data                            #
+#######################################################################
+# Paths to raw data. These should be consistent across all samples. Samples
+# must have either an R1 and R2, or an interleaved (il) fastq file per run and
+# library. Having both is an error. If you somehow end up with both, combine
+# the R1 & R2 files and append them to the interleaved, then remove the
+# original R1/R2 files.
+raw_paths:
+  r1_path: "data/rawreads/{run}/{lib}_R1.fastq.gz"
+  r2_path: "data/rawreads/{run}/{lib}_R2.fastq.gz"
+  il_path: "data/rawreads/{run}/{lib}_il.fastq.gz"
+
+
+#######################################################################
+#                          Reference Genomes                          #
+#######################################################################
+refs:
+  ath_har: {fasta: "data/references/ath-har/Ath_plus_Har.fa" }
+
+
+#######################################################################
+#                       Alignment to Reference                        #
+#######################################################################
+align:
+  aligners:
+    - bwa
+  refs:
+    - ath_har
+  samplesets:
+    #- Athaliana
+    - FP
+  ngm: # tool specific settings
+    sensitivity: 0.5
+  abra2:
+    java_args: '-Xmx16G'
+    extra_args:
+      # one can supply extra arguments (e.g. --targets) to abra, per reference genome
+      TAIR10: ""
+
+
+
+#######################################################################
+#                               Kraken                                #
+#######################################################################
+kraken:
+
+  # A mapping of db_name -> download URL. DBs will be automatically downloaded.
+  dburls:
+    PlusPFP: "https://genome-idx.s3.amazonaws.com/kraken/k2_pluspfp_20210127.tar.gz"
+
+  samplesets:
+    all_samples:
+      - PlusPFP
+    Athaliana:
+      - PlusPFP
+    difflines:
+      - PlusPFP
+
+#######################################################################
+#                        Cluster Configuration                        #
+#######################################################################
+# Here one can set the resources each job will request from the cluster. 
+cluster_resources:
+  DEBUG: False
+  # Must jobs requiring intenet be run on the head node? set to True for
+  # clusters where no nodes have internet access, otherwise use a job to some
+  # queue that has internet (via the jobsubmit script).
+  internet_only_localrules: True
+  defaults:
+    mem_gb: 2
+    time_min: 60
+  max_values:
+    mem_gb: 250
+    time_min: 10080 # 1wk
+    internet: 1
+  rules:
+    mergebam_samp:
+      time_min: 720
+    rawreads_il_fromil:
+      time_min: 120
+    rawreads_il_fromr1r2:
+      time_min: 120
+    read_count_librun_indiv:
+      time_min: 120
+    split_pairs:
+      time_min: 2880
+    bam_markdups_sort:
+      time_min: 720
+    samplefastqfile:
+      time_min: 120
+    kraken:
+      mem_gb: 50
+      threads: 16
+      time_min: 120
+    bwaidx:
+      mem_gb: 10
+      time_min: 120
+    mpileup:
+      mem_gb: 4
+      time_min: 2880
+    freebayes:
+      mem_gb: 10
+      time_min: 10080
+

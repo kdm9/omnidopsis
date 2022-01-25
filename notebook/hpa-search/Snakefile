@@ -1,0 +1,65 @@
+configfile: "config.yml"
+
+import acanthophis
+acanthophis.populate_metadata(config)
+
+
+include: acanthophis.rules.base
+include: acanthophis.rules.align
+
+
+align_rule_samples = set()
+for sset in config["align"]["samplesets"]:
+    for s in config['SAMPLESETS'][sset]:
+        align_rule_samples.add(s)
+localrules: align_samples_idx
+rule align_samples_idx:
+    input:
+        expand("data/alignments/samples/{aligner}/{ref}/{sample}.bam",
+               ref=config["align"]["refs"],
+               aligner=config["align"]["aligners"],
+               sample=align_rule_samples),
+        expand("data/alignments/samples/{aligner}/{ref}/{sample}.bam.bai",
+               ref=config["align"]["refs"],
+               aligner=config["align"]["aligners"],
+               sample=align_rule_samples),
+        expand("data/alignments/bamstats/sample/{aligner}~{ref}~{sample}.samtools.stats",
+               ref=config["align"]["refs"],
+               aligner=config["align"]["aligners"],
+               sample=align_rule_samples),
+        expand("data/alignments/bamstats/set/{aligner}~{ref}~{sampleset}.samtools.idxstats",
+               ref=config["align"]["refs"],
+               aligner=config["align"]["aligners"],
+               sampleset=config["align"]["samplesets"]),
+
+
+
+rule idxstats:
+    input:
+        "data/alignments/samples/{aligner}/{ref}/{sample}.bam",
+    output:
+        "data/alignments/bamstats/sample/{aligner}~{ref}~{sample}.samtools.idxstats",
+    log:
+        "data/alignments/bamstats/sample/{aligner}~{ref}~{sample}.samtools.idxstats.log",
+    shell:
+        "samtools idxstats {input} >{output} 2>{log}"
+
+rule merge_idxstats:
+    input:
+        lambda wc: expand("data/alignments/bamstats/sample/{{aligner}}~{{ref}}~{sample}.samtools.idxstats",
+                          sample=config["SAMPLESETS"][wc.sampleset])
+    output:
+        "data/alignments/bamstats/set/{aligner}~{ref}~{sampleset}.samtools.idxstats",
+    run:
+        from snakemake.io import glob_wildcards
+
+        with open(output[0], "w") as fh:
+            print("sample", "chr", "chr_len", "reads_mapped", "reads_unmapped", sep="\t", file=fh)
+
+            for idxfile in input:
+                a, r, sample = glob_wildcards("data/alignments/bamstats/sample/{aligner}~{ref}~{sample}.samtools.idxstats", files=[idxfile,])
+                with open(idxfile) as ifh:
+                    for line in ifh:
+                        print(sample[0], line.rstrip("\n"), sep="\t", file=fh)
+
+
