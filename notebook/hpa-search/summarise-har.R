@@ -6,7 +6,6 @@
 
 library(tidyverse)
 library(ggmap)
-library(ggrepel)
 library(rnaturalearth)
 library(rnaturalearthdata)
 
@@ -53,4 +52,6 @@ ggmap(baselayer)  +
     labs(x="Longitude", y="Latitude") +
     theme(legend.position="right")
 
+ggsave("outputs/fp-har-map.png", width=8, height=6, units="in", dpi=1200)
+ggsave("outputs/fp-har-map.pdf", width=8, height=6, units="in", dpi=1200)
 #' There's no clear pattern across geography.
