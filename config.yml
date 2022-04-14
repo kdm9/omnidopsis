@@ -83,11 +83,10 @@ qc:
 #                               Kraken                                #
 #######################################################################
 kraken:
-
-  # A mapping of db_name -> download URL. DBs will be automatically downloaded.
-  dburls:
-    PlusPFP: "https://genome-idx.s3.amazonaws.com/kraken/k2_pluspfp_20210127.tar.gz"
-
+  # A mapping of db_name -> path
+  dbs:
+    PlusPFP: "/ebio/TODO"
+    plants: "/ebio/TODO"
   samplesets:
     all_samples:
       - PlusPFP
@@ -95,6 +94,27 @@ kraken:
       - PlusPFP
     difflines:
       - PlusPFP
+
+
+#######################################################################
+#                               Diamond                               #
+#######################################################################
+diamond:
+  dbs:
+    nr: "data/dbs/diamond/nr/nr.dmnd"
+
+#######################################################################
+#                               TaxonID                               #
+#######################################################################
+taxonid:
+  samplesets:
+    FP:
+      kraken:
+        dbs:
+          - plant
+      diamond:
+        dbs:
+          - nr
 
 
 #######################################################################
@@ -263,6 +283,8 @@ cluster_resources:
     time_min: 10080 # 1wk
     internet: 1
   rules:
+    diamond_:
+      time_min: 720
     mergebam_samp:
       time_min: 720
     rawreads_il_fromil:
