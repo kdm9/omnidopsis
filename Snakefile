@@ -13,6 +13,7 @@ include: acanthophis.rules.varcall
 include: acanthophis.rules.multiqc
 include: acanthophis.rules.kraken
 #include: acanthophis.rules.variantannotation
+include: "rules/taxonid.rules"
 
 
 # for running on taco etc
@@ -58,3 +59,11 @@ rule difflines_qualimap:
                sampleset="difflines")
 
 
+rule fp_taxonid:
+    input:
+        [ expand("data/taxonid/{sampleset}/kraken/{krakendb}/{sample}_unclassified.fastq.gz",
+                 sampleset=sampleset, krakendb=dat["kraken"]["dbs"], sample=config["SAMPLESETS"][sampleset])
+          for sampleset, dat in config["taxonid"]["samplesets"].items()],
+        [ expand("data/taxonid/{sampleset}/diamond/{krakendb}/{diamonddb}~{sample}.daa",
+                 sampleset=sampleset, krakendb=dat["kraken"]["dbs"], diamonddb=dat["diamond"]["dbs"], sample=config["SAMPLESETS"][sampleset])
+          for sampleset, dat in config["taxonid"]["samplesets"].items()],

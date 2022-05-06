@@ -85,8 +85,9 @@ qc:
 kraken:
   # A mapping of db_name -> path
   dbs:
-    PlusPFP: "/ebio/TODO"
-    plants: "/ebio/TODO"
+    PlusPFP: "/ebio/abt6_projects9/abt6_databases/db/kraken2/PlusPFP"
+    PlusPFP16: "/ebio/abt6_projects9/abt6_databases/db/kraken2/PlusPFP16"
+    plants: "/ebio/abt6_projects9/abt6_databases/db/kraken2/plants"
   samplesets:
     all_samples:
       - PlusPFP
@@ -101,7 +102,7 @@ kraken:
 #######################################################################
 diamond:
   dbs:
-    nr: "data/dbs/diamond/nr/nr.dmnd"
+    nr: "/ebio/abt6_projects9/abt6_databases/db/diamond/nr/2022-04-10_nr/nr.dmnd"
 
 #######################################################################
 #                               TaxonID                               #
@@ -111,8 +112,10 @@ taxonid:
     FP:
       kraken:
         dbs:
-          - plant
+          - PlusPFP16
       diamond:
+        sensitivity: "--sensitive"
+        blocksize: 0.4
         dbs:
           - nr
 

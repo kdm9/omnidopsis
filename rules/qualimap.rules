@@ -2,9 +2,9 @@ rule qualimap_sample:
     input:
         bam="data/alignments/samples/{aligner}/{ref}/{sample}.bam",
     output:
-        bamqc=directory("data/alignments/qualimap/samples/{aligner}/{ref}/{sample}/"),
+        bamqc=directory("data/alignments/qualimap/samples/{aligner}~{ref}/{sample}/"),
     log:
-        "data/log/qualimap_sample/{aligner}~{ref}~{sample}.log"
+        "data/log/qualimap_sample/{aligner}~{ref}/{sample}.log"
     threads: 8
     resources: **acanthophis.rule_resources(config, "qualimap_sample", time_min=240, mem_gb=16)
     conda: "qualimap.environment"
@@ -19,11 +19,10 @@ rule qualimap_sample:
         " ) >{log} 2>&1"
 
 
-
 localrules: qualimap_datafile
 rule qualimap_datafile:
     input:
-        bam=lambda wc: expand("data/alignments/qualimap/samples/{{aligner}}/{{ref}}/{sample}",
+        bam=lambda wc: expand("data/alignments/qualimap/samples/{{aligner}}~{{ref}}/{sample}",
                               sample=config["SAMPLESETS"][wc.sampleset]),
     output:
         datafile="data/alignments/qualimap/sampleset/{aligner}~{ref}~{sampleset}.data",
@@ -37,7 +36,7 @@ rule qualimap_datafile:
 
 rule qualimap_set:
     input:
-        bam=lambda wc: expand("data/alignments/qualimap/samples/{{aligner}}/{{ref}}/{sample}",
+        bam=lambda wc: expand("data/alignments/qualimap/samples/{{aligner}}~{{ref}}/{sample}",
                               sample=config["SAMPLESETS"][wc.sampleset]),
         datafile="data/alignments/qualimap/sampleset/{aligner}~{ref}~{sampleset}.data",
     output:
@@ -55,5 +54,3 @@ rule qualimap_set:
         "   -outdir {output}"
         "   {input}"
         " ) >{log} 2>&1"
-
-
