@@ -2,7 +2,7 @@ cluster: "profiles/ebio-cluster/jobsubmit"
 cluster-config: "profiles/ebio-cluster/cluster.yml"
 cluster-status: "profiles/ebio-cluster/jobstatus"
 jobscript: "profiles/ebio-cluster/jobscript.sh"
-jobs: 128
+jobs: 64
 #immediate-submit: true
 verbose: false
 #notemp: true

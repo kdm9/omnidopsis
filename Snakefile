@@ -1,5 +1,4 @@
 configfile: "config.yml"
-
 import acanthophis
 acanthophis.populate_metadata(config)
 
@@ -50,6 +49,17 @@ rule align_samples_idx:
                ref=config["align"]["refs"],
                aligner=config["align"]["aligners"],
                sample=align_rule_samples),
+
+localrules: align_persampleset
+rule align_persampleset:
+    input:
+        [ expand(path, ref=c["refs"], aligner=c["aligners"], sample=config["SAMPLESETS"][s])
+          for s, c in config["align"]["persampleset"].items()
+          for path in (
+              "data/alignments/samples/{aligner}/{ref}/{sample}.bam",
+              "data/alignments/samples/{aligner}/{ref}/{sample}.bam.bai",
+              "data/alignments/bamstats/sample/{aligner}~{ref}~{sample}.samtools.stats",
+          )]
 
 rule difflines_qualimap:
     input:

@@ -52,6 +52,7 @@ refs:
   jiao_kyo: {fasta: "data/references/Jiao2020/Kyo.chr.all.v2.0.fasta", gff: "data/references/Jiao2020/Kyo.protein-coding.genes.v2.5.2019-10-09.gff3"}
   jiao_ler: {fasta: "data/references/Jiao2020/Ler.chr.all.v2.0.fasta", gff: "data/references/Jiao2020/Ler.protein-coding.genes.v2.5.2019-10-09.gff3"}
   jiao_sha: {fasta: "data/references/Jiao2020/Sha.chr.all.v2.0.fasta", gff: "data/references/Jiao2020/Sha.protein-coding.genes.v2.5.2019-10-09.gff3"}
+  ath_har: {fasta: "data/references/ath-har/Ath_plus_Har.fa"}
   
 
 
@@ -146,37 +147,8 @@ multiqc:
 align:
   aligners:
     - bwa
-  refs:
-    - TAIR10
-    - at6137
-    - at6923
-    - at6929
-    - at7143
-    - at8285
-    - at9104
-    - at9336
-    - at9503
-    - at9578
-    - at9744
-    - at9762
-    - at9806
-    - at9830
-    - at9847
-    - at9852
-    - at9879
-    - at9883
-    - at9900
-    - cdm0
-    - jiao_an1
-    - jiao_c24
-    - jiao_cvi
-    - jiao_eri
-    - jiao_kyo
-    - jiao_ler
-    - jiao_sha
-  samplesets:
-    #- Athaliana
-    - difflines
+  refs: []
+  samplesets: []
   ngm: # tool specific settings
     sensitivity: 0.5
   abra2:
@@ -184,7 +156,38 @@ align:
     extra_args:
       # one can supply extra arguments (e.g. --targets) to abra, per reference genome
       TAIR10: ""
+  persampleset:
+    Athaliana:
+      refs:
+        - TAIR10
+        - ath_har
+      aligners:
+        - bwa
 
+    difflines:
+      aligners:
+        - bwa
+      refs:
+        - TAIR10
+        - at6137
+        - at6923
+        - at6929
+        - at7143
+        - at8285
+        - at9104
+        - at9336
+        - at9503
+        - at9578
+        - at9744
+        - at9762
+        - at9806
+        - at9830
+        - at9847
+        - at9852
+        - at9879
+        - at9883
+        - at9900
+        - cdm0
 
 #######################################################################
 #                   Non-gatk-based Variant Calling                    #
