@@ -1,0 +1,16 @@
+* annex.largefiles=largerthan=10kb
+*/input/**  annex.largefiles=anything
+*/output/**  annex.largefiles=anything
+*/data/**  annex.largefiles=anything
+*.ipynb annex.largefiles=anything
+*.tsv annex.largefiles=largerthan=1mb
+*.csv annex.largefiles=largerthan=1mb
+*.txt annex.largefiles=largerthan=1mb
+*.sh annex.largefiles=nothing
+*.Rmd annex.largefiles=nothing
+*.md annex.largefiles=nothing
+*.R annex.largefiles=nothing
+*.py annex.largefiles=nothing
+*.rules annex.largefiles=nothing
+Snakefile annex.largefiles=nothing
+
